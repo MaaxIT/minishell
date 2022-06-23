@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:41:48 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/06/23 20:53:31 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/23 21:34:46 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
-
-	if (!lst || !new)
-		return ;
+	
 	if (*lst)
 	{
 		last = *lst;
