@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 20:54:30 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/23 21:44:23 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,27 @@ typedef struct s_list {
 }	t_list;
 
 /* Builtins	prototypes */
-int	bi_echo(int fd, int newline, char *str);
-int	bi_cd(int fd, char *str);
-int	bi_pwd(int fd);
+int		bi_echo(int fd, int newline, char *str);
+int		bi_cd(int fd, char *str);
+int		bi_pwd(int fd);
 
 /* Redirections prototypes */
-int	rd_output(char *path);
-int	rd_output_append(char *path);
+int		rd_output(char *path);
+int		rd_output_append(char *path);
 
 /* Utils prototypes */
-int	ft_putstr_fd(int fd, char *str);
+size_t	ft_strlen(char *str);
+int		ft_putstr_fd(int fd, char *str);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+size_t	ft_strlcpy(char *dst, char const *src, size_t n);
+int		ft_strncmp(char const *s1, char const *s2, size_t nbr);
 
 /* Errors prototypes */
-int	print_error(int ret);
+int		print_error(int ret);
+
+/* Environment prototypes */
+int		init_env_list(t_list **head, char **envp);
+int		env_value_offset(char *envline);
 
 /* Linked list prototypes */
 void	ft_lstadd_back(t_list **lst, t_list *new);
