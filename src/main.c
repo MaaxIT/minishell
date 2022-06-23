@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 21:50:59 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/23 21:53:34 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 	return (9);
 }
 
-static int	new_cmd(t_list **env)
+int	new_cmd(t_list **env)
 {
 	char	*cmd;
 
@@ -63,6 +63,7 @@ int	main(int argc, char *argv[], char *envp[])
 	argv = (char **)argv;
 	env = NULL;
 	init_env_list(&env, envp); // Still need to manage errors
+	signals_init();
 	if (!new_cmd(&env))
 		return (0);//TREAT ERROR WITH ERRNO
 	return (0);
