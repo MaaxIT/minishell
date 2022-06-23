@@ -12,15 +12,12 @@
 
 #include "minishell.h"
 
-static void	sigint_handler(int sig)
+static void	sigint_handler()
 {
-	(void)sig;
-	if (sig == SIGINT)
-	{
-		printf("ok");
-		ft_putstr_fd(1, "^C\n");
-		new_cmd();
-	}
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	signals_init()
