@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 20:01:28 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/23 20:53:16 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,20 @@
 
 /* Internal libraries */
 # include <unistd.h>
+# include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <readline/readline.h>
 
 /* Prefix constants */
 # define SHELL_PREFIX	"\033[1;36mSuperShell\033[1;32m:>\033[m"
+
+/* Our structures */
+typedef struct s_list {
+	char			*id;
+	char			*value;
+	struct s_list	*next;
+}	t_list;
 
 /* Builtins	prototypes */
 int	bi_echo(int fd, int newline, char *str);
@@ -36,5 +44,12 @@ int	ft_putstr_fd(int fd, char *str);
 
 /* Errors prototypes */
 int	print_error(int ret);
+
+/* Linked list prototypes */
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstnew(char *id, char *value);
+int		ft_lstsize(t_list *lst);
+void	ft_lstdelone(t_list *lst);
+void	ft_lstclear(t_list **lst);
 
 #endif
