@@ -6,17 +6,21 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 18:58:00 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/23 19:31:47 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/* Internal libraries */
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <readline/readline.h>
+
+/* Prefix constants */
+# define SHELL_PREFIX	"\033[1;33msupershell\033[0;31m:>\033[m"
 
 /* Builtins	prototypes */
 int	bi_echo(int fd, int newline, char *str);
