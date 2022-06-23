@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:17:30 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 15:13:01 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/06/23 21:44:12 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
  *	Printing str in fd, returning the number of characters printed or -1 if
  *		an error occurs.
  */
-
 int	ft_putstr_fd(int fd, char *str)
 {
 	int	i;
@@ -31,4 +30,76 @@ int	ft_putstr_fd(int fd, char *str)
 		i++;
 	}
 	return (i);
+}
+
+/* Return the length of the string */
+size_t	ft_strlen(char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (str && str[len])
+		len++;
+	return (len);
+}
+
+/* Copy src into dst up to n bytes */
+size_t	ft_strlcpy(char *dst, char const *src, size_t n)
+{
+	size_t	i;
+	size_t	src_len;
+
+	src_len = ft_strlen((char *)src);
+	if (!dst || !src || n == 0)
+		return (src_len);
+	i = 0;
+	while (src[i] && i < (n - 1))
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (src_len);
+}
+
+/* Return the string with an offset of start and a length of len */
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	unsigned int	total;
+	char			*sub;
+
+	if (!s)
+		return (NULL);
+	total = 0;
+	if (start > ft_strlen((char *)s))
+	{
+		sub = malloc(sizeof(char));
+		if (!sub)
+			return (NULL);
+		sub[0] = '\0';
+		return (sub);
+	}
+	s += start;
+	while (s[total] && len--)
+		total++;
+	sub = malloc((total + 1) * sizeof(char));
+	if (!sub)
+		return (NULL);
+	ft_strlcpy(sub, s, total + 1);
+	return (sub);
+}
+
+/* Compare 2 strings up to nbr bytes */
+int	ft_strncmp(char const *s1, char const *s2, size_t nbr)
+{
+	size_t	i;
+
+	i = 0;
+	while ((s1[i] || s2[i]) && i < nbr)
+	{
+		if (s1[i] != s2[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
+	}
+	return (0);
 }
