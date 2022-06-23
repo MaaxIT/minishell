@@ -3,36 +3,72 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/06/23 17:06:44 by mbennafl         ###   ########.fr        #
+#    Updated: 2022/06/23 19:55:11 by mpeharpr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		minishell
+# Minishell - A simple remake of bash
+# Use this makefile to compile the project
 
-CC =		gcc
-CFLAG =		-Wall -Wextra -Werror -lreadline
+# Colors constants
+CLEAR			= \033[m
+RED				= \033[0;31m
+GREEN			= \033[1;32m
+YELLOW			= \033[1;33m
+BLUE			= \033[0;34m
+PURPLE			= \033[1;35m
+CYAN			= \033[1;36m
 
-SRC_PATH =	./src
-SRC_FILES =	./main.c \
-			./builtin_fts.c \
-			./redirections.c \
-			./error.c \
-			./utils.c
-SRC =		$(SRC_FILES:%=$(SRC_PATH)/%)
-INCL =		./include
+# Directories
+INC_DIR			= include
+SRC_DIR			= src
+OBJ_DIR			= obj
 
+# Files
+PROJECT			= SuperShell
+NAME			= minishell
+SRC				= $(shell ls $(SRC_DIR))
+OBJ				= $(SRC:.c=.o)
+INC				= $(shell ls $(INC_DIR))
 
+# Compiler options
+CC				= gcc
+COMP_FLAGS		= -Wall -Wextra -Werror
+INCLUDE_FLAGS	= -I$(INC_DIR)/
+EXT_COMP_FLAGS	= -lreadline
+
+# Bash commands
+RM				= rm -rf
+MKDIR			= mkdir -p
+
+# Dependencies
+OBJ_DEP			= $(addprefix $(OBJ_DIR)/, $(OBJ))
+INC_DEP			= $(addprefix $(INC_DIR)/, $(INC))
+
+# Rules
 all: $(NAME)
 
-$(NAME):
-	$(CC) $(CFLAG) -I $(INCL) $(SRC) -o $(NAME)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DEP)
+	@$(MKDIR) $(OBJ_DIR)
+	@echo "$(GREEN)Compiling	$(YELLOW)$(shell basename $<)$(CLEAR)"
+	@$(CC) $(COMP_FLAGS) $(INCLUDE_FLAGS) -c $< -o $@
+
+$(NAME): $(OBJ_DEP) $(INC_DEP)
+	@echo "$(BLUE)Building	$(PURPLE)$(NAME)$(CLEAR)"
+	@$(CC) $(COMP_FLAGS) $(OBJ_DEP) $(EXT_COMP_FLAGS) -o $(NAME)
+	@echo "$(GREEN)Program $(PURPLE)($(NAME))$(GREEN) has been successfully generated!$(CLEAR)"
 
 clean:
+	@echo "$(RED)Removing	$(PURPLE)$(PROJECT) $(YELLOW)*.o$(CLEAR)"
+	@$(RM) $(OBJ_DIR)
 
 fclean: clean
-	rm -rf $(NAME)
+	@echo "$(RED)Removing	$(PURPLE)$(NAME)$(CLEAR)"
+	@$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
