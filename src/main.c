@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 20:11:37 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/23 20:58:52 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	treat_and_call_cmd(char *cmd)
 	return (9);
 }
 
-static int	new_cmd(void)
+int	new_cmd(void)
 {
 	char	*cmd;
 
@@ -45,6 +45,7 @@ static int	new_cmd(void)
 
 int	main(void)
 {
+	signals_init();
 	if (!new_cmd())
 		return (0);//TREAT ERROR WITH ERRNO
 	return (0);

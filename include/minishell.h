@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 20:54:30 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/23 20:59:14 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ typedef struct s_list {
 	struct s_list	*next;
 }	t_list;
 
+/* Signals prototypes */
+void	signals_init();
+
 /* Builtins	prototypes */
 int	bi_echo(int fd, int newline, char *str);
 int	bi_cd(int fd, char *str);
@@ -52,5 +55,8 @@ t_list	*ft_lstnew(char *id, char *value);
 int		ft_lstsize(t_list *lst);
 void	ft_lstdelone(t_list *lst);
 void	ft_lstclear(t_list **lst);
+
+/* Other prototypes */
+int	new_cmd(void);
 
 #endif
