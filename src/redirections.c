@@ -23,7 +23,7 @@ int	rd_output(char *path)
 		if (!access(path, W_OK) || access(path, F_OK) == -1)
 			fd = open(path, O_WRONLY | O_CREAT);
 		else
-			fd = -1;	//IS THAT ENOUGH? PRINTING ERROR IN NEW_CMD FT
+			fd = -1;
 	}
 	return (fd);
 }

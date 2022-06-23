@@ -18,27 +18,9 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 
 	(void)cmd;
 	(void)fd;
+	(void)env;
 
-	// Just to test, remove that shit
-	if (ft_strncmp(cmd, "env", 3) == 0)
-	{
-		t_list *head;
-		head = *env;
-		while (head->next)
-		{
-			printf("\033[1;35m%s\033[0;31m=\033[0;34m%s\033[m\n", head->id, head->value);
-			head = head->next;
-		}
-	}
-
-	// TESTS
-	// fd = rd_output_append("./test");
-	// if (fd == -1)
-	// 	return (0);
-	// if (!bi_echo(fd, 1, "It\'s an echo"))
-	// 	return (0);
-	// if (close(fd) == -1)
-	// 	return (0);
+	fd = 1;
 	return (9);
 }
 

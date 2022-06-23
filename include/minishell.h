@@ -38,6 +38,9 @@ void	signals_init();
 int		bi_echo(int fd, int newline, char *str);
 int		bi_cd(int fd, char *str);
 int		bi_pwd(int fd);
+int		bi_env(int fd, t_list *env);
+void		bi_export(t_list **env, char *id, char *value);
+void		bi_unset(t_list **env, char *id);
 
 /* Redirections prototypes */
 int		rd_output(char *path);

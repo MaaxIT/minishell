@@ -12,10 +12,8 @@
 
 #include "minishell.h"
 
-/*
- *	Printing str in fd, returning the number of characters printed or -1 if
- *		an error occurs.
- */
+/* Printing str in fd, returning the number of characters printed
+** or -1 if an error occurs. */
 int	ft_putstr_fd(int fd, char *str)
 {
 	int	i;
@@ -26,7 +24,7 @@ int	ft_putstr_fd(int fd, char *str)
 	{
 		err = write(fd, &str[i], 1);
 		if (err == -1)
-			return (-1);//TREAT ERROR WITH ERRNO
+			return (-1);
 		i++;
 	}
 	return (i);
