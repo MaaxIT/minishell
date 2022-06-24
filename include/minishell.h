@@ -20,6 +20,7 @@
 # include <errno.h>
 # include <signal.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 /* Prefix constants */
 # define SHELL_PREFIX	"\033[1;36mSuperShell\033[1;32m:>\033[m"

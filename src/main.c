@@ -28,9 +28,11 @@ int	new_cmd(t_list **env)
 {
 	char	*cmd;
 
+static int xx = 0;
 	cmd = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
 	if (!cmd)
 		bi_exit(-1, env);
+	add_history(cmd);
 	if (!treat_and_call_cmd(env, cmd))
 		print_error(0);		//IS THAT ENOUGH?
 	new_cmd(env);
