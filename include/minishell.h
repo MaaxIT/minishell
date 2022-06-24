@@ -60,7 +60,7 @@ int		print_error(int ret);
 
 /* Environment prototypes */
 int		init_env_list(t_list **head, char **envp);
-int		env_value_offset(char *envline);
+void		update_env_return(t_list **env);
 
 /* Linked list prototypes */
 void	ft_lstadd_back(t_list **lst, t_list *new);

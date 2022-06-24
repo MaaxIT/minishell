@@ -12,11 +12,17 @@
 
 #include "minishell.h"
 
+void	update_env_return(t_list **env)
+{
+	free((*env)->value);
+	//itoa errno and put it in (*env)->value
+}
+
 /* Return the offset from where the value is starting 
 Example: "TEST=42" will return 5 because "42" (the value) 
 has 5 bytes offset from the start
 */
-int	env_value_offset(char *envline)
+static int	env_value_offset(char *envline)
 {
 	int	i;
 
@@ -45,6 +51,16 @@ int	init_env_list(t_list **head, char **envp)
 
 	if (!envp)
 		return (-1);
+	id = malloc(2 * sizeof(char));
+	if (!id)
+		return (0);//PROTECT
+	ft_strlcpy(id, "?", 2);
+	value = malloc(2 * sizeof(char));
+	if (!value)
+		return (0);//PROTECT
+	ft_strlcpy(value, "0", 2);
+	new = ft_lstnew(id, value);
+	ft_lstadd_back(head, new);
 	while (*envp)
 	{
 		offset = env_value_offset(*envp);

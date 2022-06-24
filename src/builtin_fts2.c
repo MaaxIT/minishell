@@ -2,6 +2,7 @@
 
 int	bi_env(int fd, t_list *env)
 {
+	env = env->next;
 	while (env)
 	{
 		if (ft_putstr_fd(fd, env->id) == -1)
@@ -22,7 +23,7 @@ void	bi_export(t_list **env_address, char *id, char *value)
 	t_list	*new;
 	t_list	*env;
 
-	env = *env_address;
+	env = (*env_address)->next;
 	while (env)
 	{
 		if (!ft_strncmp(id, env->id, ft_strlen(id)))
@@ -38,7 +39,7 @@ void	bi_unset(t_list **env_address, char *id)
 	t_list	*tmp;
 	t_list	*env;
 
-	env = *env_address;
+	env = (*env_address)->next;
 	if (!ft_strncmp(id, env->id, ft_strlen(id)))
 	{
 		*env_address = env->next;
