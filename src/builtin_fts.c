@@ -53,3 +53,11 @@ int	bi_pwd(int fd)
 		return (0);		//IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
 	return (9);
 }
+
+int	bi_exit(int fd, t_list **env)
+{
+	(void)fd;
+
+	ft_lstclear(env);
+	exit(0);
+}
