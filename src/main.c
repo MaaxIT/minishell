@@ -29,8 +29,12 @@ int	new_cmd(t_list **env)
 	char	*cmd;
 
 	cmd = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
-	if (!cmd)
+	if (!cmd || *cmd == '\n')
+	{
+		printf("ok\n");
 		return (0);
+	}
+	printf("$%s$\n", cmd);
 	if (!treat_and_call_cmd(env, cmd))
 		print_error(0);		//IS THAT ENOUGH?
 	new_cmd(env);
