@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 21:53:34 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/28 01:21:51 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,30 @@
 
 static int	treat_and_call_cmd(t_list **env, char *cmd)
 {
-	int	fd;
+	int			fd;
+	int			idx;
+	t_command	*command;
 
-	(void)cmd;
-	(void)fd;
-	(void)env;
+	/* Just an example */
+	command = parse_cmd(cmd);
+	if (!command)
+		return (0);
+	idx = 0;
+	printf("------\nNew command executed\nBinary command: '%s'\n", command->bin);
+	while (idx < command->argc)
+	{
+		printf("Argument n°%d: %s\n", idx + 1, command->argv[idx]);
+		idx++;
+	}
+	/* Just an example */
+	
+	// Now that we don't need it anymore, free it
+	free_command(command);
+	printf("Command freed\n------\n");
 
 	fd = 1;
+	(void)env;
+	fd = (int)fd;
 	return (9);
 }
 
