@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 21:53:42 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/28 01:01:28 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,58 @@ typedef struct s_list {
 	struct s_list	*next;
 }	t_list;
 
+typedef struct s_command {
+	char	*bin;
+	int		argc;
+	char	**argv;
+	char	**full;
+}	t_command;
+
 /* Signals prototypes */
-void	signals_init();
+void		signals_init();
 
 /* Builtins	prototypes */
-int		bi_echo(int fd, int newline, char *str);
-int		bi_cd(int fd, char *str);
-int		bi_pwd(int fd);
-int		bi_exit(int fd, t_list **env);
-int		bi_env(int fd, t_list *env);
+int			bi_echo(int fd, int newline, char *str);
+int			bi_cd(int fd, char *str);
+int			bi_pwd(int fd);
+int			bi_exit(int fd, t_list **env);
+int			bi_env(int fd, t_list *env);
 void		bi_export(t_list **env, char *id, char *value);
 void		bi_unset(t_list **env, char *id);
 
 /* Redirections prototypes */
-int		rd_output(char *path);
-int		rd_output_append(char *path);
+int			rd_output(char *path);
+int			rd_output_append(char *path);
 
 /* Utils prototypes */
-size_t	ft_strlen(char *str);
-int		ft_putstr_fd(int fd, char *str);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlcpy(char *dst, char const *src, size_t n);
-int		ft_strncmp(char const *s1, char const *s2, size_t nbr);
+size_t		ft_strlen(char *str);
+int			ft_putstr_fd(int fd, char *str);
+char		*ft_substr(char const *s, unsigned int start, size_t len);
+size_t		ft_strlcpy(char *dst, char const *src, size_t n);
+int			ft_strncmp(char const *s1, char const *s2, size_t nbr);
+
+/* Split prototype */
+char    	**split_command(char *cmd);
+
+/* Parse prototypes */
+t_command	*parse_cmd(char *cmd);
+void		free_command(t_command *cmd);
 
 /* Errors prototypes */
-int		print_error(int ret);
+int			print_error(int ret);
 
 /* Environment prototypes */
-int		init_env_list(t_list **head, char **envp);
+int			init_env_list(t_list **head, char **envp);
 void		update_env_return(t_list **env);
 
 /* Linked list prototypes */
-void	ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstnew(char *id, char *value);
-int		ft_lstsize(t_list *lst);
-void	ft_lstdelone(t_list *lst);
-void	ft_lstclear(t_list **lst);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+t_list		*ft_lstnew(char *id, char *value);
+int			ft_lstsize(t_list *lst);
+void		ft_lstdelone(t_list *lst);
+void		ft_lstclear(t_list **lst);
 
 /* Other prototypes */
-int	new_cmd(t_list **env);
+int			new_cmd(t_list **env);
 
 #endif
