@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/06/28 01:01:48 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/28 02:57:32 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ t_command   *parse_cmd(char *cmd)
     }
     init_command(new, splitted);
     return (new);
+}
+
+/* Translate metacharacters from the command */
+void    translate_metachars(t_command *cmd)
+{
+    // TODO: Check for special characters and so on
+    (void)cmd;
 }

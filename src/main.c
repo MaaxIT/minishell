@@ -6,22 +6,16 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/28 01:21:51 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/28 02:55:56 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	treat_and_call_cmd(t_list **env, char *cmd)
+static void test_to_delete(t_command *command)
 {
-	int			fd;
-	int			idx;
-	t_command	*command;
-
-	/* Just an example */
-	command = parse_cmd(cmd);
-	if (!command)
-		return (0);
+	int	idx;
+	
 	idx = 0;
 	printf("------\nNew command executed\nBinary command: '%s'\n", command->bin);
 	while (idx < command->argc)
@@ -29,15 +23,30 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 		printf("Argument n°%d: %s\n", idx + 1, command->argv[idx]);
 		idx++;
 	}
-	/* Just an example */
-	
-	// Now that we don't need it anymore, free it
-	free_command(command);
 	printf("Command freed\n------\n");
+}
 
-	fd = 1;
+static int	treat_and_call_cmd(t_list **env, char *cmd)
+{
+	t_command	*command;
+
+	command = parse_cmd(cmd);
+	if (!command)
+		return (0);
+	test_to_delete(command);
+
+	/* TODO: Add command execution here
+	As said in the bash man, in the case there is a '/' in the command, it should not search in the path
+	Otherwise, if there is one, it must search for a valid program
+	*/
+	if (ft_strincludes(command->bin, '/'))
+	{}	// Don't search
+	else
+	{}	// Search
+
+	free_command(command);
+
 	(void)env;
-	fd = (int)fd;
 	return (9);
 }
 
@@ -51,7 +60,7 @@ int	new_cmd(t_list **env)
 	add_history(cmd);
 	if (!treat_and_call_cmd(env, cmd))
 		print_error(0);		//IS THAT ENOUGH?
-	update_env_return(env);
+	// update_env_return(env);
 	new_cmd(env);
 	return (9);
 }

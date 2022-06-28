@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/28 01:01:28 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/28 02:52:28 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ int			rd_output_append(char *path);
 /* Utils prototypes */
 size_t		ft_strlen(char *str);
 int			ft_putstr_fd(int fd, char *str);
-char		*ft_substr(char const *s, unsigned int start, size_t len);
-size_t		ft_strlcpy(char *dst, char const *src, size_t n);
-int			ft_strncmp(char const *s1, char const *s2, size_t nbr);
+char		*ft_substr(const char *s, unsigned int start, size_t len);
+size_t		ft_strlcpy(char *dst, const char *src, size_t n);
+int			ft_strncmp(const char *s1, const char *s2, size_t nbr);
+int			ft_strincludes(const char *str, char c);
 
 /* Split prototype */
 char    	**split_command(char *cmd);
