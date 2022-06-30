@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:17:30 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 21:44:12 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/28 02:52:28 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ size_t	ft_strlen(const char *str)
 }
 
 /* Copy src into dst up to n bytes */
-size_t	ft_strlcpy(char *dst, char const *src, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t n)
 {
 	size_t	i;
 	size_t	src_len;
@@ -61,7 +61,7 @@ size_t	ft_strlcpy(char *dst, char const *src, size_t n)
 }
 
 /* Return the string with an offset of start and a length of len */
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	unsigned int	total;
 	char			*sub;
@@ -88,7 +88,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 }
 
 /* Compare 2 strings up to nbr bytes */
-int	ft_strncmp(char const *s1, char const *s2, size_t nbr)
+int	ft_strncmp(const char *s1, const char *s2, size_t nbr)
 {
 	size_t	i;
 

@@ -6,25 +6,47 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 21:53:34 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/28 02:55:56 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void test_to_delete(t_command *command)
+{
+	int	idx;
+	
+	idx = 0;
+	printf("------\nNew command executed\nBinary command: '%s'\n", command->bin);
+	while (idx < command->argc)
+	{
+		printf("Argument n°%d: %s\n", idx + 1, command->argv[idx]);
+		idx++;
+	}
+	printf("Command freed\n------\n");
+}
+
 static int	treat_and_call_cmd(t_list **env, char *cmd)
 {
-	int	fd;
+	t_command	*command;
 
-	(void)cmd;
-	(void)fd;
+	command = parse_cmd(cmd);
+	if (!command)
+		return (0);
+	test_to_delete(command);
+
+	/* TODO: Add command execution here
+	As said in the bash man, in the case there is a '/' in the command, it should not search in the path
+	Otherwise, if there is one, it must search for a valid program
+	*/
+	if (ft_strincludes(command->bin, '/'))
+	{}	// Don't search
+	else
+	{}	// Search
+
+	free_command(command);
+
 	(void)env;
-
-	fd = 1;
-	char *argv[2]; argv[0] = "ls"; argv[1] = NULL;
-	(void)argv;
-	rd_delimiter("ok");
-	exec_with_path(env, argv[0], argv);
 	return (9);
 }
 
