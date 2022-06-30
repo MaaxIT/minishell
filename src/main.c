@@ -74,7 +74,9 @@ int	new_cmd(t_list **env)
 	add_history(cmd);
 	if (!treat_and_call_cmd(env, cmd))
 		print_error(0);		//IS THAT ENOUGH?
-	// update_env_return(env);
+	free(cmd);
+	if (!update_env_return(env))
+		print_error(0);		//IS THAT ENOUGH?
 	new_cmd(env);
 	return (9);
 }

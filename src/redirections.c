@@ -43,3 +43,15 @@ int	rd_output_append(char *path)
 	}
 	return (fd);
 }
+
+void	rd_delimiter(char *delimiter)
+{
+	char	*line;
+	int	cmp;
+
+	line = readline("> "); // PROTECT AGAINST READLINE ERRORS?
+	cmp = ft_strncmp(delimiter, line, ft_strlen(delimiter));
+	free(line);
+	if (cmp)
+		rd_delimiter(delimiter);
+}
