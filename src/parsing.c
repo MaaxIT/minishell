@@ -17,13 +17,13 @@ void    free_command(t_command *cmd)
 {
     printf("argv: %p \nsplitv: %p \nfull: %p \norigin: %s \nsplitstr: %s \n", cmd->argv, cmd->splitv, cmd->full, cmd->origin, cmd->splitstr);
     if (cmd->argv)
-        free(cmd->argv);
+        ft_free_2d_table(cmd->argv);
     if (cmd->splitv)
-        free(cmd->splitv);
+        ft_free_2d_table(cmd->splitv);
     if (cmd->splitstr)
         free(cmd->splitstr);
     if (cmd->full)
-       free(cmd->full);
+    	ft_free_2d_table(cmd->full);
     if (cmd->origin)
         free(cmd->origin);
     free(cmd);

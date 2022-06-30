@@ -28,14 +28,14 @@ static char	**add_cmd_to_path(char **dirpaths, const char *cmd)
 		tmp = ft_strjoin(dirpaths[i], "/");
 		if (!tmp)
 		{
-			ft_double_free(paths);
+			ft_free_2d_table(paths);
 			return (NULL);
 		}
 		paths[i] = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (!paths[i])
 		{
-			ft_double_free(paths);
+			ft_free_2d_table(paths);
 			return (NULL);
 		}
 		i++;
@@ -58,7 +58,7 @@ char	**find_paths(t_list *env, const char *cmd)
 		return (NULL);
 	dirpaths = ft_split(global_paths, ':');
 	paths = add_cmd_to_path(dirpaths, cmd);
-	ft_double_free(dirpaths);
+	ft_free_2d_table(dirpaths);
 	if (!paths)
 		return (NULL);
 	return (paths);
@@ -93,8 +93,8 @@ char	**create_envp(t_list *env)
 int	ewp_clear(int ret, char **paths, char **envp)
 {
 	if (paths)
-		ft_double_free(paths);
+		ft_free_2d_table(paths);
 	if (envp)
-		ft_double_free(envp);
+		ft_free_2d_table(envp);
 	return (ret);
 }

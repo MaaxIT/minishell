@@ -55,7 +55,7 @@ char	**ft_split(const char *str, char sep)
 		ret[i] = malloc(sizeof(char) * (ft_strlensep(&str[j], sep) + 1));
 		if (!ret[i])
 		{
-			ft_double_free(ret);
+			ft_free_2d_table(ret);
 			return (NULL);
 		}
 		ft_strlcpy(ret[i], &str[j], ft_strlensep(&str[j], sep) + 1);

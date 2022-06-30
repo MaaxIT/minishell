@@ -40,7 +40,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (ret);
 }
 
-void	ft_double_free(char **to_free)
+void	ft_free_2d_table(char **to_free)
 {
 	int	i;
 

@@ -77,7 +77,7 @@ int		ft_strncmp(char const *s1, char const *s2, size_t nbr);
 char	*ft_itoa(int nbr);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	**ft_split(const char *str, char sep);
-void	ft_double_free(char **to_free);
+void	ft_free_2d_table(char **to_free);
 int			ft_strincludes(const char *str, char c);
 size_t		ft_strlcat(char *dst, char const *src, size_t nbr);
 char    	*ft_arrjoin(char **split, size_t len, char sep);

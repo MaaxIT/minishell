@@ -36,16 +36,18 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 {
 	t_command	*command;
 
+(void)command; (void)env;(void)cmd;
+
 	command = parse_cmd(cmd);
 	if (!command)
 		return (0);
 	printf("1\n");
 	test_to_delete(command);
-
-	/* TODO: Add command execution here
+/*
+	 TODO: Add command execution here
 	As said in the bash man, in the case there is a '/' in the command, it should not search in the path
 	Otherwise, if there is one, it must search for a valid program
-	*/
+*/	
 	if (ft_strincludes(command->bin, '/'))
 	{}	// Don't search
 	else
@@ -60,7 +62,6 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 	free_command(command);
 	printf("4\n");
 
-	(void)env;
 	return (9);
 }
 
