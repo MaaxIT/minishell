@@ -12,10 +12,19 @@
 
 #include "minishell.h"
 
-void	update_env_return(t_list **env)
+/* Updates $? global variable to current errno value */
+int	update_env_return(t_list **env)
 {
-	free((*env)->value);
-	//itoa errno and put it in (*env)->value
+	static int	must_free = 9;
+	
+	if (must_free)
+		free((*env)->value);
+	(*env)->value = ft_itoa(errno);
+	if (!(*env)->value)
+		must_free = 0;
+	else
+		must_free = 9;
+	return (must_free);
 }
 
 /* Return the offset from where the value is starting 

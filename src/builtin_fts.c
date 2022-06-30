@@ -57,7 +57,6 @@ int	bi_pwd(int fd)
 int	bi_exit(int fd, t_list **env)
 {
 	(void)fd;
-
 	ft_lstclear(env);
 	rl_clear_history();
 	exit(0);

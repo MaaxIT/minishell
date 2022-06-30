@@ -22,5 +22,5 @@ static void	sigint_handler()
 
 void	signals_init()
 {
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, sigint_handler);	// ERROR IF == SIG_ERR
 }
