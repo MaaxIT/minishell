@@ -6,7 +6,7 @@
 /*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/30 05:25:01 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/01 00:35:36 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,26 @@ void		bi_export(t_list **env, char *id, char *value);
 void		bi_unset(t_list **env, char *id);
 
 /* exec_with_path and its utils */
-int		exec_with_path(t_list **env, const char *cmd, char **argv);
+int			exec_with_path(t_list **env, const char *cmd, char **argv);
 char		**create_envp(t_list *env);
 char		**find_paths(t_list *env, const char *cmd);
-int		ewp_clear(int ret, char **paths, char **env);
+int			ewp_clear(int ret, char **paths, char **env);
 
 /* Redirections prototypes */
-int		rd_output(char *path);
-int		rd_output_append(char *path);
+int			rd_output(char *path);
+int			rd_output_append(char *path);
 void		rd_delimiter(char *delimiter);
 
 /* Utils prototypes */
-size_t	ft_strlen(const char *str);
-int		ft_putstr_fd(int fd, char *str);
-char	*ft_substr(const char *s, unsigned int start, size_t len);
-size_t	ft_strlcpy(char *dst, char const *src, size_t n);
-int		ft_strncmp(char const *s1, char const *s2, size_t nbr);
-char	*ft_itoa(int nbr);
-char	*ft_strjoin(const char *s1, const char *s2);
-char	**ft_split(const char *str, char sep);
-void	ft_free_2d_table(char **to_free);
+size_t		ft_strlen(const char *str);
+int			ft_putstr_fd(int fd, char *str);
+char		*ft_substr(const char *s, unsigned int start, size_t len);
+size_t		ft_strlcpy(char *dst, char const *src, size_t n);
+int			ft_strncmp(char const *s1, char const *s2, size_t nbr);
+char		*ft_itoa(int nbr);
+char		*ft_strjoin(const char *s1, const char *s2);
+char		**ft_split(const char *str, char sep);
+void		ft_free_2d_table(char **to_free);
 int			ft_strincludes(const char *str, char c);
 size_t		ft_strlcat(char *dst, char const *src, size_t nbr);
 char    	*ft_arrjoin(char **split, size_t len, char sep);
@@ -88,14 +88,14 @@ char    	**split_command(char *cmd);
 
 /* Parse prototypes */
 t_command	*parse_cmd(char *cmd);
-void		free_command(t_command *cmd);
+int			free_command(t_command *cmd);
 
 /* Errors prototypes */
 int			print_error(int ret);
 
 /* Environment prototypes */
-int		init_env_list(t_list **head, char **envp);
-int		update_env_return(t_list **env);
+int			init_env_list(t_list **head, char **envp);
+int			update_env_return(t_list **env);
 
 /* Linked list prototypes */
 void		ft_lstadd_back(t_list **lst, t_list *new);

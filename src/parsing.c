@@ -6,14 +6,14 @@
 /*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/06/30 22:53:23 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/01 00:35:09 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Properly free a command */
-void    free_command(t_command *cmd)
+int free_command(t_command *cmd)
 {
     printf("argv: %p \nsplitv: %p \nfull: %p \norigin: %s \nsplitstr: %s \n", cmd->argv, cmd->splitv, cmd->full, cmd->origin, cmd->splitstr);
     if (cmd->argv)
@@ -27,6 +27,7 @@ void    free_command(t_command *cmd)
     if (cmd->origin)
         free(cmd->origin);
     free(cmd);
+    return (-1);
 }
 
 /* Initialize the command structure */
@@ -40,18 +41,21 @@ static int  init_command_struct(t_command *new, int argc, int splitc)
     new->argc = 0;
     new->splitc = 0;
     if (argc > 0)
+    {
         new->argv = malloc(argc * sizeof(char *));
+        if (!new->argv)
+            return (free_command(new));
+    }
     else
         new->argv = NULL;
     if (splitc > 0)
+    {
         new->splitv = malloc(splitc * sizeof(char *));
+        if (!new->splitv)
+            return (free_command(new));
+    }
     else
         new->splitv = NULL;
-    if (!new->splitv || !new->argv)
-    {
-        free_command(new);
-        return (-1);
-    }
     return (0);
 }
 
