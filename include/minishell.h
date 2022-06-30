@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/28 02:52:28 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/30 05:25:01 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,15 @@ typedef struct s_list {
 }	t_list;
 
 typedef struct s_command {
-	char	*bin;
-	int		argc;
-	char	**argv;
-	char	**full;
+	char	*origin; // The original string command
+	char	*bin; // Binary command
+	int		argc; // Arguments count
+	char	**argv; // Arguments with - before (echo **-n**)
+	int		splitc; // Split count
+	char	**splitv; // Split of everything except arguments above
+	char	*splitstr; // Same as splitv but in a single string
+	char	**full; // Full split (gathering both above)
+	char	*fullstr; // Full command string without command execution
 }	t_command;
 
 /* Signals prototypes */
@@ -62,6 +67,9 @@ char		*ft_substr(const char *s, unsigned int start, size_t len);
 size_t		ft_strlcpy(char *dst, const char *src, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t nbr);
 int			ft_strincludes(const char *str, char c);
+size_t		ft_strlcat(char *dst, char const *src, size_t nbr);
+char    	*ft_arrjoin(char **split, size_t len, char sep);
+void		ft_bzero(void *str, size_t size);
 
 /* Split prototype */
 char    	**split_command(char *cmd);

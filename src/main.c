@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/28 02:55:56 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/06/30 22:44:36 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ static void test_to_delete(t_command *command)
 {
 	int	idx;
 	
-	idx = 0;
 	printf("------\nNew command executed\nBinary command: '%s'\n", command->bin);
+	idx = 0;
 	while (idx < command->argc)
 	{
 		printf("Argument n°%d: %s\n", idx + 1, command->argv[idx]);
+		idx++;
+	}
+	idx = 0;
+	while (idx < command->splitc)
+	{
+		printf("Split n°%d: %s\n", idx + 1, command->splitv[idx]);
 		idx++;
 	}
 	printf("Command freed\n------\n");
@@ -33,6 +39,7 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 	command = parse_cmd(cmd);
 	if (!command)
 		return (0);
+	printf("1\n");
 	test_to_delete(command);
 
 	/* TODO: Add command execution here
@@ -43,8 +50,15 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 	{}	// Don't search
 	else
 	{}	// Search
+	printf("2\n");
+
+	if (ft_strncmp(command->bin, "echo", -1) == 0) {
+		bi_echo(1, (ft_strncmp(command->argv[0], "-n", -1) == 0), command->splitstr);
+	}
+	printf("3\n");
 
 	free_command(command);
+	printf("4\n");
 
 	(void)env;
 	return (9);
