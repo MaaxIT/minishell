@@ -31,7 +31,7 @@ int	ft_putstr_fd(int fd, char *str)
 }
 
 /* Return the length of the string */
-size_t	ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	len;
 

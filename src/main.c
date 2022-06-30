@@ -21,6 +21,10 @@ static int	treat_and_call_cmd(t_list **env, char *cmd)
 	(void)env;
 
 	fd = 1;
+	char *argv[2]; argv[0] = "ls"; argv[1] = NULL;
+	(void)argv;
+	rd_delimiter("ok");
+	exec_with_path(env, argv[0], argv);
 	return (9);
 }
 
@@ -34,7 +38,9 @@ int	new_cmd(t_list **env)
 	add_history(cmd);
 	if (!treat_and_call_cmd(env, cmd))
 		print_error(0);		//IS THAT ENOUGH?
-	update_env_return(env);
+	free(cmd);
+	if (!update_env_return(env))
+		print_error(0);		//IS THAT ENOUGH?
 	new_cmd(env);
 	return (9);
 }
