@@ -6,7 +6,7 @@
 /*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/01 00:35:36 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/01 06:06:13 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ typedef struct s_list {
 	struct s_list	*next;
 }	t_list;
 
-typedef struct s_command {
-	char	*origin; // The original string command
-	char	*bin; // Binary command
-	int		argc; // Arguments count
-	char	**argv; // Arguments with - before (echo **-n**)
-	int		splitc; // Split count
-	char	**splitv; // Split of everything except arguments above
-	char	*splitstr; // Same as splitv but in a single string
-	char	**full; // Full split (gathering both above)
-	char	*fullstr; // Full command string without command execution
+/* Example: echo -n Hello world */
+typedef struct	s_command {
+	char	*original; // "echo -n Hello World"
+	char	*binary; // "echo"
+	int		options_c; // 1
+	char	**options_v; // ["-n"]
+	int		input_c; // 2
+	char	**input_v; // ["Hello", "World"]
+	int		arg_c; // 4
+	char	**arg_v; // ["echo", "-n", "Hello", "World"]
 }	t_command;
 
 /* Signals prototypes */
@@ -87,8 +87,8 @@ void		ft_bzero(void *str, size_t size);
 char    	**split_command(char *cmd);
 
 /* Parse prototypes */
-t_command	*parse_cmd(char *cmd);
-int			free_command(t_command *cmd);
+t_command	*initialize_comand(char *line);
+int			free_command(t_command *cmd_t);
 
 /* Errors prototypes */
 int			print_error(int ret);

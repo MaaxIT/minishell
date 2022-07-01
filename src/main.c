@@ -6,63 +6,33 @@
 /*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/30 22:44:36 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/01 06:13:39 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void test_to_delete(t_command *command)
+int	run_command(t_list **env, char *line)
 {
-	int	idx;
-	
-	printf("------\nNew command executed\nBinary command: '%s'\n", command->bin);
-	idx = 0;
-	while (idx < command->argc)
-	{
-		printf("Argument n°%d: %s\n", idx + 1, command->argv[idx]);
-		idx++;
-	}
-	idx = 0;
-	while (idx < command->splitc)
-	{
-		printf("Split n°%d: %s\n", idx + 1, command->splitv[idx]);
-		idx++;
-	}
-	printf("Command freed\n------\n");
-}
+	t_command	*cmd_t;
 
-static int	treat_and_call_cmd(t_list **env, char *cmd)
-{
-	t_command	*command;
-
-(void)command; (void)env;(void)cmd;
-
-	command = parse_cmd(cmd);
-	if (!command)
+	cmd_t = initialize_comand(line);
+	if (!cmd_t)
 		return (0);
-	printf("1\n");
-	test_to_delete(command);
-/*
-	 TODO: Add command execution here
-	As said in the bash man, in the case there is a '/' in the command, it should not search in the path
-	Otherwise, if there is one, it must search for a valid program
-*/	
-	if (ft_strincludes(command->bin, '/'))
-	{}	// Don't search
-	else
-	{}	// Search
-	printf("2\n");
 
-	if (ft_strncmp(command->bin, "echo", -1) == 0) {
-		bi_echo(1, (ft_strncmp(command->argv[0], "-n", -1) == 0), command->splitstr);
-	}
-	printf("3\n");
+	printf("- Original: %s\n", cmd_t->original);
+	printf("- Binary: %s\n", cmd_t->binary);
+	printf("- Options count: %i\n", cmd_t->options_c);
+	printf("- Options first value: %s\n", (cmd_t->options_v ? cmd_t->options_v[0] : "No options"));
+	printf("- Input count: %i\n", cmd_t->input_c);
+	printf("- Input first value: %s\n", (cmd_t->input_v ? cmd_t->input_v[0] : "No input"));
+	printf("- Args count: %i\n", cmd_t->arg_c);
+	printf("- Args first value: %s\n", (cmd_t->arg_v ? cmd_t->arg_v[0] : "No args"));
 
-	free_command(command);
-	printf("4\n");
+	free_command(cmd_t);
 
-	return (9);
+	(void)env;
+	return (1);
 }
 
 int	new_cmd(t_list **env)
@@ -73,7 +43,7 @@ int	new_cmd(t_list **env)
 	if (!cmd)
 		bi_exit(-1, env);
 	add_history(cmd);
-	if (!treat_and_call_cmd(env, cmd))
+	if (!run_command(env, cmd))
 		print_error(0);		//IS THAT ENOUGH?
 	free(cmd);
 	if (!update_env_return(env))

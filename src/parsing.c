@@ -6,132 +6,127 @@
 /*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/01 00:35:09 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/01 06:16:06 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Properly free a command */
-int free_command(t_command *cmd)
+int	free_command(t_command *cmd_t)
 {
-    printf("argv: %p \nsplitv: %p \nfull: %p \norigin: %s \nsplitstr: %s \n", cmd->argv, cmd->splitv, cmd->full, cmd->origin, cmd->splitstr);
-    if (cmd->argv)
-        ft_free_2d_table(cmd->argv);
-    if (cmd->splitv)
-        ft_free_2d_table(cmd->splitv);
-    if (cmd->splitstr)
-        free(cmd->splitstr);
-    if (cmd->full)
-    	ft_free_2d_table(cmd->full);
-    if (cmd->origin)
-        free(cmd->origin);
-    free(cmd);
-    return (-1);
+	int	idx;
+
+	if (cmd_t->options_v)
+		free(cmd_t->options_v);
+	if (cmd_t->input_v)
+		free(cmd_t->input_v);
+	if (cmd_t->arg_v)
+	{
+		idx = 0;
+		while (idx < cmd_t->arg_c)
+			free(cmd_t->arg_v[idx++]);
+		free(cmd_t->arg_v);
+	}
+	free(cmd_t);
+	return (0);
 }
 
-/* Initialize the command structure */
-static int  init_command_struct(t_command *new, int argc, int splitc)
+static void	initialize_structure(t_command *cmd_t)
 {
-    new->origin = NULL;
-    new->full = NULL;
-    new->bin = NULL;
-    new->fullstr = NULL;
-    new->splitstr = NULL;
-    new->argc = 0;
-    new->splitc = 0;
-    if (argc > 0)
-    {
-        new->argv = malloc(argc * sizeof(char *));
-        if (!new->argv)
-            return (free_command(new));
-    }
-    else
-        new->argv = NULL;
-    if (splitc > 0)
-    {
-        new->splitv = malloc(splitc * sizeof(char *));
-        if (!new->splitv)
-            return (free_command(new));
-    }
-    else
-        new->splitv = NULL;
-    return (0);
+	cmd_t->original = NULL;
+	cmd_t->binary = NULL;
+	cmd_t->options_c = 0;
+	cmd_t->options_v = NULL;
+	cmd_t->input_c = 0;
+	cmd_t->input_v = NULL;
+	cmd_t->arg_c = 0;
+	cmd_t->arg_v = NULL;
 }
 
-/* Initialize the command with values we got */
-static void init_command(t_command *new, char **splitted, char *cmd)
+static int	parse_options(t_command *cmd_t)
 {
-    int argc;
-    int splitc;
-    int i;
+	int	i;
+	int	idx;
 
-    i = 1;
-    argc = 0;
-    splitc = 0;
-    while (splitted[i] && *splitted[i])
-    {
-        if (splitted[i][0] == '-')
-            argc++;
-        else
-            splitc++;
-        i++;
-    }
-
-    if (init_command_struct(new, argc, splitc) == -1)
-        return ;
-
-    printf("%d %d\n", argc, splitc);
-
-    i = 1;
-    argc = 0;
-    splitc = 0;
-    while (splitted[i] && *splitted[i])
-    {
-        if (splitted[i][0] == '-')
-            new->argv[argc++] = splitted[i];
-        else
-            new->splitv[splitc++] = splitted[i]; 
-        i++;
-    }
-    
-    new->origin = cmd;
-    new->argc = argc;
-    new->splitc = splitc;
-    new->full = splitted;
-    new->bin = splitted[0];
-    new->fullstr = cmd;
-    new->splitstr = ft_arrjoin(new->splitv, new->splitc, ' ');
+	cmd_t->options_v = malloc(sizeof(char *) * cmd_t->options_c);
+	if (!cmd_t->options_v)
+		return (0);
+	i = 1;
+	idx = 0;
+	while (i < cmd_t->arg_c)
+	{
+		if (cmd_t->arg_v[i][0] == '-')
+			cmd_t->options_v[idx++] = cmd_t->arg_v[i];	
+		i++;
+	}
+	return (1);
 }
 
-/* Split the line for every space */
-t_command   *parse_cmd(char *cmd)
+static int	parse_input(t_command *cmd_t)
 {
-    char        **splitted;
-    t_command   *new;
+	int	i;
+	int	idx;
 
-    new = malloc(sizeof(t_command));
-    if (!new)
-        return (NULL);
-    new->full = NULL;
-    new->bin = NULL;
-    new->argv = NULL;
-    new->argc = -1;
-    splitted = split_command(cmd);
-    if (!splitted || !splitted[0])
-    {
-        free(new);
-        if (splitted != NULL)
-            free(splitted);
-        return (NULL);
-    }
-    init_command(new, splitted, cmd);
-    return (new);
+	cmd_t->input_v = malloc(sizeof(char *) * cmd_t->input_c);
+	if (!cmd_t->input_v)
+		return (0);
+	i = 1;
+	idx = 0;
+	while (i < cmd_t->arg_c)
+	{
+		if (cmd_t->arg_v[i][0] != '-')
+			cmd_t->input_v[idx++] = cmd_t->arg_v[i];	
+		i++;
+	}
+	return (1);
 }
 
-/* Translate metacharacters from the command */
-void    translate_metachars(t_command *cmd)
+static void	parse_counts(t_command *cmd_t)
 {
-    // TODO: Check for special characters and so on
-    (void)cmd;
+	int	idx;
+
+	idx = 1;
+	cmd_t->input_c = 0;
+	cmd_t->options_c = 0;
+	while (idx < cmd_t->arg_c)
+	{
+		if (cmd_t->arg_v[idx][0] == '-')
+			cmd_t->options_c++;
+		else
+			cmd_t->input_c++;
+		idx++;
+	}
+}
+
+t_command	*initialize_comand(char *line)
+{
+	t_command	*cmd_t;
+	char		**split;
+	int			idx;
+
+	if (!line)
+		return (NULL);
+	cmd_t = malloc(sizeof(t_command));
+	if (!cmd_t)
+		return (NULL);
+	initialize_structure(cmd_t);
+
+	split = split_command(line);
+	if (!split)
+		return (NULL);
+
+	idx = 0;
+	while (split[idx])
+		idx++;
+	
+	cmd_t->original = line;
+	cmd_t->arg_c = idx;
+	cmd_t->arg_v = split;
+	cmd_t->binary = cmd_t->arg_v[0];
+	parse_counts(cmd_t);
+	if (cmd_t->options_c > 0)
+		parse_options(cmd_t);
+	if (cmd_t->input_c > 0)
+		parse_input(cmd_t);
+	return (cmd_t);
 }
