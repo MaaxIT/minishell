@@ -35,18 +35,21 @@ typedef struct s_list {
 
 /* Example: echo -n Hello world */
 typedef struct	s_command {
-	char	*original; // "echo -n Hello World"
-	char	*binary; // "echo"
-	int		options_c; // 1
-	char	**options_v; // ["-n"]
-	int		input_c; // 2
-	char	**input_v; // ["Hello", "World"]
-	int		arg_c; // 4
-	char	**arg_v; // ["echo", "-n", "Hello", "World"]
+	char	*original;		// "echo -n Hello World"
+	char	*binary;		// "echo"
+	int		options_c;	// 1
+	char	**options_v;		// ["-n"]
+	int		input_c;	// 2
+	char	**input_v;		// ["Hello", "World"]
+	int		arg_c;		// 4
+	char	**arg_v;		// ["echo", "-n", "Hello", "World"]
 }	t_command;
 
-/* Signals prototypes */
+/* Signals prototype */
 void		signals_init();
+
+/* Pipe prototype */
+int		ft_pipe(t_list **env, char **argv1, char **argv2);
 
 /* Builtins	prototypes */
 int			bi_echo(int fd, int newline, char *str);

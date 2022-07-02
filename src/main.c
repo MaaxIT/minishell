@@ -14,7 +14,10 @@
 
 int	run_command(t_list **env, char *line)
 {
-	t_command	*cmd_t;
+	(void)env;(void)line;
+
+/*	Parsing test	*/
+/*	t_command	*cmd_t;
 
 	cmd_t = initialize_comand(line);
 	if (!cmd_t)
@@ -28,10 +31,17 @@ int	run_command(t_list **env, char *line)
 	printf("- Input first value: %s\n", (cmd_t->input_v ? cmd_t->input_v[0] : "No input"));
 	printf("- Args count: %i\n", cmd_t->arg_c);
 	printf("- Args first value: %s\n", (cmd_t->arg_v ? cmd_t->arg_v[0] : "No args"));
+	free_command(cmd_t);*/
+/*	Pars		*/
 
-	free_command(cmd_t);
+/*	Pipe test	*/
+	char	*argv1[3];
+	argv1[0] = "ls"; argv1[1] = "-l"; argv1[2] = 0;
+	char	*argv2[3];
+	argv2[0] = "wc"; argv2[1] = "-l"; argv2[2] = 0;
+	ft_pipe(env, argv1, argv2);
+/*	Pipe		*/
 
-	(void)env;
 	return (1);
 }
 
