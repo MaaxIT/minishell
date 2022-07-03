@@ -14,15 +14,36 @@
 
 int	run_command(t_list **env, char *line)
 {
-	(void)env;(void)line;
 
-/*	Parsing test	*/
-/*	t_command	*cmd_t;
+	t_command	*cmd_t;
+	int		fd;
+	int		err;
 
+	(void)env;(void)line;(void)err;
+
+// NEED TO PARSE AND INITIATE THE FD HERE
+	fd = 1;
 	cmd_t = initialize_comand(line);
 	if (!cmd_t)
-		return (0);
-
+		return (0); // ENOUGH?
+	if (!ft_strncmp(cmd_t->arg_v[0], "echo", ft_strlen(cmd_t->arg_v[0])))
+		err = bi_echo(fd, cmd_t);
+	else if (!ft_strncmp(cmd_t->arg_v[0], "cd", ft_strlen(cmd_t->arg_v[0])))
+		err = bi_cd(fd, cmd_t);
+	else if (!ft_strncmp(cmd_t->arg_v[0], "pwd", ft_strlen(cmd_t->arg_v[0])))
+		err = bi_pwd(fd);
+	else if (!ft_strncmp(cmd_t->arg_v[0], "exit", ft_strlen(cmd_t->arg_v[0])))
+		err = bi_exit(fd, env);
+	else if (!ft_strncmp(cmd_t->arg_v[0], "env", ft_strlen(cmd_t->arg_v[0])))
+		err = bi_env(fd, *env);
+	else if (!ft_strncmp(cmd_t->arg_v[0], "export", ft_strlen(cmd_t->arg_v[0])))
+		err = bi_export(fd, env, cmd_t);
+	else if (!ft_strncmp(cmd_t->arg_v[0], "unset", ft_strlen(cmd_t->arg_v[0])))
+		err = bi_unset(env, cmd_t);
+	else
+		err = exec_with_path(env, cmd_t->arg_v[0], cmd_t->arg_v);
+/*	Parsing test	*/
+/*
 	printf("- Original: %s\n", cmd_t->original);
 	printf("- Binary: %s\n", cmd_t->binary);
 	printf("- Options count: %i\n", cmd_t->options_c);
@@ -35,11 +56,11 @@ int	run_command(t_list **env, char *line)
 /*	Pars		*/
 
 /*	Pipe test	*/
-	char	*argv1[3];
+/*	char	*argv1[3];
 	argv1[0] = "ls"; argv1[1] = "-l"; argv1[2] = 0;
 	char	*argv2[3];
 	argv2[0] = "wc"; argv2[1] = "-l"; argv2[2] = 0;
-	ft_pipe(env, argv1, argv2);
+	ft_pipe(env, argv1, argv2);*/
 /*	Pipe		*/
 
 	return (1);

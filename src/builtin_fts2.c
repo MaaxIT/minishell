@@ -18,8 +18,11 @@ int	bi_env(int fd, t_list *env)
 	return (9);
 }
 
-void	bi_export(t_list **env_address, char *id, char *value)
+int	bi_export(int fd, t_list **env_address, t_command *cmd)
 {
+// NOT READY, NEED TO TREAT CASE WITH NO ARG
+	(void)fd; (void)cmd; char *value = "val"; char *id = "id";
+// NEED TO PARSE THE OTHER
 	t_list	*new;
 	t_list	*env;
 
@@ -27,19 +30,33 @@ void	bi_export(t_list **env_address, char *id, char *value)
 	while (env)
 	{
 		if (!ft_strncmp(id, env->id, ft_strlen(id)))
-			return;
+		{
+			free(env->value);
+			env->value = malloc(sizeof(char) * ft_strlen(value));
+			if (!env->value)
+				return (0);
+			ft_strlcpy(env->value, value, ft_strlen(value));
+			return (9);
+		}
 		env = env->next;
 	}
 	new = ft_lstnew(id, value);
+	if (!new)
+		return (0);
 	ft_lstadd_back(env_address, new);
+	return (9);
 }
 
-void	bi_unset(t_list **env_address, char *id)
+int	bi_unset(t_list **env_address, t_command *cmd)
 {
 	t_list	*tmp;
 	t_list	*env;
+	char	*id;
 
 	env = (*env_address)->next;
+	if (!cmd->input_v || !cmd->input_v[0])
+		return (0);
+	id = cmd->input_v[0];
 	if (!ft_strncmp(id, env->id, ft_strlen(id)))
 	{
 		*env_address = env->next;
@@ -56,4 +73,5 @@ void	bi_unset(t_list **env_address, char *id)
 		}
 		env = env->next;
 	}
+	return (9);
 }

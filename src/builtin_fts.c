@@ -12,13 +12,28 @@
 
 #include "minishell.h"
 
-int	bi_echo(int fd, int newline, char *str)
+int	bi_echo(int fd, t_command *cmd)
 {
 	int	err;
+	int	i;
+	int	newline;
 
-	err = ft_putstr_fd(fd, str);
-	if (err == -1)
-		return (0);		//IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+	if (!cmd->input_v)
+		return (9);
+	i = 0;
+	newline = 1;
+	while (cmd->input_v[i])
+	{
+		err = ft_putstr_fd(fd, cmd->input_v[i]);
+		if (err == -1)
+			return (0);		//IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+		if (cmd->input_v[i + 1] && write(fd, " ", 1) == -1)
+			return (0);
+		if (cmd->options_v && cmd->options_v[i] && \
+			!ft_strncmp(cmd->options_v[i], "-n", 3))
+			newline = 0;
+		i++;
+	}
 	if (newline)
 		err = write(fd, "\n", 1);
 	if (err == -1)
@@ -26,13 +41,15 @@ int	bi_echo(int fd, int newline, char *str)
 	return (9);
 }
 
-int	bi_cd(int fd, char *str)
+int	bi_cd(int fd, t_command *cmd)
 {
 	int	err;
 
 	(void)fd;
 
-	err = chdir(str);
+	if (!cmd->input_v || !cmd->input_v[0])
+		return (0);
+	err = chdir(cmd->input_v[0]);
 	if (err == -1)
 		return (0);		//IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
 	return (9);

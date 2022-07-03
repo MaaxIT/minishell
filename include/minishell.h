@@ -52,13 +52,13 @@ void		signals_init();
 int		ft_pipe(t_list **env, char **argv1, char **argv2);
 
 /* Builtins	prototypes */
-int			bi_echo(int fd, int newline, char *str);
-int			bi_cd(int fd, char *str);
+int			bi_echo(int fd, t_command *cmd);
+int			bi_cd(int fd, t_command *cmd);
 int			bi_pwd(int fd);
 int			bi_exit(int fd, t_list **env);
 int			bi_env(int fd, t_list *env);
-void		bi_export(t_list **env, char *id, char *value);
-void		bi_unset(t_list **env, char *id);
+int		bi_export(int fd, t_list **env, t_command *cmd);
+int		bi_unset(t_list **env, t_command *cmd);
 
 /* exec_with_path and its utils */
 int			exec_with_path(t_list **env, const char *cmd, char **argv);
