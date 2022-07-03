@@ -33,7 +33,7 @@ int	exec_with_path(t_list **env, const char *cmd, char **argv)
 	if (!paths)
 		return (print_error(0)); //ENOUGH? Not in fd?
 	i = get_the_right_path_index(paths);
-	if (paths[i] && access(paths[i], F_OK) != -1)
+	if (paths[i] && access(paths[i], F_OK) == 0 && access(paths[i], X_OK) == 0)
 	{
 		envp = create_envp((*env)->next);
 		if (!envp)
@@ -44,7 +44,10 @@ int	exec_with_path(t_list **env, const char *cmd, char **argv)
 	}
 	else
 	{
-		ft_putstr_fd(1, strerror(127));
+		if (access(paths[i], F_OK == 0))
+			print_error(0);
+		else if (access(paths[i], X_OK) == 0)
+			print_error(0);
 		return (ewp_clear(9, paths, NULL));
 	}
 	return (ewp_clear(9, paths, envp));

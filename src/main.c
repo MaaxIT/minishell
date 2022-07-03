@@ -63,7 +63,7 @@ int	run_command(t_list **env, char *line)
 	ft_pipe(env, argv1, argv2);*/
 /*	Pipe		*/
 
-	return (1);
+	return (err);
 }
 
 int	new_cmd(t_list **env)
@@ -75,7 +75,8 @@ int	new_cmd(t_list **env)
 		bi_exit(-1, env);
 	add_history(cmd);
 	if (!run_command(env, cmd))
-		print_error(0);		//IS THAT ENOUGH?
+		printf("ok");
+		//print_error(0);		//IS THAT ENOUGH?
 	free(cmd);
 	if (!update_env_return(env))
 		print_error(0);		//IS THAT ENOUGH?
