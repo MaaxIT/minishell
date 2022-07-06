@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	free_command(t_command *cmd_t)
+int	free_command(t_cmd_lst *cmd_t)
 {
 	int	idx;
 
@@ -31,7 +31,7 @@ int	free_command(t_command *cmd_t)
 	return (0);
 }
 
-static void	initialize_structure(t_command *cmd_t)
+static void	initialize_structure(t_cmd_lst *cmd_t)
 {
 	cmd_t->original = NULL;
 	cmd_t->binary = NULL;
@@ -43,7 +43,7 @@ static void	initialize_structure(t_command *cmd_t)
 	cmd_t->arg_v = NULL;
 }
 
-static int	parse_options(t_command *cmd_t)
+static int	parse_options(t_cmd_lst *cmd_t)
 {
 	int	i;
 	int	idx;
@@ -62,7 +62,7 @@ static int	parse_options(t_command *cmd_t)
 	return (1);
 }
 
-static int	parse_input(t_command *cmd_t)
+static int	parse_input(t_cmd_lst *cmd_t)
 {
 	int	i;
 	int	idx;
@@ -81,7 +81,7 @@ static int	parse_input(t_command *cmd_t)
 	return (1);
 }
 
-static void	parse_counts(t_command *cmd_t)
+static void	parse_counts(t_cmd_lst *cmd_t)
 {
 	int	idx;
 
@@ -98,15 +98,15 @@ static void	parse_counts(t_command *cmd_t)
 	}
 }
 
-t_command	*initialize_comand(char *line)
+t_cmd_lst	*initialize_command(char *line)
 {
-	t_command	*cmd_t;
+	t_cmd_lst	*cmd_t;
 	char		**split;
 	int			idx;
 
 	if (!line)
 		return (NULL);
-	cmd_t = malloc(sizeof(t_command));
+	cmd_t = malloc(sizeof(t_cmd_lst));
 	if (!cmd_t)
 		return (NULL);
 	initialize_structure(cmd_t);

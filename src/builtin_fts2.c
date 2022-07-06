@@ -18,7 +18,7 @@ int	bi_env(int fd, t_list *env)
 	return (9);
 }
 
-int	bi_export(int fd, t_list **env_address, t_command *cmd)
+int	bi_export(int fd, t_list **env_address, t_cmd_lst *cmd)
 {
 // NOT READY, NEED TO TREAT CASE WITH NO ARG
 	(void)fd; (void)cmd; char *value = "val"; char *id = "id";
@@ -47,7 +47,7 @@ int	bi_export(int fd, t_list **env_address, t_command *cmd)
 	return (9);
 }
 
-int	bi_unset(t_list **env_address, t_command *cmd)
+int	bi_unset(t_list **env_address, t_cmd_lst *cmd)
 {
 	t_list	*tmp;
 	t_list	*env;

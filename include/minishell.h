@@ -34,7 +34,7 @@ typedef struct s_list {
 }	t_list;
 
 /* Example: echo -n Hello world */
-typedef struct	s_command {
+typedef struct	s_cmd_lst {
 	char	*original;		// "echo -n Hello World"
 	char	*binary;		// "echo"
 	int		options_c;	// 1
@@ -43,22 +43,23 @@ typedef struct	s_command {
 	char	**input_v;		// ["Hello", "World"]
 	int		arg_c;		// 4
 	char	**arg_v;		// ["echo", "-n", "Hello", "World"]
-}	t_command;
+	struct s_cmd_lst	*next;
+}	t_cmd_lst;
 
 /* Signals prototype */
 void		signals_init();
 
 /* Pipe prototype */
-int		ft_pipe(t_list **env, char **argv1, char **argv2);
+int		ft_pipe(t_list **env, t_cmd_lst *cmd);
 
 /* Builtins	prototypes */
-int			bi_echo(int fd, t_command *cmd);
-int			bi_cd(int fd, t_command *cmd);
+int			bi_echo(int fd, t_cmd_lst *cmd);
+int			bi_cd(int fd, t_cmd_lst *cmd);
 int			bi_pwd(int fd);
 int			bi_exit(int fd, t_list **env);
 int			bi_env(int fd, t_list *env);
-int		bi_export(int fd, t_list **env, t_command *cmd);
-int		bi_unset(t_list **env, t_command *cmd);
+int		bi_export(int fd, t_list **env, t_cmd_lst *cmd);
+int		bi_unset(t_list **env, t_cmd_lst *cmd);
 
 /* exec_with_path and its utils */
 int			exec_with_path(t_list **env, const char *cmd, char **argv);
@@ -90,8 +91,8 @@ void		ft_bzero(void *str, size_t size);
 char    	**split_command(char *cmd);
 
 /* Parse prototypes */
-t_command	*initialize_comand(char *line);
-int			free_command(t_command *cmd_t);
+t_cmd_lst	*initialize_command(char *line);
+int			free_command(t_cmd_lst *cmd_t);
 
 /* Errors prototypes */
 int			print_error(int ret);
@@ -108,6 +109,7 @@ void		ft_lstdelone(t_list *lst);
 void		ft_lstclear(t_list **lst);
 
 /* Other prototypes */
-int			new_cmd(t_list **env);
+int		new_cmd(t_list **env);
+int		run_command(t_list **env, t_cmd_lst *cmd);
 
 #endif

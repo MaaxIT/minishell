@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	parsing_test_to_del(t_command *cmd_t)
+void	parsing_test_to_del(t_cmd_lst *cmd_t)
 {
 /*	Parsing test	*/
 
@@ -31,59 +31,37 @@ void	parsing_test_to_del(t_command *cmd_t)
 void	pipe_test_to_del(t_list **env)
 {
 /*	Pipe test	*/
-	char	*argv1[3];
-	argv1[0] = "ls"; argv1[1] = "-l"; argv1[2] = 0;
-	char	*argv2[3];
-	argv2[0] = "wc"; argv2[1] = "-l"; argv2[2] = 0;
-	ft_pipe(env, argv1, argv2);
+	t_cmd_lst	*cmd1;
+	t_cmd_lst	*cmd2;
+	t_cmd_lst	*cmd3;
+
+	cmd1 = initialize_command("ls");
+	cmd2 = initialize_command("grep mini");
+	cmd3 = initialize_command("wc -l");
+	cmd1->next = cmd2;
+	cmd2->next = cmd3;
+	cmd3->next = 0;
+	ft_pipe(env, cmd1);
 /*	Pipe		*/
 }
 
 
-int	run_command(t_list **env, char *line)
-{
-
-	t_command	*cmd_t;
-	int		fd;
-	int		err;
-
-	(void)env;(void)line;(void)err;
-
-// NEED TO PARSE AND INITIATE THE FD HERE
-	fd = 1;
-	cmd_t = initialize_comand(line);
-	if (!cmd_t)
-		return (0); // ENOUGH?
-	if (!ft_strncmp(cmd_t->arg_v[0], "echo", ft_strlen(cmd_t->arg_v[0])))
-		err = bi_echo(fd, cmd_t);
-	else if (!ft_strncmp(cmd_t->arg_v[0], "cd", ft_strlen(cmd_t->arg_v[0])))
-		err = bi_cd(fd, cmd_t);
-	else if (!ft_strncmp(cmd_t->arg_v[0], "pwd", ft_strlen(cmd_t->arg_v[0])))
-		err = bi_pwd(fd);
-	else if (!ft_strncmp(cmd_t->arg_v[0], "exit", ft_strlen(cmd_t->arg_v[0])))
-		err = bi_exit(fd, env);
-	else if (!ft_strncmp(cmd_t->arg_v[0], "env", ft_strlen(cmd_t->arg_v[0])))
-		err = bi_env(fd, *env);
-	else if (!ft_strncmp(cmd_t->arg_v[0], "export", ft_strlen(cmd_t->arg_v[0])))
-		err = bi_export(fd, env, cmd_t);
-	else if (!ft_strncmp(cmd_t->arg_v[0], "unset", ft_strlen(cmd_t->arg_v[0])))
-		err = bi_unset(env, cmd_t);
-	else
-		err = exec_with_path(env, cmd_t->arg_v[0], cmd_t->arg_v);
-	return (err);
-}
-
 int	new_cmd(t_list **env)
 {
-	char	*cmd;
+	char	*cmd_str;
+	t_cmd_lst	*cmd;
 
-	cmd = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
-	if (!cmd)
+	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
+	if (!cmd_str)
 		bi_exit(-1, env);
-	add_history(cmd);
-	if (!run_command(env, cmd))
+	add_history(cmd_str);
+	cmd = initialize_command(cmd_str);
+	if (!cmd)
+		print_error(0);
+	if (cmd && !run_command(env, cmd))
 		print_error(0);		//IS THAT ENOUGH?
-	free(cmd);
+	if (cmd_str)
+		free(cmd_str);
 	if (!update_env_return(env))
 		print_error(0);		//IS THAT ENOUGH?
 	new_cmd(env);

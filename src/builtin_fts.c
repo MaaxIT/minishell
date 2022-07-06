@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	bi_echo(int fd, t_command *cmd)
+int	bi_echo(int fd, t_cmd_lst *cmd)
 {
 	int	err;
 	int	i;
@@ -41,7 +41,7 @@ int	bi_echo(int fd, t_command *cmd)
 	return (9);
 }
 
-int	bi_cd(int fd, t_command *cmd)
+int	bi_cd(int fd, t_cmd_lst *cmd)
 {
 	int	err;
 
