@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+void	parsing_test_to_del(t_command *cmd_t)
+{
+/*	Parsing test	*/
+
+	printf("- Original: %s\n", cmd_t->original);
+	printf("- Binary: %s\n", cmd_t->binary);
+	printf("- Options count: %i\n", cmd_t->options_c);
+	printf("- Options first value: %s\n", (cmd_t->options_v ? cmd_t->options_v[0] : "No options"));
+	printf("- Input count: %i\n", cmd_t->input_c);
+	printf("- Input first value: %s\n", (cmd_t->input_v ? cmd_t->input_v[0] : "No input"));
+	printf("- Args count: %i\n", cmd_t->arg_c);
+	printf("- Args first value: %s\n", (cmd_t->arg_v ? cmd_t->arg_v[0] : "No args"));
+	free_command(cmd_t);
+/*	Pars		*/
+}
+
+void	pipe_test_to_del(t_list **env)
+{
+/*	Pipe test	*/
+	char	*argv1[3];
+	argv1[0] = "ls"; argv1[1] = "-l"; argv1[2] = 0;
+	char	*argv2[3];
+	argv2[0] = "wc"; argv2[1] = "-l"; argv2[2] = 0;
+	ft_pipe(env, argv1, argv2);
+/*	Pipe		*/
+}
+
+
 int	run_command(t_list **env, char *line)
 {
 
@@ -42,27 +70,6 @@ int	run_command(t_list **env, char *line)
 		err = bi_unset(env, cmd_t);
 	else
 		err = exec_with_path(env, cmd_t->arg_v[0], cmd_t->arg_v);
-/*	Parsing test	*/
-/*
-	printf("- Original: %s\n", cmd_t->original);
-	printf("- Binary: %s\n", cmd_t->binary);
-	printf("- Options count: %i\n", cmd_t->options_c);
-	printf("- Options first value: %s\n", (cmd_t->options_v ? cmd_t->options_v[0] : "No options"));
-	printf("- Input count: %i\n", cmd_t->input_c);
-	printf("- Input first value: %s\n", (cmd_t->input_v ? cmd_t->input_v[0] : "No input"));
-	printf("- Args count: %i\n", cmd_t->arg_c);
-	printf("- Args first value: %s\n", (cmd_t->arg_v ? cmd_t->arg_v[0] : "No args"));
-	free_command(cmd_t);*/
-/*	Pars		*/
-
-/*	Pipe test	*/
-/*	char	*argv1[3];
-	argv1[0] = "ls"; argv1[1] = "-l"; argv1[2] = 0;
-	char	*argv2[3];
-	argv2[0] = "wc"; argv2[1] = "-l"; argv2[2] = 0;
-	ft_pipe(env, argv1, argv2);*/
-/*	Pipe		*/
-
 	return (err);
 }
 
@@ -75,8 +82,7 @@ int	new_cmd(t_list **env)
 		bi_exit(-1, env);
 	add_history(cmd);
 	if (!run_command(env, cmd))
-		printf("ok");
-		//print_error(0);		//IS THAT ENOUGH?
+		print_error(0);		//IS THAT ENOUGH?
 	free(cmd);
 	if (!update_env_return(env))
 		print_error(0);		//IS THAT ENOUGH?
