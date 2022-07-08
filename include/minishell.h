@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/01 06:06:13 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/08 15:19:22 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ typedef struct s_list {
 typedef struct	s_cmd_lst {
 	char	*original;		// "echo -n Hello World"
 	char	*binary;		// "echo"
-	int		options_c;	// 1
-	char	**options_v;		// ["-n"]
-	int		input_c;	// 2
+	int		options_c;		// 1
+	char	**options_v;	// ["-n"]
+	int		input_c;		// 2
 	char	**input_v;		// ["Hello", "World"]
-	int		arg_c;		// 4
+	int		arg_c;			// 4
 	char	**arg_v;		// ["echo", "-n", "Hello", "World"]
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;

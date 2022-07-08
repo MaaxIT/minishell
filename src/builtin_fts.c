@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   builtin_fts.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 17:28:23 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/08 15:41:56 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 		return (9);
 	i = 0;
 	newline = 1;
-	while (cmd->input_v[i])
+	while (i < cmd->input_c)
 	{
 		err = ft_putstr_fd(fd, cmd->input_v[i]);
 		if (err == -1)
