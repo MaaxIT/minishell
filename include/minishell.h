@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/08 15:19:22 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/08 22:18:02 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int			bi_cd(int fd, t_cmd_lst *cmd);
 int			bi_pwd(int fd);
 int			bi_exit(int fd, t_list **env);
 int			bi_env(int fd, t_list *env);
-int		bi_export(int fd, t_list **env, t_cmd_lst *cmd);
-int		bi_unset(t_list **env, t_cmd_lst *cmd);
+int			bi_export(int fd, t_list **env, t_cmd_lst *cmd);
+int			bi_unset(t_list **env, t_cmd_lst *cmd);
 
 /* exec_with_path and its utils */
 int			exec_with_path(t_list **env, const char *cmd, char **argv);
@@ -90,9 +90,12 @@ void		ft_bzero(void *str, size_t size);
 /* Split prototype */
 char    	**split_command(char *cmd);
 
-/* Parse prototypes */
+/* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line);
 int			free_command(t_cmd_lst *cmd_t);
+void		parse_counts(t_cmd_lst *cmd_t);
+int			parse_input(t_cmd_lst *cmd_t);
+int			parse_options(t_cmd_lst *cmd_t);
 
 /* Errors prototypes */
 int			print_error(int ret);
@@ -100,6 +103,7 @@ int			print_error(int ret);
 /* Environment prototypes */
 int			init_env_list(t_list **head, char **envp);
 int			update_env_return(t_list **env);
+t_list		*get_env_by_id(t_list **env, char *id);
 
 /* Linked list prototypes */
 void		ft_lstadd_back(t_list **lst, t_list *new);
@@ -109,7 +113,7 @@ void		ft_lstdelone(t_list *lst);
 void		ft_lstclear(t_list **lst);
 
 /* Other prototypes */
-int		new_cmd(t_list **env);
-int		run_command(t_list **env, t_cmd_lst *cmd);
+int			new_cmd(t_list **env);
+int			run_command(t_list **env, t_cmd_lst *cmd);
 
 #endif
