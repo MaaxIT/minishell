@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/01 06:16:06 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/08 21:30:10 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	parse_options(t_cmd_lst *cmd_t)
 	int	i;
 	int	idx;
 
-	cmd_t->options_v = malloc(sizeof(char *) * cmd_t->options_c);
+	cmd_t->options_v = malloc(sizeof(char *) * (cmd_t->options_c + 1));
 	if (!cmd_t->options_v)
 		return (0);
 	i = 1;
@@ -59,6 +59,7 @@ static int	parse_options(t_cmd_lst *cmd_t)
 			cmd_t->options_v[idx++] = cmd_t->arg_v[i];	
 		i++;
 	}
+	cmd_t->options_v[idx] = NULL;
 	return (1);
 }
 
@@ -67,7 +68,7 @@ static int	parse_input(t_cmd_lst *cmd_t)
 	int	i;
 	int	idx;
 
-	cmd_t->input_v = malloc(sizeof(char *) * cmd_t->input_c);
+	cmd_t->input_v = malloc(sizeof(char *) * (cmd_t->input_c + 1));
 	if (!cmd_t->input_v)
 		return (0);
 	i = 1;
@@ -78,6 +79,7 @@ static int	parse_input(t_cmd_lst *cmd_t)
 			cmd_t->input_v[idx++] = cmd_t->arg_v[i];	
 		i++;
 	}
+	cmd_t->input_v[idx] = NULL;
 	return (1);
 }
 

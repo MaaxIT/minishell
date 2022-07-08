@@ -31,7 +31,7 @@ static char	**malloc_words(const char *str, char sep)
 	ret = malloc(sizeof(char *) * (nbr_words + 1));
 	if (!ret)
 		return (NULL);
-	ret[nbr_words] = '\0';
+	ret[nbr_words + 1] = NULL;
 	return (ret);
 }
 
