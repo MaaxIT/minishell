@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/08 21:47:15 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/09 00:16:42 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->arg_v = NULL;
 }
 
-t_cmd_lst	*initialize_command(char *line)
+t_cmd_lst	*initialize_command(char *line, t_list *env)
 {
 	t_cmd_lst	*cmd_t;
 	char		**split;
@@ -56,7 +56,7 @@ t_cmd_lst	*initialize_command(char *line)
 		return (NULL);
 	initialize_structure(cmd_t);
 
-	split = split_command(line);
+	split = split_cmd_lst(line);
 	if (!split)
 		return (NULL);
 
@@ -73,5 +73,33 @@ t_cmd_lst	*initialize_command(char *line)
 		parse_options(cmd_t);
 	if (cmd_t->input_c > 0)
 		parse_input(cmd_t);
+	replace_env_var(env, cmd_t);
 	return (cmd_t);
+}
+
+void	edit_parsing_struct(t_cmd_lst *cmd_t, void *old, void *new)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmd_t->arg_c)
+	{
+		if (cmd_t->arg_v[i] == old)
+			cmd_t->arg_v[i] = new;
+		i++;
+	}
+	i = 0;
+	while (i < cmd_t->input_c)
+	{
+		if (cmd_t->input_v[i] == old)
+			cmd_t->input_v[i] = new;
+		i++;
+	}
+	i = 0;
+	while (i < cmd_t->options_c)
+	{
+		if (cmd_t->options_v[i] == old)
+			cmd_t->options_v[i] = new;
+		i++;
+	}
 }

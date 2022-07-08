@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 02:50:08 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/06/30 23:16:33 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/08 22:32:57 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,25 @@ void	ft_bzero(void *str, size_t size)
 	str_cpy = str;
 	while (i < size)
 		str_cpy[i++] = '\0';
+}
+
+/* Memory copy a string */
+char	*ft_strdup(char const *str)
+{
+	size_t	i;
+	size_t	str_len;
+	char	*ptr;
+
+	str_len = ft_strlen((char *)str);
+	ptr = malloc((str_len + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	while (i < str_len)
+	{
+		ptr[i] = str[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }

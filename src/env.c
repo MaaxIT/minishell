@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:55:04 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/08 21:52:03 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/08 23:27:56 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,11 @@ int	init_env_list(t_list **head, char **envp)
 }
 
 /* Get environment structure by its id */
-t_list	*get_env_by_id(t_list **env, char *id)
+t_list	*get_env_by_id(t_list *env, char *id)
 {
 	t_list	*head;
 
-	head = *env;
+	head = env;
 	while (head->next)
 	{
 		if (ft_strncmp(head->id, id, ft_strlen(id)) == 0)

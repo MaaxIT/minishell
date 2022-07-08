@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/08 22:18:02 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/09 00:17:02 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ typedef struct s_list {
 
 /* Example: echo -n Hello world */
 typedef struct	s_cmd_lst {
-	char	*original;		// "echo -n Hello World"
-	char	*binary;		// "echo"
-	int		options_c;		// 1
-	char	**options_v;	// ["-n"]
-	int		input_c;		// 2
-	char	**input_v;		// ["Hello", "World"]
-	int		arg_c;			// 4
-	char	**arg_v;		// ["echo", "-n", "Hello", "World"]
+	char				*original;		// "echo -n Hello World"
+	char				*binary;		// "echo"
+	int					options_c;		// 1
+	char				**options_v;	// ["-n"]
+	int					input_c;		// 2
+	char				**input_v;		// ["Hello", "World"]
+	int					arg_c;			// 4
+	char				**arg_v;		// ["echo", "-n", "Hello", "World"]
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
@@ -86,16 +86,19 @@ int			ft_strincludes(const char *str, char c);
 size_t		ft_strlcat(char *dst, char const *src, size_t nbr);
 char    	*ft_arrjoin(char **split, size_t len, char sep);
 void		ft_bzero(void *str, size_t size);
+char		*ft_strdup(char const *str);
 
 /* Split prototype */
-char    	**split_command(char *cmd);
+char    	**split_cmd_lst(char *cmd);
 
 /* Parsing prototypes */
-t_cmd_lst	*initialize_command(char *line);
+t_cmd_lst	*initialize_command(char *line, t_list *env);
 int			free_command(t_cmd_lst *cmd_t);
 void		parse_counts(t_cmd_lst *cmd_t);
 int			parse_input(t_cmd_lst *cmd_t);
 int			parse_options(t_cmd_lst *cmd_t);
+void		edit_parsing_struct(t_cmd_lst *cmd, void *old, void *new);
+int			replace_env_var(t_list *env, t_cmd_lst *cmd);
 
 /* Errors prototypes */
 int			print_error(int ret);
@@ -103,7 +106,7 @@ int			print_error(int ret);
 /* Environment prototypes */
 int			init_env_list(t_list **head, char **envp);
 int			update_env_return(t_list **env);
-t_list		*get_env_by_id(t_list **env, char *id);
+t_list		*get_env_by_id(t_list *env, char *id);
 
 /* Linked list prototypes */
 void		ft_lstadd_back(t_list **lst, t_list *new);

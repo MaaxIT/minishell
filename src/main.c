@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/01 06:13:39 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/07/09 00:17:35 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	pipe_test_to_del(t_list **env)
 	t_cmd_lst	*cmd2;
 	t_cmd_lst	*cmd3;
 
-	cmd1 = initialize_command("ls");
-	cmd2 = initialize_command("grep mini");
-	cmd3 = initialize_command("wc -l");
+	cmd1 = initialize_command("ls", *env);
+	cmd2 = initialize_command("grep mini", *env);
+	cmd3 = initialize_command("wc -l", *env);
 	cmd1->next = cmd2;
 	cmd2->next = cmd3;
 	cmd3->next = 0;
@@ -55,7 +55,7 @@ int	new_cmd(t_list **env)
 	if (!cmd_str)
 		bi_exit(-1, env);
 	add_history(cmd_str);
-	cmd = initialize_command(cmd_str);
+	cmd = initialize_command(cmd_str, *env);
 	if (!cmd)
 		print_error(0);
 	if (cmd && !run_command(env, cmd))

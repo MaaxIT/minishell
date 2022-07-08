@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/06/28 01:20:31 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/09 00:16:42 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static char **free_split(char **arr)
 }
 
 /* The main function that is splitting the command line and returning a 2D array */
-char    **split_command(char *cmd)
+char    **split_cmd_lst(char *cmd)
 {
     int     splitc;
     char    **splitv;
