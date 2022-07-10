@@ -69,6 +69,7 @@ int	replace_env_var(t_list *env, t_cmd_lst *cmd_t)
 	char	*str;
 	char	*backup;
 
+	i = 0;
 	while (i < cmd_t->input_c)
 	{
 		interpret = manage_arg_quotes(cmd_t, i);
