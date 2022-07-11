@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/10 21:41:36 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/11 06:24:08 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	new_cmd(t_list **env)
 	cmd_t = initialize_command(cmd_str, *env);
 	if (!cmd_t)
 		print_error(0);
-	parsing_test_to_del(cmd_t);
 	if (cmd_t && !run_command(env, cmd_t))
 		print_error(0);		//IS THAT ENOUGH?
 	if (cmd_str)

@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/11 06:23:36 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/11 06:27:14 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	while (i < cmd_t->input_c)
 	{
 		parse_input_quotes(cmd_t->input_v[i], cmd_t->parsing_v[i]);
-		printf("%d:\n-> %s\n-> %s\n-> 0123456789\n\n", i, cmd_t->input_v[i], cmd_t->parsing_v[i]);
+		printf("---- INPUT %d ----\n-> %s            (VALUE)\n-> %s            (PARSING)\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], cmd_t->parsing_v[i]);
 		i++;
 	}
 
@@ -127,7 +127,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				sub = ft_substr(cmd_t->input_v[i], idx - len, len);
 				if (!sub)
 					return (-1);
-				printf("-----> Env var is %s\n", sub);
+				printf("==> Environment variable detected: '%s'\n\n", sub);
 				val = get_env_by_id(env, sub);
 				free(sub);
 				if (val)
