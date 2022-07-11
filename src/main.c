@@ -12,22 +12,6 @@
 
 #include "minishell.h"
 
-void	parsing_test_to_del(t_cmd_lst *cmd_t)
-{
-/*	Parsing test	*/
-
-	printf("- Original: %s\n", cmd_t->original);
-	printf("- Binary: %s\n", cmd_t->binary);
-	printf("- Options count: %i\n", cmd_t->options_c);
-	printf("- Options first value: %s\n", (cmd_t->options_v ? cmd_t->options_v[0] : "No options"));
-	printf("- Input count: %i\n", cmd_t->input_c);
-	printf("- Input first value: %s\n", (cmd_t->input_v ? cmd_t->input_v[0] : "No input"));
-	printf("- Args count: %i\n", cmd_t->arg_c);
-	printf("- Args first value: %s\n", (cmd_t->arg_v ? cmd_t->arg_v[0] : "No args"));
-	// free_command(cmd_t);
-/*	Pars		*/
-}
-
 void	pipe_test_to_del(t_list **env)
 {
 /*	Pipe test	*/
@@ -53,7 +37,7 @@ int	new_cmd(t_list **env)
 
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
 	if (!cmd_str)
-		bi_exit(-1, env);
+		bi_exit(-1, env, NULL);
 	add_history(cmd_str);
 	cmd_t = initialize_command(cmd_str, *env);
 	if (!cmd_t)
@@ -64,6 +48,8 @@ int	new_cmd(t_list **env)
 		free(cmd_str);
 	if (!update_env_return(env))
 		print_error(0);		//IS THAT ENOUGH?
+	if (cmd_t)
+		free_command_lst(cmd_t);
 	new_cmd(env);
 	return (9);
 }

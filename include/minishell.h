@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -57,7 +58,7 @@ int			ft_pipe(t_list **env, t_cmd_lst *cmd);
 int			bi_echo(int fd, t_cmd_lst *cmd);
 int			bi_cd(int fd, t_cmd_lst *cmd);
 int			bi_pwd(int fd);
-int			bi_exit(int fd, t_list **env);
+int			bi_exit(int fd, t_list **env, t_cmd_lst *cmd);
 int			bi_env(int fd, t_list *env);
 int			bi_export(int fd, t_list **env, t_cmd_lst *cmd);
 int			bi_unset(t_list **env, t_cmd_lst *cmd);
@@ -94,7 +95,7 @@ char    	**split_cmd_lst(char *cmd);
 
 /* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line, t_list *env);
-int			free_command(t_cmd_lst *cmd_t);
+int			free_command_lst(t_cmd_lst *cmd);
 void		parse_counts(t_cmd_lst *cmd_t);
 int			parse_input(t_cmd_lst *cmd_t);
 int			parse_options(t_cmd_lst *cmd_t);

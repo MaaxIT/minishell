@@ -16,7 +16,7 @@ int	run_command(t_list **env, t_cmd_lst *cmd)
 	else if (!ft_strncmp(cmd->binary, "pwd", len))
 		err = bi_pwd(fd);
 	else if (!ft_strncmp(cmd->binary, "exit", len))
-		err = bi_exit(fd, env);
+		err = bi_exit(fd, env, cmd);
 	else if (!ft_strncmp(cmd->binary, "env", len))
 		err = bi_env(fd, *env);
 	else if (!ft_strncmp(cmd->binary, "export", len))

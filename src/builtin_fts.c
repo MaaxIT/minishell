@@ -71,10 +71,12 @@ int	bi_pwd(int fd)
 	return (9);
 }
 
-int	bi_exit(int fd, t_list **env)
+int	bi_exit(int fd, t_list **env, t_cmd_lst *cmd)
 {
-	(void)fd;
+	(void)fd; // DELETE
+
 	ft_lstclear(env);
+	free_command_lst(cmd);
 	rl_clear_history();
 	exit(0);
 }

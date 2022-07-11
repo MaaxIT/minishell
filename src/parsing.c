@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	free_command(t_cmd_lst *cmd_t)
+static int	free_command(t_cmd_lst *cmd_t)
 {
 	int	idx;
 
@@ -23,18 +23,31 @@ int	free_command(t_cmd_lst *cmd_t)
 	if (cmd_t->arg_v)
 	{
 		idx = 0;
-		while (idx <= cmd_t->arg_c)
+		while (idx < cmd_t->arg_c)
 			free(cmd_t->arg_v[idx++]);
 		free(cmd_t->arg_v);
 	}
 	if (cmd_t->parsing_v)
 	{
 		idx = 0;
-		while (idx <= cmd_t->input_c)
+		while (idx < cmd_t->input_c)
 			free(cmd_t->parsing_v[idx++]);
 		free(cmd_t->parsing_v);
 	}
 	free(cmd_t);
+	return (0);
+}
+
+int	free_command_lst(t_cmd_lst *cmd)
+{
+	t_cmd_lst	*tmp;
+
+	while (cmd)
+	{
+		tmp = cmd->next;
+		free_command(cmd);
+		cmd = tmp;
+	}
 	return (0);
 }
 
@@ -49,6 +62,7 @@ static void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->arg_c = 0;
 	cmd_t->arg_v = NULL;
 	cmd_t->parsing_v = NULL;
+	cmd_t->next = NULL;
 }
 
 t_cmd_lst	*initialize_command(char *line, t_list *env)
