@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/09 00:16:42 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/11 04:13:07 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,16 @@ int	free_command(t_cmd_lst *cmd_t)
 	if (cmd_t->arg_v)
 	{
 		idx = 0;
-		while (idx < cmd_t->arg_c)
+		while (idx <= cmd_t->arg_c)
 			free(cmd_t->arg_v[idx++]);
 		free(cmd_t->arg_v);
+	}
+	if (cmd_t->parsing_v)
+	{
+		idx = 0;
+		while (idx <= cmd_t->input_c)
+			free(cmd_t->parsing_v[idx++]);
+		free(cmd_t->parsing_v);
 	}
 	free(cmd_t);
 	return (0);
@@ -41,6 +48,7 @@ static void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->input_v = NULL;
 	cmd_t->arg_c = 0;
 	cmd_t->arg_v = NULL;
+	cmd_t->parsing_v = NULL;
 }
 
 t_cmd_lst	*initialize_command(char *line, t_list *env)
@@ -73,7 +81,8 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		parse_options(cmd_t);
 	if (cmd_t->input_c > 0)
 		parse_input(cmd_t);
-	replace_env_var(env, cmd_t);
+	env = (void*)env;
+	parse_quotes(cmd_t, env);
 	return (cmd_t);
 }
 

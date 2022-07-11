@@ -6,89 +6,143 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/09 01:37:48 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/11 06:23:36 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-Know if we need to interpret this arg + remove quotes from it, just keep the arg itself
-return values:
-	- -1: memory error
-	- 0: do not interpret
-	- 1: interpret
+	By default, all chars have meaning
+	D = Escaped by double quotes (no meaning)
+	S = Escaped by simple quotes (no meaning)
+	M = Meaning
+	E = This quote has been managed, remove it from the string
 */
-int manage_arg_quotes(t_cmd_lst *cmd_t, int input_idx)
+int	parse_input_quotes(char *input, char *parse)
 {
-	int		interpret;
-	int		catch_end;
-	int		catch_start;
 	int		i;
-	char	*str;
-	char	*backup;
+	int		idx;
 
-	catch_end = -1;
-	catch_start = 0;
-	interpret = 1;
-	while (cmd_t->input_v[input_idx][i])
+	i = 0;
+	while (input[i])
 	{
-		if ((cmd_t->input_v[input_idx][i] != '\'' && cmd_t->input_v[input_idx][i] != '\"') || catch_end >= 0)
+		if (input[i] == '\"' && parse[i] != 'S')
 		{
-			if (cmd_t->input_v[input_idx][i] == '\'' || cmd_t->input_v[input_idx][i] == '\"')
-				break ;
-			else
-				catch_end = i;
-			i++;
+			parse[i] = 'E';
+			idx = i + 1;
+			while (input[idx] != '\"')
+			{
+				if (input[idx] != '$')
+					parse[idx] = 'D';
+				idx++;
+			}
+			parse[idx] = 'E';
+			i = idx;
 		}
-		else
+		else if (input[i] == '\'' && parse[i] != 'D')
 		{
-			if (cmd_t->input_v[input_idx][i] == '\'')
-				interpret = !interpret;
-			i++;
-			catch_start++;
+			parse[i] = 'E';
+			idx = i + 1;
+			while (input[idx] != '\'')
+				parse[idx++] = 'S';
+			parse[idx] = 'E';
+			i = idx;
 		}
+		i++;
 	}
-	if (catch_end > -1)
-	{
-		str = ft_substr(cmd_t->input_v[input_idx], catch_start, (catch_end - catch_start + 1));
-		if (!str)
-			return (-1);
-		backup = cmd_t->input_v[input_idx];
-		edit_parsing_struct(cmd_t, cmd_t->input_v[input_idx], str);
-		free(backup);
-	}
-	return (interpret);
+	return (0);
 }
 
-int	replace_env_var(t_list *env, t_cmd_lst *cmd_t)
+int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 {
 	int		i;
-	int		interpret;
-	t_list	*found;
-	char	*str;
-	char	*backup;
+	int		idx;
+	size_t	len;
+	t_list	*val;
+	char	*sub;
+	void	*old;
+
+	cmd_t->parsing_v = malloc(sizeof(char *) * (cmd_t->input_c + 1));
 
 	i = 0;
 	while (i < cmd_t->input_c)
 	{
-		interpret = manage_arg_quotes(cmd_t, i);
-		if (interpret == -1)
-			return (-1);
-		if (cmd_t->input_v[i][0] == '$' && interpret == 1)
+		cmd_t->parsing_v[i] = malloc(sizeof(char) * (ft_strlen(cmd_t->input_v[i]) + 1));
+		len = 0;
+		while (len < ft_strlen(cmd_t->input_v[i]))
+			cmd_t->parsing_v[i][len++] = 'M';
+		cmd_t->parsing_v[i][len] = '\0';
+		i++;
+	}
+
+	i = 0;
+	while (i < cmd_t->input_c)
+	{
+		parse_input_quotes(cmd_t->input_v[i], cmd_t->parsing_v[i]);
+		printf("%d:\n-> %s\n-> %s\n-> 0123456789\n\n", i, cmd_t->input_v[i], cmd_t->parsing_v[i]);
+		i++;
+	}
+
+	i = 0;
+	while (i < cmd_t->input_c)
+	{
+		idx = 0;
+		while (cmd_t->input_v[i][idx])
 		{
-			found = get_env_by_id(env, cmd_t->input_v[i] + 1);
-			if (!found)
-				return (-1); // Env ID not found -> return error on the line
-			str = ft_strdup(found->value);
-			if (!str)
-				return (-1); // Memory allocation error -> do smth?
-			backup = cmd_t->input_v[i];
-			edit_parsing_struct(cmd_t, cmd_t->input_v[i], str);
-			free(backup);
+			if (cmd_t->parsing_v[i][idx] == 'E')
+			{
+				cmd_t->input_v[i] = new_str_without_char(cmd_t->input_v[i], idx, 1);
+				cmd_t->parsing_v[i] = new_str_without_char(cmd_t->parsing_v[i], idx, 1);
+			}
+			else
+				idx++;
 		}
 		i++;
 	}
+
+	i = 0;
+	while (i < cmd_t->input_c)
+	{
+		idx = 0;
+		while (cmd_t->input_v[i] && cmd_t->input_v[i][idx])
+		{
+
+			// Hey! The issue here is coming from the fact that when we've done one loop, we are editing the string directly in the struct.
+			// This means that when we're coming back here, idx & parsing stayed the same but the input has changed. Need to fix by doing the same thing as above.
+			// Have fun trying to re-understand your own code and rest in peace.
+
+			if (cmd_t->input_v[i][idx] == '$' && cmd_t->parsing_v[i][idx] == 'M')
+			{
+				len = 0;
+				idx++;
+				while (cmd_t->parsing_v[i][idx] && \
+					(cmd_t->parsing_v[i][idx] == 'D' || cmd_t->parsing_v[i][idx] == 'M') && \
+					cmd_t->input_v[i][idx] != '$')
+				{
+					len++;
+					idx++;
+				}
+				
+				sub = ft_substr(cmd_t->input_v[i], idx - len, len);
+				if (!sub)
+					return (-1);
+				printf("-----> Env var is %s\n", sub);
+				val = get_env_by_id(env, sub);
+				free(sub);
+				if (val)
+				{
+					old = (void *)cmd_t->input_v[i];
+					if (str_replace_sub(cmd_t->input_v[i], val->value, idx - len, idx) == -1)
+						return (-1); // memory error
+					edit_parsing_struct(cmd_t, old, cmd_t->input_v[i]);
+				}
+			}
+			idx++;
+		}
+		i++;
+	}
+
 	return (0);
 }
 

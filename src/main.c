@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/09 00:17:35 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/10 21:41:36 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	parsing_test_to_del(t_cmd_lst *cmd_t)
 	printf("- Input first value: %s\n", (cmd_t->input_v ? cmd_t->input_v[0] : "No input"));
 	printf("- Args count: %i\n", cmd_t->arg_c);
 	printf("- Args first value: %s\n", (cmd_t->arg_v ? cmd_t->arg_v[0] : "No args"));
-	free_command(cmd_t);
+	// free_command(cmd_t);
 /*	Pars		*/
 }
 
@@ -49,16 +49,17 @@ void	pipe_test_to_del(t_list **env)
 int	new_cmd(t_list **env)
 {
 	char	*cmd_str;
-	t_cmd_lst	*cmd;
+	t_cmd_lst	*cmd_t;
 
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
 	if (!cmd_str)
 		bi_exit(-1, env);
 	add_history(cmd_str);
-	cmd = initialize_command(cmd_str, *env);
-	if (!cmd)
+	cmd_t = initialize_command(cmd_str, *env);
+	if (!cmd_t)
 		print_error(0);
-	if (cmd && !run_command(env, cmd))
+	parsing_test_to_del(cmd_t);
+	if (cmd_t && !run_command(env, cmd_t))
 		print_error(0);		//IS THAT ENOUGH?
 	if (cmd_str)
 		free(cmd_str);

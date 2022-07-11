@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/09 00:17:02 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/11 06:01:44 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct	s_cmd_lst {
 	char				**input_v;		// ["Hello", "World"]
 	int					arg_c;			// 4
 	char				**arg_v;		// ["echo", "-n", "Hello", "World"]
+	char				**parsing_v;	// [[MMMM], [MMMM]]
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
@@ -50,7 +51,7 @@ typedef struct	s_cmd_lst {
 void		signals_init();
 
 /* Pipe prototype */
-int		ft_pipe(t_list **env, t_cmd_lst *cmd);
+int			ft_pipe(t_list **env, t_cmd_lst *cmd);
 
 /* Builtins	prototypes */
 int			bi_echo(int fd, t_cmd_lst *cmd);
@@ -98,7 +99,11 @@ void		parse_counts(t_cmd_lst *cmd_t);
 int			parse_input(t_cmd_lst *cmd_t);
 int			parse_options(t_cmd_lst *cmd_t);
 void		edit_parsing_struct(t_cmd_lst *cmd, void *old, void *new);
-int			replace_env_var(t_list *env, t_cmd_lst *cmd);
+int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
+
+/* Memory utils prototypes */
+int			str_replace_sub(char *origin, char *new, size_t start, size_t end);
+char    	*new_str_without_char(char *str, int idx, int freestr);
 
 /* Errors prototypes */
 int			print_error(int ret);
