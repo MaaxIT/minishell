@@ -62,6 +62,9 @@ static void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->arg_c = 0;
 	cmd_t->arg_v = NULL;
 	cmd_t->parsing_v = NULL;
+	cmd_t->input_path = NULL;
+	cmd_t->output_path = NULL;
+	cmd_t->output_type = 0;
 	cmd_t->next = NULL;
 }
 

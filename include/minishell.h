@@ -45,6 +45,9 @@ typedef struct	s_cmd_lst {
 	int					arg_c;			// 4
 	char				**arg_v;		// ["echo", "-n", "Hello", "World"]
 	char				**parsing_v;	// [[MMMM], [MMMM]]
+	char				*input_path;
+	char				*output_path;
+	char				output_type; // R = replace (>), A = APPEND (>>)
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
@@ -70,6 +73,7 @@ char		**find_paths(t_list *env, const char *cmd);
 int			ewp_clear(int ret, char **paths, char **env);
 
 /* Redirections prototypes */
+int			rd_input(char *path);
 int			rd_output(char *path);
 int			rd_output_append(char *path);
 void		rd_delimiter(char *delimiter);

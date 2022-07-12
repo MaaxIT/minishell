@@ -12,19 +12,25 @@
 
 #include "minishell.h"
 
+int	rd_input(char *path)
+{
+	int	fd;
+
+	if (!path)
+		fd = dup(STDIN_FILENO);
+	else
+		fd = open(path, O_RDONLY);
+	return (fd);
+}
+
 int	rd_output(char *path)
 {
 	int	fd;
 
 	if (!path)
-		fd = 1;
+		fd = dup(STDOUT_FILENO);
 	else
-	{
-		if (!access(path, W_OK) || access(path, F_OK) == -1)
-			fd = open(path, O_WRONLY | O_CREAT);
-		else
-			fd = -1;
-	}
+		fd = open(path, O_WRONLY | O_CREAT);
 	return (fd);
 }
 
@@ -33,14 +39,15 @@ int	rd_output_append(char *path)
 	int	fd;
 
 	if (!path)
-		fd = 1;
+		fd = dup(STDOUT_FILENO);
 	else
-	{
+/*	{
 		if (!access(path, W_OK) || access(path, F_OK) == -1)
-			fd = open(path, O_WRONLY | O_APPEND | O_CREAT);
-		else
+*/			fd = open(path, O_WRONLY | O_APPEND | O_CREAT);
+/*		else
 			fd = -1;
 	}
+*/
 	return (fd);
 }
 

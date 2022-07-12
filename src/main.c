@@ -22,6 +22,9 @@ void	pipe_test_to_del(t_list **env)
 	cmd1 = initialize_command("ls", *env);
 	cmd2 = initialize_command("grep mini", *env);
 	cmd3 = initialize_command("wc -l", *env);
+	cmd1->output_path = "./ok";
+	cmd1->output_type = 'R';
+	cmd3->input_path = "./ok";
 	cmd1->next = cmd2;
 	cmd2->next = cmd3;
 	cmd3->next = 0;
