@@ -17,7 +17,7 @@ int	rd_input(char *path)
 	int	fd;
 
 	if (!path)
-		fd = dup(STDIN_FILENO);
+		fd = dup(STDIN_FILENO); // PROTECTIONS IN THE WHOLE FILE
 	else
 		fd = open(path, O_RDONLY);
 	return (fd);

@@ -20,18 +20,14 @@ void	pipe_test_to_del(t_list **env)
 	t_cmd_lst	*cmd3;
 
 	cmd1 = initialize_command("ls", *env);
-	cmd2 = initialize_command("grep mini", *env);
+	cmd2 = initialize_command("exit", *env);
 	cmd3 = initialize_command("wc -l", *env);
-	cmd1->output_path = "./ok";
-	cmd1->output_type = 'R';
-	cmd3->input_path = "./ok";
 	cmd1->next = cmd2;
 	cmd2->next = cmd3;
 	cmd3->next = 0;
 	ft_pipe(env, cmd1);
 /*	Pipe		*/
 }
-
 
 int	new_cmd(t_list **env)
 {
@@ -45,7 +41,7 @@ int	new_cmd(t_list **env)
 	cmd_t = initialize_command(cmd_str, *env);
 	if (!cmd_t)
 		print_error(0);
-	if (cmd_t && !run_command(env, cmd_t))
+	if (cmd_t && !run(env, cmd_t))
 		print_error(0);		//IS THAT ENOUGH?
 	if (cmd_str)
 		free(cmd_str);

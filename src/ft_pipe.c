@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	run_cmd_pipe(t_list **env, int pipefd[2], int tempfd, t_cmd_lst *cmd)
+static int	run_cmd_pipe(t_list **env, int pipefd[2], int tempfd, t_cmd_lst *cmd, t_cmd_lst *top_cmd)
 {
 	if (close(pipefd[0]) == -1)
 		return (0);
@@ -10,7 +10,7 @@ static int	run_cmd_pipe(t_list **env, int pipefd[2], int tempfd, t_cmd_lst *cmd)
 		return (0);
 	if (close(pipefd[1]) == -1)
 		return (0);
-	run_command(env, cmd);
+	run_command(env, cmd, top_cmd);
 	exit(9);
 }
 
@@ -46,7 +46,9 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 	int	pipefd[2];
 	int	pid;
 	int	readfd;
+	t_cmd_lst	*top_cmd;
 
+	top_cmd = cmd;
 	readfd = dup(STDIN_FILENO);
 	while (cmd)
 	{
@@ -56,7 +58,7 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 			return (0); // NEED TO CLOSE PIPEFDS BEFORE RETURNING, NOT YET READY
 		pid = fork();
 		if (!pid)
-			run_cmd_pipe(env, pipefd, readfd, cmd);
+			run_cmd_pipe(env, pipefd, readfd, cmd, top_cmd);
 		close(readfd);
 		readfd = dup(pipefd[0]);
 		close(pipefd[0]);
@@ -65,5 +67,5 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 		cmd = cmd->next;
 	}
 	close(readfd);
-	return (0);
+	return (9);
 }
