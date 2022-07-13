@@ -37,18 +37,21 @@ int	new_cmd(t_list **env)
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
 	if (!cmd_str)
 		bi_exit(-1, env, NULL);
-	add_history(cmd_str);
-	cmd_t = initialize_command(cmd_str, *env);
-	if (!cmd_t)
-		print_error(0);
-	if (cmd_t && !run(env, cmd_t))
-		print_error(0);		//IS THAT ENOUGH?
+	if (cmd_str[0] != '\0')
+	{
+		add_history(cmd_str);
+		cmd_t = initialize_command(cmd_str, *env);
+		if (!cmd_t)
+			print_error(0);
+		if (cmd_t && !run(env, cmd_t))
+			print_error(0);		//IS THAT ENOUGH?
+		if (cmd_t)
+			free_command_lst(cmd_t);
+		if (!update_env_return(env))
+			print_error(0);		//IS THAT ENOUGH?
+	}
 	if (cmd_str)
 		free(cmd_str);
-	if (!update_env_return(env))
-		print_error(0);		//IS THAT ENOUGH?
-	if (cmd_t)
-		free_command_lst(cmd_t);
 	new_cmd(env);
 	return (9);
 }
