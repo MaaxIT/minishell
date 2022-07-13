@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/11 06:01:44 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/13 22:40:55 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,18 @@ void		rd_delimiter(char *delimiter);
 size_t		ft_strlen(const char *str);
 int			ft_putstr_fd(int fd, char *str);
 char		*ft_substr(const char *s, unsigned int start, size_t len);
-size_t		ft_strlcpy(char *dst, char const *src, size_t n);
-int			ft_strncmp(char const *s1, char const *s2, size_t nbr);
+size_t		ft_strlcpy(char *dst, const char *src, size_t n);
+int			ft_strncmp(const char *s1, const char *s2, size_t nbr);
 char		*ft_itoa(int nbr);
 char		*ft_strjoin(const char *s1, const char *s2);
 char		**ft_split(const char *str, char sep);
 void		ft_free_2d_table(char **to_free);
 int			ft_strincludes(const char *str, char c);
-size_t		ft_strlcat(char *dst, char const *src, size_t nbr);
+size_t		ft_strlcat(char *dst, const char *src, size_t nbr);
 char    	*ft_arrjoin(char **split, size_t len, char sep);
 void		ft_bzero(void *str, size_t size);
-char		*ft_strdup(char const *str);
+char		*ft_strdup(const char *str);
+char		*ft_strtrim(const char *s1, const char *set);
 
 /* Split prototype */
 char    	**split_cmd_lst(char *cmd);
@@ -109,6 +110,7 @@ int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 /* Memory utils prototypes */
 int			str_replace_sub(char *origin, char *new, size_t start, size_t end);
 char    	*new_str_without_char(char *str, int idx, int freestr);
+char    	*insert_str_at_index(char *str, char *to_insert, int idx);
 
 /* Errors prototypes */
 int			print_error(int ret);

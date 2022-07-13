@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/11 04:13:07 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/13 21:55:40 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,36 +71,56 @@ static void	initialize_structure(t_cmd_lst *cmd_t)
 t_cmd_lst	*initialize_command(char *line, t_list *env)
 {
 	t_cmd_lst	*cmd_t;
+	t_cmd_lst	*head;
+	t_cmd_lst	*head_bckp;
+	char		**pipe_split;
 	char		**split;
+	int			i;
 	int			idx;
 
 	if (!line)
 		return (NULL);
-	cmd_t = malloc(sizeof(t_cmd_lst));
-	if (!cmd_t)
-		return (NULL);
-	initialize_structure(cmd_t);
-
-	split = split_cmd_lst(line);
-	if (!split)
+	pipe_split = ft_split(line, '|');
+	if (!pipe_split)
 		return (NULL);
 
-	idx = 0;
-	while (split[idx])
-		idx++;
-	
-	cmd_t->original = line;
-	cmd_t->arg_c = idx;
-	cmd_t->arg_v = split;
-	cmd_t->binary = cmd_t->arg_v[0];
-	parse_counts(cmd_t);
-	if (cmd_t->options_c > 0)
-		parse_options(cmd_t);
-	if (cmd_t->input_c > 0)
-		parse_input(cmd_t);
-	env = (void*)env;
-	parse_quotes(cmd_t, env);
-	return (cmd_t);
+	i = 0;
+	while (pipe_split[i])
+	{
+		cmd_t = malloc(sizeof(t_cmd_lst));
+		if (!cmd_t)
+			return (NULL);
+		initialize_structure(cmd_t);
+
+		split = split_cmd_lst(pipe_split[i]);
+		if (!split)
+			return (NULL);
+
+		idx = 0;
+		while (split[idx])
+			idx++;
+		
+		cmd_t->original = pipe_split[i];
+		cmd_t->arg_c = idx;
+		cmd_t->arg_v = split;
+		cmd_t->binary = cmd_t->arg_v[0];
+		parse_counts(cmd_t);
+		if (cmd_t->options_c > 0)
+			parse_options(cmd_t);
+		if (cmd_t->input_c > 0)
+			parse_input(cmd_t);
+		parse_quotes(cmd_t, env);
+
+		if (i == 0)
+		{
+			head_bckp = cmd_t;
+			head = cmd_t;
+		}
+		else if (pipe_split[i + 1])
+			head->next = cmd_t;
+		i++;
+	}
+	return (head_bckp);
 }
 
 void	edit_parsing_struct(t_cmd_lst *cmd_t, void *old, void *new)
