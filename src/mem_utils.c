@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/11 06:01:41 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 00:56:03 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,20 @@ char    *new_str_without_char(char *str, int idx, int freestr)
     if (freestr)
         free(str);
     return (new);
+}
+
+/* Generate a new string with a repeating character */
+char    *ft_strdup_char(char c, size_t repeats)
+{
+    size_t  j;
+    char    *sub;
+    
+    sub = malloc(sizeof(char) * (repeats + 1));
+    if (!sub)
+        return (NULL); 
+    j = 0;
+    while (j < repeats)
+        sub[j++] = c;
+    sub[j] = '\0';
+    return (sub);
 }

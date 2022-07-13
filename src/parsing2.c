@@ -6,11 +6,29 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/13 22:08:19 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 00:59:01 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	sync_input_args(t_cmd_lst *cmd_t)
+{
+	int	idx;
+	int	offset;
+
+	offset = 1 + cmd_t->options_c;
+	idx = offset;
+	while (idx < cmd_t->arg_c && (idx - offset) < cmd_t->input_c)
+	{
+		if (cmd_t->arg_v[idx] != cmd_t->input_v[(idx - offset)])
+		{
+			free(cmd_t->arg_v[idx]);
+			cmd_t->arg_v[idx] = cmd_t->input_v[(idx - offset)];
+		}
+		idx++;
+	}
+}
 
 /*
 	By default, all chars have meaning
@@ -61,7 +79,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	size_t	len;
 	t_list	*val;
 	char	*sub;
-	void	*old;
 
 	cmd_t->parsing_v = malloc(sizeof(char *) * (cmd_t->input_c + 1));
 
@@ -124,40 +141,31 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 					return (-1);
 				printf("==> Environment variable detected: |%s|\n\n", sub);
 				val = get_env_by_id(env, sub);
-				old = (void *)cmd_t->input_v[i];
+				free(sub);
 				if (val)
 				{
 					if (str_replace_sub(cmd_t->input_v[i], val->value, idx - len, idx) == -1)
 						return (-1); // memory error
+					sub = ft_strdup_char('D', ft_strlen(val->value));
+					if (!sub)
+						return (-1); // memory error
+					if (str_replace_sub(cmd_t->parsing_v[i], sub, idx - len, idx) == -1)
+						return (-1); // memory error
+					free(sub);
 				}
 				else
 				{
 					if (str_replace_sub(cmd_t->input_v[i], "", idx - len, idx) == -1)
 						return (-1); // memory error
+					if (str_replace_sub(cmd_t->parsing_v[i], "", idx - len, idx) == -1)
+						return (-1); // memory error
 				}
-
-				size_t j = 0;
-
-				char *sub2 = malloc(sizeof(char) * (ft_strlen(val->value) + 1));
-				
-				while (j < ft_strlen(val->value))
-					sub2[j++] = 'D';
-				sub2[j] = '\0';
-				edit_parsing_struct(cmd_t, old, cmd_t->input_v[i]);
-
-				free(sub);
-				old = (void *)cmd_t->parsing_v[i];
-
-				str_replace_sub(cmd_t->parsing_v[i], sub2, idx - len, idx);
-				free(sub2);
-				edit_parsing_struct(cmd_t, old, cmd_t->parsing_v[i]);
+				sync_input_args(cmd_t);
 			}
 			idx++;
 		}
 		i++;
 	}
-	printf("Command '%s' (%s) parsed\n", cmd_t->original, cmd_t->binary);
-	printf("%s %s %s\n", cmd_t->arg_v[0], cmd_t->arg_v[1], cmd_t->arg_v[2]);
 	return (0);
 }
 

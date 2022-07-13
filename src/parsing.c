@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/13 21:55:40 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 00:37:27 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,31 +121,4 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		i++;
 	}
 	return (head_bckp);
-}
-
-void	edit_parsing_struct(t_cmd_lst *cmd_t, void *old, void *new)
-{
-	int	i;
-
-	i = 0;
-	while (i < cmd_t->arg_c)
-	{
-		if (cmd_t->arg_v[i] == old)
-			cmd_t->arg_v[i] = new;
-		i++;
-	}
-	i = 0;
-	while (i < cmd_t->input_c)
-	{
-		if (cmd_t->input_v[i] == old)
-			cmd_t->input_v[i] = new;
-		i++;
-	}
-	i = 0;
-	while (i < cmd_t->options_c)
-	{
-		if (cmd_t->options_v[i] == old)
-			cmd_t->options_v[i] = new;
-		i++;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/13 22:40:55 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 00:54:23 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,13 @@ int			free_command_lst(t_cmd_lst *cmd);
 void		parse_counts(t_cmd_lst *cmd_t);
 int			parse_input(t_cmd_lst *cmd_t);
 int			parse_options(t_cmd_lst *cmd_t);
-void		edit_parsing_struct(t_cmd_lst *cmd, void *old, void *new);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 
 /* Memory utils prototypes */
 int			str_replace_sub(char *origin, char *new, size_t start, size_t end);
 char    	*new_str_without_char(char *str, int idx, int freestr);
 char    	*insert_str_at_index(char *str, char *to_insert, int idx);
+char    	*ft_strdup_char(char c, size_t repeats);
 
 /* Errors prototypes */
 int			print_error(int ret);
