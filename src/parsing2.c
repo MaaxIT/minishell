@@ -157,7 +157,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		i++;
 	}
 	printf("Command '%s' (%s) parsed\n", cmd_t->original, cmd_t->binary);
-	printf("%s %s %s\n", cmd_t->arg_v[0], cmd_t->arg_v[1], cmd_t->arg_v[2]);
 	return (0);
 }
 
