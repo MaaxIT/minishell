@@ -89,12 +89,12 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	{
 		cmd_t = malloc(sizeof(t_cmd_lst));
 		if (!cmd_t)
-			return (NULL);
+			return (NULL); // NOT ENOUGH, FREE PIPESPLT FST
 		initialize_structure(cmd_t);
 
 		split = split_cmd_lst(pipe_split[i]);
 		if (!split)
-			return (NULL);
+			return (NULL); // NOT ENOUGH, NEED TO FREE PIPESPLT
 
 		idx = 0;
 		while (split[idx])
@@ -116,8 +116,11 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 			head_bckp = cmd_t;
 			head = cmd_t;
 		}
-		else if (pipe_split[i + 1])
+		else
+		{
 			head->next = cmd_t;
+			head = head->next;
+		}
 		i++;
 	}
 	return (head_bckp);

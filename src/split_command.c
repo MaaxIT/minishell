@@ -36,7 +36,7 @@ static int  quotes_even(char *cmd)
 }
 
 /* Count the amount of splits we will have in order to pre-allocate */
-static int  count_splits(char *cmd)
+/*static */int  count_splits(char *cmd)
 {
     int     i;
     int     idx;
@@ -47,14 +47,20 @@ static int  count_splits(char *cmd)
     i = 0;
     while (cmd[i])
     {
-        if ((cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
-            capt = !capt;
-        else if (cmd[i] == ' ' && !capt)
+	while (cmd[i] && cmd[i] == ' ' && !capt)
+		i++;
+        if (cmd[i] && (cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
+        {
+		if (!capt)
+			idx++;
+		capt = !capt;
+	}
+        else if (cmd[i] && cmd[i] != ' ' && !capt)
             idx++;
+	while (cmd[i + 1] && cmd[i + 1] != ' ' && !capt)
+		i++;
         i++;
     }
-    if (i > 0)
-        idx++;
     return (idx);
 }
 
@@ -68,18 +74,22 @@ static int  split_with_quotes(char *cmd, char **arr)
 
     idx = 0;
     capt = 0;
-    last = 0;
     i = 0;
+    while (cmd[i] && cmd[i] == ' ')
+    	i++;
+    last = i;
     while (cmd[i])
     {
-        if ((cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
+        if (cmd[i] && (cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
             capt = !capt;
-        else if (cmd[i] == ' ' && !capt)
+        else if (cmd[i] && cmd[i] == ' ' && !capt)
         {
             arr[idx] = ft_substr(cmd, last, i - last);
             if (!arr[idx])
                 return (-1); // Memory error
             idx++;
+	    while (cmd[i + 1] && cmd[i + 1] == ' ')
+	    	i++;
             last = i + 1;
         }
         i++;
@@ -115,7 +125,7 @@ char    **split_cmd_lst(char *cmd)
     if (!cmd)
         return (NULL); // In case cmd is invalid
     if (!quotes_even(cmd))
-        return (NULL); // In case quotes are not closed
+        return (NULL); // In case quotes are not closed, SHOULD STILL WORK
     splitc = count_splits(cmd);
     if (splitc <= 0)
         return (NULL); // In case cmd is empty
