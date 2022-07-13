@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/14 00:59:51 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 01:29:40 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				sub = ft_substr(cmd_t->input_v[i], idx - len, len);
 				if (!sub)
 					return (-1);
-				printf("==> Environment variable detected: |%s|\n\n", sub);
+				printf("==> Environment variable detected: |%s|\n", sub);
 				val = get_env_by_id(env, sub);
 				free(sub);
 				if (val)
@@ -152,6 +152,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 					if (str_replace_sub(cmd_t->parsing_v[i], sub, idx - len, idx) == -1)
 						return (-1); // memory error
 					free(sub);
+					idx += (ft_strlen(val->value) - (len + 2));
 				}
 				else
 				{
@@ -159,6 +160,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 						return (-1); // memory error
 					if (str_replace_sub(cmd_t->parsing_v[i], "", idx - len, idx) == -1)
 						return (-1); // memory error
+					idx -= (len + 2);
 				}
 				sync_input_args(cmd_t);
 			}
@@ -166,6 +168,14 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		}
 		i++;
 	}
+
+	// i = 0;
+	// while (i < cmd_t->input_c)
+	// {
+	// 	printf("---- INPUT BEFORE %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], ft_strlen(cmd_t->input_v[i]), cmd_t->parsing_v[i], ft_strlen(cmd_t->parsing_v[i]));
+	// 	i++;
+	// }
+
 	return (0);
 }
 
