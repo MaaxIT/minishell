@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:55:04 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/08 23:27:56 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:52:36 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ t_list	*get_env_by_id(t_list *env, char *id)
 	t_list	*head;
 
 	head = env;
-	while (head->next)
+	while (head)
 	{
-		if (ft_strncmp(head->id, id, ft_strlen(id)) == 0)
+		if (ft_strncmp(head->id, id, ft_strlen(head->id)) == 0)
 			return (head);
 		head = head->next;
 	}
