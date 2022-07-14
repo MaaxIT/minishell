@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/14 00:56:03 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 03:55:56 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int str_replace_sub(char *origin, char *new, size_t start, size_t end)
     if (!backup)
         return (-1);
     free(origin);
-    origin = malloc(sizeof(char) * (start + ft_strlen(new)));
+    origin = malloc(sizeof(char) * (start + ft_strlen(new) + 1));
     if (!origin)
     {
         origin = backup;

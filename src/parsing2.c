@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/14 03:35:33 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 03:56:29 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,92 +33,67 @@ void	sync_input_args(t_cmd_lst *cmd_t)
 int	parse_redirections(t_cmd_lst *cmd_t)
 {
 	int		i;
+	int		j;
 	int		idx;
 	int		done;
+	char	c;
+	char	**path_type;
 
-	i = 0;
-	while (i < cmd_t->arg_c)
+	path_type = &cmd_t->output_path;
+	c = '>';
+	j = 0;
+	while (j < 2)
 	{
-		idx = 0;
-		while (cmd_t->arg_v[i][idx])
+		if (j == 1)
 		{
-			done = 0;
-			if (cmd_t->arg_v[i][idx] == '>')
-			{
-				cmd_t->output_type = 'R';
-				if (cmd_t->arg_v[i][idx + 1] == '>')
-				{
-					cmd_t->output_type = 'A';
-					idx++;	
-				}
-				if (cmd_t->arg_v[i][idx + 1])
-				{
-					cmd_t->output_path = ft_strdup(&cmd_t->arg_v[i][idx + 1]);
-					if (!cmd_t->output_path)
-						return (-1); // memory error
-					str_replace_sub(cmd_t->arg_v[i], "", idx + 1, ft_strlen(cmd_t->arg_v[i]));
-					done = 1;
-				}
-				else if (cmd_t->arg_v[i + 1])
-				{
-					cmd_t->output_path = ft_strdup(cmd_t->arg_v[i + 1]); // here and above - instead of using strdup - looping until we found another > or \0
-					if (!cmd_t->output_path)
-						return (-1); // memory error
-					str_replace_sub(cmd_t->arg_v[i], "", 0, ft_strlen(cmd_t->arg_v[i]));
-					str_replace_sub(cmd_t->arg_v[i + 1], "", 0, ft_strlen(cmd_t->arg_v[i + 1]));
-					done = 1;
-				}
-				if (done == 0)
-					cmd_t->output_type = 0;
-			}
-			idx++;
+			path_type = &cmd_t->input_path;
+			c = '<';
 		}
-		i++;
-	}
-	
-	i = 0;
-	while (i < cmd_t->arg_c)
-	{
-		idx = 0;
-		while (cmd_t->arg_v[i][idx])
+		i = 0;
+		while (i < cmd_t->arg_c)
 		{
-			done = 0;
-			if (cmd_t->arg_v[i][idx] == '<')
+			idx = 0;
+			while (cmd_t->arg_v[i][idx])
 			{
-				cmd_t->output_type = 'R';
-				if (cmd_t->arg_v[i][idx + 1] == '<')
+				done = 0;
+				if (cmd_t->arg_v[i][idx] == c)
 				{
-					cmd_t->output_type = 'A';
-					idx++;	
+					cmd_t->output_type = 'R';
+					if (cmd_t->arg_v[i][idx + 1] == c)
+					{
+						cmd_t->output_type = 'A';
+						idx++;	
+					}
+					if (cmd_t->arg_v[i][idx + 1])
+					{
+						*path_type = ft_strdup(&cmd_t->arg_v[i][idx + 1]);
+						if (!*path_type)
+							return (-1); // memory error
+						str_replace_sub(cmd_t->arg_v[i], "", idx + 1, ft_strlen(cmd_t->arg_v[i]));
+						done = 1;
+					}
+					else if (cmd_t->arg_v[i + 1])
+					{
+						*path_type = ft_strdup(cmd_t->arg_v[i + 1]); // here and above - instead of using strdup - looping until we found another > or \0
+						if (!*path_type)
+							return (-1); // memory error
+						str_replace_sub(cmd_t->arg_v[i], "", 0, ft_strlen(cmd_t->arg_v[i]));
+						str_replace_sub(cmd_t->arg_v[i + 1], "", 0, ft_strlen(cmd_t->arg_v[i + 1]));
+						done = 1;
+					}
+					if (done == 0)
+						cmd_t->output_type = 0;
 				}
-				if (cmd_t->arg_v[i][idx + 1])
-				{
-					cmd_t->input_path = ft_strdup(&cmd_t->arg_v[i][idx + 1]);
-					if (!cmd_t->input_path)
-						return (-1); // memory error
-					str_replace_sub(cmd_t->arg_v[i], "", idx + 1, ft_strlen(cmd_t->arg_v[i]));
-					done = 1;
-				}
-				else if (cmd_t->arg_v[i + 1])
-				{
-					cmd_t->input_path = ft_strdup(cmd_t->arg_v[i + 1]); // here and above - instead of using strdup - looping until we found another > or \0
-					if (!cmd_t->input_path)
-						return (-1); // memory error
-					str_replace_sub(cmd_t->arg_v[i], "", 0, ft_strlen(cmd_t->arg_v[i]));
-					str_replace_sub(cmd_t->arg_v[i + 1], "", 0, ft_strlen(cmd_t->arg_v[i + 1]));
-					done = 1;
-				}
-				if (done == 0)
-					cmd_t->output_type = 0;
+				idx++;
 			}
-			idx++;
+			i++;
 		}
-		i++;
+		j++;
 	}
 
 	for (i = 0; i < cmd_t->arg_c; i++)
 		printf("%d: %s\n", i, cmd_t->arg_v[i]);
-	printf("Path: %s\n", cmd_t->input_path);
+	printf("Path: %s(input) %s(output)\n", cmd_t->input_path, cmd_t->output_path);
 	printf("Type: %c\n", cmd_t->output_type);
 
 	return (0);
