@@ -77,9 +77,18 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strdup(cmd_t->arg_v[i + 1]); // here and above - instead of using strdup - looping until we found another > or \0
 						if (!*path_type)
 							return (-1); // memory error
-						str_replace_sub(cmd_t->arg_v[i], "", 0, ft_strlen(cmd_t->arg_v[i]));
-						str_replace_sub(cmd_t->arg_v[i + 1], "", 0, ft_strlen(cmd_t->arg_v[i + 1]));
+						cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+						if (!cmd_t->arg_v)
+							return (0); // What to do here?
+						cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+						if (!cmd_t->arg_v)
+							return (0); // What to do here?
+// OLD CODE					//str_replace_sub(cmd_t->arg_v[i], "", 0, ft_strlen(cmd_t->arg_v[i]));
+// OLD CODE					//str_replace_sub(cmd_t->arg_v[i + 1], "", 0, ft_strlen(cmd_t->arg_v[i + 1]));
+						idx = 0;
+						i = -1;
 						done = 1;
+						break;
 					}
 					if (done == 0)
 						cmd_t->output_type = 0;

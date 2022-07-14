@@ -7,10 +7,17 @@ char	**ft_pop(char **tab, int idx, int tabsize)
 	int	j;
 
 	if (idx >= tabsize || !tab)
+	{
+		ft_free_2d_table(tab);
 		return (0);
-	ret = malloc(sizeof(char *) * tabsize - 1);
+	}
+	ret = malloc(sizeof(char *) * tabsize);
 	if (!ret)
+	{
+		ft_free_2d_table(tab);
 		return (NULL);
+	}
+	ret[tabsize - 1] = NULL;
 	i = 0;
 	j = 0;
 	while (j < tabsize && i < tabsize - 1)
@@ -23,5 +30,6 @@ char	**ft_pop(char **tab, int idx, int tabsize)
 	}
 	free(tab[idx]);
 	free(tab);
+	i = 0;
 	return (ret);
 }
