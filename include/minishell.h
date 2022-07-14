@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/14 00:54:23 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 03:24:18 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct	s_cmd_lst {
 	char				**parsing_v;	// [[MMMM], [MMMM]]
 	char				*input_path;
 	char				*output_path;
-	char				output_type; // R = replace (>), A = APPEND (>>)
+	char				output_type; 	// R = replace (>), A = APPEND (>>)
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
@@ -105,6 +105,7 @@ void		parse_counts(t_cmd_lst *cmd_t);
 int			parse_input(t_cmd_lst *cmd_t);
 int			parse_options(t_cmd_lst *cmd_t);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
+int			parse_redirections(t_cmd_lst *cmd_t);
 
 /* Memory utils prototypes */
 int			str_replace_sub(char *origin, char *new, size_t start, size_t end);
