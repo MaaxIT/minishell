@@ -107,6 +107,7 @@ int			parse_input(t_cmd_lst *cmd_t);
 int			parse_options(t_cmd_lst *cmd_t);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 int			parse_redirections(t_cmd_lst *cmd_t);
+int			update_inputsv_optionsv_after_redir(t_cmd_lst *cmd);
 
 /* Memory utils prototypes */
 int			str_replace_sub(char *origin, char *new, size_t start, size_t end);

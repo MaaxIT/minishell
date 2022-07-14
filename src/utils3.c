@@ -30,6 +30,5 @@ char	**ft_pop(char **tab, int idx, int tabsize)
 	}
 	free(tab[idx]);
 	free(tab);
-	i = 0;
 	return (ret);
 }
