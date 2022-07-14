@@ -102,12 +102,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
-
-	for (i = 0; i < cmd_t->arg_c; i++)
-		printf("%d: %s\n", i, cmd_t->arg_v[i]);
-	printf("Path: %s(input) %s(output)\n", cmd_t->input_path, cmd_t->output_path);
-	printf("Type: %c\n", cmd_t->output_type);
-
 	return (0);
 }
 
@@ -178,7 +172,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	while (i < cmd_t->input_c)
 	{
 		parse_input_quotes(cmd_t->input_v[i], cmd_t->parsing_v[i]);
-		// printf("---- INPUT BEFORE %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], ft_strlen(cmd_t->input_v[i]), cmd_t->parsing_v[i], ft_strlen(cmd_t->parsing_v[i]));
 		i++;
 	}
 
@@ -220,7 +213,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				sub = ft_substr(cmd_t->input_v[i], idx - len, len);
 				if (!sub)
 					return (-1);
-				printf("==> Environment variable detected: |%s|\n", sub);
 				val = get_env_by_id(env, sub);
 				free(sub);
 				if (val)
@@ -249,14 +241,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		}
 		i++;
 	}
-
-	// i = 0;
-	// while (i < cmd_t->input_c)
-	// {
-	// 	printf("---- INPUT BEFORE %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], ft_strlen(cmd_t->input_v[i]), cmd_t->parsing_v[i], ft_strlen(cmd_t->parsing_v[i]));
-	// 	i++;
-	// }
-
 	return (0);
 }
 
