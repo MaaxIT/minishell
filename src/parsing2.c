@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/14 03:56:29 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/14 19:14:57 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strdup(&cmd_t->arg_v[i][idx + 1]);
 						if (!*path_type)
 							return (-1); // memory error
-						str_replace_sub(cmd_t->arg_v[i], "", idx + 1, ft_strlen(cmd_t->arg_v[i]));
+						if (cmd_t->output_type == 'A')
+							str_replace_sub(cmd_t->arg_v[i], "", idx, ft_strlen(cmd_t->arg_v[i]));
+						else
+							str_replace_sub(cmd_t->arg_v[i], "", idx + 1, ft_strlen(cmd_t->arg_v[i]));
 						done = 1;
 					}
 					else if (cmd_t->arg_v[i + 1])
