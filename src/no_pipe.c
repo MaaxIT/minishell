@@ -23,32 +23,18 @@ static int	get_out_fd(t_cmd_lst *cmd)
 
 static int	run_no_pipe(t_list **env, t_cmd_lst *cmd, int in_fd, int out_fd)
 {
-//	int	pid;
 	int	in;
 	int	out;
 
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
 
-/*	if (ft_strncmp(cmd->binary, "exit", ft_strlen("exit")))
-	{
-		pid = fork();
-		if (pid == -1)
-			return (0);
-		if (!pid)
-		{
-*/			dup2(in_fd, STDIN_FILENO);
-			dup2(out_fd, STDOUT_FILENO); // PROTECTION FOR ALL THIS
-/*			exit(run_command(env, cmd, cmd)); // HOW TO GET RETURN VALUE FOR ERRORS????
-		}
-		waitpid(pid, NULL, 0);
-	}
-	else
-		bi_exit(out_fd, env, cmd);
-*/		
+	dup2(in_fd, STDIN_FILENO);
+	dup2(out_fd, STDOUT_FILENO); // PROTECTION FOR ALL THIS
 	run_command(env, cmd, cmd);
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
+	close_fd(in, out); // PROTECTION
 	return (9);
 }
 

@@ -94,6 +94,7 @@ char    	*ft_arrjoin(char **split, size_t len, char sep);
 void		ft_bzero(void *str, size_t size);
 char		*ft_strdup(const char *str);
 char		*ft_strtrim(const char *s1, const char *set);
+char		**ft_pop(char **tab, int idx, int tabsize);
 
 /* Split prototype */
 char    	**split_cmd_lst(char *cmd);
