@@ -29,7 +29,7 @@ static char	**malloc_words(const char *str, char sep)
 		else if (str[i] == '\"')
 			i = find_closing_quote_idx(str, i + 1, '\"');
 	}
-	ret = malloc(sizeof(char *) * nbr_words);
+	ret = malloc(sizeof(char *) * (nbr_words + 1));
 	if (!ret)
 		return (NULL);
 	ret[nbr_words] = NULL;
