@@ -6,25 +6,24 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 03:02:46 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 06:19:35 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sync_input_args(t_cmd_lst *cmd_t)
+void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 {
 	int	idx;
-	int	offset;
 
-	offset = 1 + cmd_t->options_c;
-	idx = offset;
-	while (idx < cmd_t->arg_c && (idx - offset) < cmd_t->input_c)
+	idx = 0;
+	while (idx < cmd_t->arg_c)
 	{
-		if (cmd_t->arg_v[idx] != cmd_t->input_v[(idx - offset)])
+		if (ft_strncmp(cmd_t->arg_v[idx], old_input, -1) == 0)
 		{
 			free(cmd_t->arg_v[idx]);
-			cmd_t->arg_v[idx] = cmd_t->input_v[(idx - offset)];
+			cmd_t->arg_v[idx] = new_input;
+			break ;
 		}
 		idx++;
 	}
@@ -39,8 +38,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	int 	len;
 	char	c;
 	char	**path_type;
-
-	printf("arg=%s type=%c output_path=%s\n", cmd_t->arg_v[1], cmd_t->output_type, cmd_t->output_path);
 
 	path_type = &cmd_t->output_path;
 	c = '>';
@@ -85,6 +82,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							k++;
 						}
 						(*path_type)[k] = '\0';
+
 						if (cmd_t->output_type == 'A')
 							str_replace_sub(cmd_t->arg_v[i], "", idx - 1, len);
 						else
@@ -92,7 +90,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							str_replace_sub(cmd_t->arg_v[i], "", idx, len);
 							cmd_t->output_type = 'R';
 						}
-						printf("%s\n", cmd_t->arg_v[1]);
 						i = -1;
 						break ;
 
@@ -201,8 +198,15 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		{
 			if (cmd_t->parsing_v[i][idx] == 'E')
 			{
-				cmd_t->input_v[i] = new_str_without_char(cmd_t->input_v[i], idx, 1);
+				sub = new_str_without_char(cmd_t->input_v[i], idx, 1);
+				if (!sub)
+					return (-1);
+				// FIX THAT SHIT
+				// sync_arg(cmd_t, cmd_t->input_v[i], sub);
+				cmd_t->input_v[i] = sub;
 				cmd_t->parsing_v[i] = new_str_without_char(cmd_t->parsing_v[i], idx, 1);
+				if (!cmd_t->parsing_v[i])
+					return (-1);
 			}
 			else
 				idx++;
@@ -210,6 +214,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		i++;
 	}
 
+	sub = NULL;
 	i = 0;
 	while (i < cmd_t->input_c)
 	{
@@ -238,13 +243,13 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				val = get_env_by_id(env, sub);
 				if (val)
 				{
-					if (replace_sub_in_str(&cmd_t->input_v[i], sub, val->value) == -1)
+					if (replace_sub_in_str(cmd_t, &cmd_t->input_v[i], sub, val->value) == -1)
 						return (-1); // memory error
 					free(sub);
 					sub = ft_strdup_char('D', ft_strlen(val->value));
 					if (!sub)
 						return (-1); // memory error
-					if (replace_sub_in_str(&cmd_t->parsing_v[i], subparsing, sub) == -1)
+					if (replace_sub_in_str(NULL, &cmd_t->parsing_v[i], subparsing, sub) == -1)
 						return (-1); // memory error
 					free(sub);
 					free(subparsing);
@@ -252,15 +257,14 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				}
 				else
 				{
-					if (replace_sub_in_str(&cmd_t->input_v[i], sub, "") == -1)
+					if (replace_sub_in_str(cmd_t, &cmd_t->input_v[i], sub, "") == -1)
 						return (-1);
 					free(sub);
-					if (replace_sub_in_str(&cmd_t->parsing_v[i], subparsing, "") == -1)
+					if (replace_sub_in_str(NULL, &cmd_t->parsing_v[i], subparsing, "") == -1)
 						return (-1); // memory error
 					free(subparsing);
 					idx -= (len + 2);
 				}
-				sync_input_args(cmd_t);
 			}
 			idx++;
 		}

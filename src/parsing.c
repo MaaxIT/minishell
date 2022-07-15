@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 03:00:02 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 04:47:36 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,6 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		if (parse_quotes(cmd_t, env) == -1)
 			return (NULL);
 
-		int SALOPE = 0;
-		while (SALOPE < cmd_t->input_c)
-		{
-			printf("---- INPUT AFTER %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", SALOPE, cmd_t->input_v[SALOPE], ft_strlen(cmd_t->input_v[SALOPE]), cmd_t->parsing_v[SALOPE], ft_strlen(cmd_t->parsing_v[SALOPE]));
-			SALOPE++;
-		}
 		// if (parse_redirections(cmd_t) == -1)
 			// return (NULL);
 

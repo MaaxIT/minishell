@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 02:28:54 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 05:34:48 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int str_replace_sub(char *origin, char *new, size_t start, size_t end)
     return (0);
 }
 
-int replace_sub_in_str(char **str, char *old_sub, char *new_sub)
+int replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old_sub, char *new_sub)
 {
     char    *found;
     char    *new;
@@ -60,6 +60,8 @@ int replace_sub_in_str(char **str, char *old_sub, char *new_sub)
     ft_strlcpy(new, *str, sep_idx + 1);
     ft_strlcat(new, new_sub, -1);
     ft_strlcat(new, *str + sep_idx + ft_strlen(old_sub), -1);
+    if (cmd_t)
+        sync_arg(cmd_t, *str, new);
     free(*str);
     *str = new;
     return (0);
@@ -72,6 +74,8 @@ char    *new_str_without_char(char *str, int idx, int freestr)
     int     i;
     int     ins;
 
+    if (!str)
+        return (NULL);
     new = malloc(sizeof(char) * ft_strlen(str));
     if (!new)
         return (NULL);
