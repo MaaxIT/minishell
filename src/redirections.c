@@ -19,7 +19,7 @@ int	rd_input(char *path)
 	if (!path)
 		fd = dup(STDIN_FILENO); // PROTECTIONS IN THE WHOLE FILE
 	else
-		fd = open(path, O_RDONLY);
+		fd = open(path, O_RDONLY, 0644);
 	return (fd);
 }
 
@@ -30,7 +30,7 @@ int	rd_output(char *path)
 	if (!path)
 		fd = dup(STDOUT_FILENO);
 	else
-		fd = open(path, O_WRONLY | O_CREAT);
+		fd = open(path, O_WRONLY | O_CREAT, 0644);
 	return (fd);
 }
 
@@ -43,7 +43,7 @@ int	rd_output_append(char *path)
 	else
 /*	{
 		if (!access(path, W_OK) || access(path, F_OK) == -1)
-*/			fd = open(path, O_WRONLY | O_APPEND | O_CREAT);
+*/			fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 /*		else
 			fd = -1;
 	}
