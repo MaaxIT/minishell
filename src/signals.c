@@ -17,7 +17,8 @@ static void	sigint_handler()
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_redisplay();
+	if (!g_pid)
+		rl_redisplay();
 }
 
 void	signals_init()

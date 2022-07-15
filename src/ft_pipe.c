@@ -44,7 +44,6 @@ static int	adjust_fd(t_cmd_lst *cmd, int pipefd[2], int *readfd)
 int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 {
 	int	pipefd[2];
-	int	pid;
 	int	readfd;
 	t_cmd_lst	*top_cmd;
 
@@ -56,14 +55,14 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 			return (0); // ENOUGH?
 		if (!adjust_fd(cmd, pipefd, &readfd))
 			return (0); // NEED TO CLOSE PIPEFDS BEFORE RETURNING, NOT YET READY
-		pid = fork();
-		if (!pid)
+		g_pid = fork();
+		if (!g_pid)
 			run_cmd_pipe(env, pipefd, readfd, cmd, top_cmd);
 		close(readfd);
 		readfd = dup(pipefd[0]);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		waitpid(pid, NULL, 0);
+		waitpid(g_pid, NULL, 0);
 		cmd = cmd->next;
 	}
 	close(readfd);

@@ -27,6 +27,9 @@
 /* Prefix constants */
 # define SHELL_PREFIX	"\033[1;36mSuperShell\033[1;32m:>\033[m"
 
+/* Global variable */
+pid_t	g_pid;
+
 /* Our structures */
 typedef struct s_list {
 	char			*id;
