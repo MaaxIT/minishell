@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/14 03:24:18 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 02:22:46 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void		ft_bzero(void *str, size_t size);
 char		*ft_strdup(const char *str);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_pop(char **tab, int idx, int tabsize);
+char		*ft_strnstr(char *str, char *set, size_t len);
 
 /* Split prototype */
 char    	**split_cmd_lst(char *cmd);
@@ -117,6 +118,7 @@ int			str_replace_sub(char *origin, char *new, size_t start, size_t end);
 char    	*new_str_without_char(char *str, int idx, int freestr);
 char    	*insert_str_at_index(char *str, char *to_insert, int idx);
 char    	*ft_strdup_char(char c, size_t repeats);
+int 		replace_sub_in_str(char **str, char *old_sub, char *new_sub);
 
 /* Errors prototypes */
 int			print_error(int ret);

@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/14 03:55:56 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 02:28:54 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,52 @@
 int str_replace_sub(char *origin, char *new, size_t start, size_t end)
 {
     char    *backup;
+    size_t  max;
 
     backup = ft_strdup(origin);
     if (!backup)
         return (-1);
     free(origin);
-    origin = malloc(sizeof(char) * (start + ft_strlen(new) + 1));
+    max = start + ft_strlen(new);
+    if (ft_strlen(backup) > max)
+        max = ft_strlen(backup);
+    origin = malloc(sizeof(char) * (max + 1));
     if (!origin)
     {
         origin = backup;
         return (-1);
     }
-    ft_bzero(origin, (start + ft_strlen(new)));
-    ft_strlcpy(origin, backup, start);
+    ft_bzero(origin, max);
+    ft_strlcpy(origin, backup, start + 1);
     ft_strlcpy(origin + ft_strlen(origin), new, -1);
     ft_strlcpy(origin + ft_strlen(origin), backup + end, -1);
     free(backup);
+    return (0);
+}
+
+int replace_sub_in_str(char **str, char *old_sub, char *new_sub)
+{
+    char    *found;
+    char    *new;
+    size_t  sep_idx;
+    size_t  len;
+
+    found = ft_strnstr(*str, old_sub, -1);
+    if (!found)
+        return (-1);
+    sep_idx = ft_strlen(*str) - ft_strlen(found);
+    if (sep_idx == 0)
+        return (-1);
+    len = ft_strlen(*str) + (ft_strlen(new_sub) - ft_strlen(old_sub));
+    new = malloc(sizeof(char) * len + 1);
+    if (!new)
+        return (-1);
+    ft_bzero(new, len + 1);
+    ft_strlcpy(new, *str, sep_idx + 1);
+    ft_strlcat(new, new_sub, -1);
+    ft_strlcat(new, *str + sep_idx + ft_strlen(old_sub), -1);
+    free(*str);
+    *str = new;
     return (0);
 }
 
