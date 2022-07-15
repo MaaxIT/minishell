@@ -96,12 +96,13 @@ void		ft_free_2d_table(char **to_free);
 int			ft_strincludes(const char *str, char c);
 size_t		ft_strlcat(char *dst, const char *src, size_t nbr);
 char    	*ft_arrjoin(char **split, size_t len, char sep);
-void		ft_bzero(void *str, size_t size);
-char		*ft_strdup(const char *str);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_pop(char **tab, int idx, int tabsize);
 char		*ft_strnstr(char *str, char *set, size_t len);
 int		ft_strlensep(const char *str, char sep);
+void		ft_bzero(void *str, size_t size);
+char		*ft_strdup(const char *str);
+char		*ft_strndup(const char *str, size_t n);
 
 /* Split prototype */
 char    	**split_cmd_lst(char *cmd);
