@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 16:52:56 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 20:54:16 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,9 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 
 	if (!line)
 		return (NULL);
-	pipe_split = ft_split(line, '|');
+	pipe_split = ft_split_out_quotes(line, '|');
 	if (!pipe_split)
 		return (NULL);
-
 	i = 0;
 	while (pipe_split[i])
 	{

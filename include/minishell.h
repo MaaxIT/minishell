@@ -89,7 +89,6 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t nbr);
 char		*ft_itoa(int nbr);
 char		*ft_strjoin(const char *s1, const char *s2);
-char		**ft_split(const char *str, char sep);
 void		ft_free_2d_table(char **to_free);
 int			ft_strincludes(const char *str, char c);
 size_t		ft_strlcat(char *dst, const char *src, size_t nbr);
@@ -99,9 +98,12 @@ char		*ft_strdup(const char *str);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_pop(char **tab, int idx, int tabsize);
 char		*ft_strnstr(char *str, char *set, size_t len);
+int		ft_strlensep(const char *str, char sep);
 
 /* Split prototype */
 char    	**split_cmd_lst(char *cmd);
+char		**ft_split(const char *str, char sep);
+char		**ft_split_out_quotes(const char *str, char sep);
 
 /* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line, t_list *env);
