@@ -72,3 +72,13 @@ char	*ft_strnstr(char *str, char *set, size_t len)
 	}
 	return (NULL);
 }
+
+int	ft_strlensep(const char *str, char sep)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != sep)
+		i++;
+	return (i);
+}

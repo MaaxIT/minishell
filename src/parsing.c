@@ -80,10 +80,9 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 
 	if (!line)
 		return (NULL);
-	pipe_split = ft_split(line, '|');
+	pipe_split = ft_split_out_quotes(line, '|');
 	if (!pipe_split)
 		return (NULL);
-
 	i = 0;
 	while (pipe_split[i])
 	{
@@ -115,8 +114,8 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		if (parse_quotes(cmd_t, env) == -1)
 			return (NULL);
 
-		// if (parse_redirections(cmd_t) == -1)
-			// return (NULL);
+		if (parse_redirections(cmd_t) == -1)
+			return (NULL);
 
 		if (i == 0)
 		{

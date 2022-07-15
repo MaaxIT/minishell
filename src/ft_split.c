@@ -1,22 +1,11 @@
 #include "minishell.h"
 
-static int	ft_strlensep(const char *str, char sep)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != sep)
-		i++;
-	return (i);
-}
-
 static char	**malloc_words(const char *str, char sep)
 {
 	int	i;
 	int	nbr_words;
 	char	**ret;
 
-	nbr_words = 0;
 	if (str[0] != sep)
 		nbr_words = 1;
 	else
