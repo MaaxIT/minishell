@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 06:19:35 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 16:50:58 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,14 +198,11 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		{
 			if (cmd_t->parsing_v[i][idx] == 'E')
 			{
-				sub = new_str_without_char(cmd_t->input_v[i], idx, 1);
-				if (!sub)
+				printf("1: %s (%d)\n", cmd_t->input_v[i], idx);
+				if (remove_char_from_str(cmd_t, &cmd_t->input_v[i], idx) == -1)
 					return (-1);
-				// FIX THAT SHIT
-				// sync_arg(cmd_t, cmd_t->input_v[i], sub);
-				cmd_t->input_v[i] = sub;
-				cmd_t->parsing_v[i] = new_str_without_char(cmd_t->parsing_v[i], idx, 1);
-				if (!cmd_t->parsing_v[i])
+				printf("2: %s\n", cmd_t->input_v[i]);
+				if (remove_char_from_str(NULL, &cmd_t->parsing_v[i], idx) == -1)
 					return (-1);
 			}
 			else
@@ -243,6 +240,8 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				val = get_env_by_id(env, sub);
 				if (val)
 				{
+					if (remove_char_from_str(cmd_t, &cmd_t->input_v[i], idx - len - 1) == -1)
+						return (-1); // memory error
 					if (replace_sub_in_str(cmd_t, &cmd_t->input_v[i], sub, val->value) == -1)
 						return (-1); // memory error
 					free(sub);
@@ -270,6 +269,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		}
 		i++;
 	}
+
 	return (0);
 }
 

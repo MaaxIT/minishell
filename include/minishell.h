@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/15 05:35:00 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 06:35:42 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ char		*new_str_without_char(char *str, int idx, int freestr);
 char    	*insert_str_at_index(char *str, char *to_insert, int idx);
 char    	*ft_strdup_char(char c, size_t repeats);
 int 		replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old_sub, char *new_sub);
+int 		remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx);
 
 /* Errors prototypes */
 int			print_error(int ret);

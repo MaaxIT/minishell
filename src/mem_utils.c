@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 05:34:48 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 16:50:21 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old_sub, char *new_su
     if (!found)
         return (-1);
     sep_idx = ft_strlen(*str) - ft_strlen(found);
-    if (sep_idx == 0)
-        return (-1);
     len = ft_strlen(*str) + (ft_strlen(new_sub) - ft_strlen(old_sub));
     new = malloc(sizeof(char) * len + 1);
     if (!new)
@@ -62,8 +60,27 @@ int replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old_sub, char *new_su
     ft_strlcat(new, *str + sep_idx + ft_strlen(old_sub), -1);
     if (cmd_t)
         sync_arg(cmd_t, *str, new);
-    free(*str);
+    else
+        free(*str);
     *str = new;
+    return (0);
+}
+
+/* Remove a character from a string */
+int remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx)
+{
+    char    *cpy;
+
+    cpy = malloc(ft_strlen(*str) * sizeof(char));
+    if (!cpy)
+        return (-1);
+    ft_strlcpy(cpy, *str, idx + 1);
+    ft_strlcat(cpy, *str + idx + 1, -1);
+    if (cmd_t)
+        sync_arg(cmd_t, *str, cpy);
+    else
+        free(*str);
+    *str = cpy;
     return (0);
 }
 
