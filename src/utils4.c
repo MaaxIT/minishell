@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils4.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 01:10:42 by mpeharpr          #+#    #+#             */
+/*   Updated: 2022/07/16 01:10:44 by mpeharpr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*ft_strdup(const char *str)
@@ -31,7 +43,6 @@ char	*ft_strndup(const char *str, size_t n)
 		ret = ft_strdup(str);
 	else
 	{
-
 		ret = malloc(sizeof(char) * (n + 1));
 		if (!ret)
 			return (NULL);

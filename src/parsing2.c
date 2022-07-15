@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 00:32:59 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 01:38:22 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 {
 	int		i;
 	int		j;
-	int		k;
 	int		idx;
 	int 	len;
 	int 	input_idx;
@@ -72,10 +71,8 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		while (i < cmd_t->arg_c)
 		{
 			idx = 0;
-			while (cmd_t->arg_v[i][idx])
+			while (cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
 			{
-
-				
 				if (cmd_t->arg_v[i][idx] == c)
 				{
 					if (cmd_t->arg_v[i][idx + 1] == c)
@@ -83,6 +80,8 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						cmd_t->output_type = 'A';
 						idx++;
 					}
+					else
+						cmd_t->output_type = 'R';
 					if (cmd_t->arg_v[i][idx + 1])
 					{
 						// PARSE echo bon>jour
@@ -93,22 +92,23 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						while (cmd_t->arg_v[i][len] && cmd_t->arg_v[i][len] != '>' && cmd_t->arg_v[i][len] != '<')
 							len++;
 
-						*path_type = malloc(sizeof(char) * len - idx);
-						k = 0;
-						while (k < len - (idx + 1))
-						{
-							(*path_type)[k] = cmd_t->arg_v[i][idx + 1 + k];
-							k++;
-						}
-						(*path_type)[k] = '\0';
+						// *path_type = malloc(sizeof(char) * len - idx);
+						// k = 0;
+						// while (k < len - (idx + 1))
+						// {
+						// 	(*path_type)[k] = cmd_t->arg_v[i][idx + 1 + k];
+						// 	k++;
+						// }
+						// (*path_type)[k] = '\0';
+						
+						*path_type = ft_strndup(cmd_t->arg_v[i] + idx + 1, len - (idx + 1));
+						if (!path_type)
+							return (-1);
 
 						if (cmd_t->output_type == 'A')
 							str_replace_sub(cmd_t->arg_v[i], "", idx - 1, len);
 						else
-						{
 							str_replace_sub(cmd_t->arg_v[i], "", idx, len);
-							cmd_t->output_type = 'R';
-						}
 						
 						idx = 0;
 						continue;
@@ -120,8 +120,11 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						// PARSE echo bon> jour
 						print_structure(cmd_t);
 
+						// Parse the char part (the previous argument)
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
+						if (cmd_t->output_type == 'A')
+							remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
 						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
 
 						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
@@ -134,16 +137,31 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 								return (-1);
 						}
 
+						// Parse the pathname part
 						input_idx = 0;
 						while (cmd_t->arg_v[i][input_idx] && cmd_t->arg_v[i][input_idx] != '>' && cmd_t->arg_v[i][input_idx] != '<')
 							input_idx++;
 
-						char	*path;
-						path = ft_strndup(cmd_t->arg_v[i], input_idx);
-						printf("%s\n", path);
-
-						// cmd_t->output_path = cmd_t->input_path;
-
+						print_structure(cmd_t);
+						printf("%d |%s| %d\n", i, cmd_t->arg_v[i], input_idx);
+						*path_type = ft_strndup(cmd_t->arg_v[i], input_idx);
+						if (!*path_type)
+							return (-1);
+						
+						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
+						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], *path_type, "");
+						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
+							
+						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
+						{
+							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+							if (!cmd_t->arg_v)
+								return (-1);
+							cmd_t->input_v[input_idx] = NULL;
+							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+								return (-1);
+						}
+							
 						print_structure(cmd_t);
 
 						idx = 0;
@@ -155,17 +173,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 				idx++;
 			}
 			i++;
-			idx = 0;
-			while (idx < cmd_t->arg_c)
-			{
-				if (ft_strlen(cmd_t->arg_v[idx]) == 0)
-				{
-					ft_pop(cmd_t->arg_v, idx, cmd_t->arg_c--);
-					idx = 0;
-				}
-				else
-					idx++;
-			}
 		}
 		j++;
 	}
@@ -224,6 +231,8 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	char 	*subparsing;
 
 	cmd_t->parsing_v = malloc(sizeof(char *) * (cmd_t->input_c + 1));
+	if (!cmd_t->parsing_v)
+		return (-1);
 
 	i = 0;
 	while (i < cmd_t->input_c)

@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/15 23:11:00 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 01:18:35 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,21 @@ int	print_structure(t_cmd_lst *cmd_t)
 		idx++;
 	}
 	
-	printf("- parsing_v:\n");
-	idx = 0;
-	while (idx < cmd_t->input_c)
+	if (cmd_t->parsing_v)
 	{
-		printf("	%d:  |%s|\n", idx, cmd_t->parsing_v[idx]);
-		idx++;
+		printf("- parsing_v:\n");
+		idx = 0;
+		while (idx < cmd_t->input_c)
+		{
+			printf("	%d:  |%s|\n", idx, cmd_t->parsing_v[idx]);
+			idx++;
+		}
 	}
 
+	printf("- output_type: %c\n", cmd_t->output_type);
+	printf("- output_path: %s\n", cmd_t->output_path);
+	printf("- input_path: %s\n", cmd_t->input_path);
+	
 	printf("- next: %p\n", cmd_t->next);
 	printf("-===- End of debugging structure -===-\n\n");
 	return (0);
