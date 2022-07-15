@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 03:00:14 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 03:02:46 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
-
-	printf("arg=%s type=%c output_path=%s\n", cmd_t->arg_v[1], cmd_t->output_type, cmd_t->output_path);
-
 	return (0);
 }
 
@@ -193,7 +190,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	while (i < cmd_t->input_c)
 	{
 		parse_input_quotes(cmd_t->input_v[i], cmd_t->parsing_v[i]);
-		// printf("---- INPUT BEFORE %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], ft_strlen(cmd_t->input_v[i]), cmd_t->parsing_v[i], ft_strlen(cmd_t->parsing_v[i]));
 		i++;
 	}
 
@@ -270,14 +266,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		}
 		i++;
 	}
-
-	// i = 0;
-	// while (i < cmd_t->input_c)
-	// {
-	// 	printf("---- INPUT AFTER %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], ft_strlen(cmd_t->input_v[i]), cmd_t->parsing_v[i], ft_strlen(cmd_t->parsing_v[i]));
-	// 	i++;
-	// }
-
 	return (0);
 }
 
