@@ -12,13 +12,11 @@ static int	get_the_right_path_index(char **paths)
 
 static int	exec(char *path, char **argv, char **envp)
 {
-	pid_t	pid;
-
-	pid = fork();		// NOT SURE OF THIS TRICK AND NEEDA PROTECT
-	if (pid == 0)
+	g_pid = fork();		// NOT SURE OF THIS TRICK AND NEEDA PROTECT
+	if (g_pid == 0)
 		execve(path, argv, envp); // PROTECT FROM EXECVE ERRORS
 	else
-		waitpid(pid, NULL, 0); // PROTECT FROM WAITPID ERRORS
+		waitpid(g_pid, NULL, 0); // PROTECT FROM WAITPID ERRORS
 	return (9);
 }
 

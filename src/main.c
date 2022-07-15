@@ -34,6 +34,7 @@ int	new_cmd(t_list **env)
 	char	*cmd_str;
 	t_cmd_lst	*cmd_t;
 
+	g_pid = 0;
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
 	if (!cmd_str)
 		bi_exit(-1, env, NULL);
