@@ -161,13 +161,18 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 			while (idx < cmd_t->arg_c)
 			{
 				if (ft_strlen(cmd_t->arg_v[idx]) == 0)
+				{
 					ft_pop(cmd_t->arg_v, idx, cmd_t->arg_c--);
+					idx = 0;
+				}
 				else
 					idx++;
 			}
 		}
 		j++;
 	}
+	idx = 0;
+	while (idx < cmd
 	return (0);
 }
 
