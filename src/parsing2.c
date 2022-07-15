@@ -171,8 +171,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
-	idx = 0;
-	while (idx < cmd
 	return (0);
 }
 
