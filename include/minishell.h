@@ -83,7 +83,7 @@ void		rd_delimiter(char *delimiter);
 
 /* Utils prototypes */
 size_t		ft_strlen(const char *str);
-int			ft_putstr_fd(int fd, char *str);
+int			ft_putstr_fd(int fd, const char *str);
 char		*ft_substr(const char *s, unsigned int start, size_t len);
 size_t		ft_strlcpy(char *dst, const char *src, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t nbr);

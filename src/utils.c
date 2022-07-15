@@ -14,7 +14,7 @@
 
 /* Printing str in fd, returning the number of characters printed
 ** or -1 if an error occurs. */
-int	ft_putstr_fd(int fd, char *str)
+int	ft_putstr_fd(int fd, const char *str)
 {
 	int	i;
 	int	err;
