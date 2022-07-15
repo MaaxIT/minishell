@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 22:58:04 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 00:32:59 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,20 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 	}
 }
 
+int	get_input_idx(t_cmd_lst *cmd_t, char *str)
+{
+	int	idx;
+
+	idx = 0;
+	while (idx < cmd_t->input_c)
+	{
+		if (str == cmd_t->input_v[idx])
+			return (idx);
+		idx++;
+	}
+	return (-1);
+}
+
 int	parse_redirections(t_cmd_lst *cmd_t)
 {
 	int		i;
@@ -40,9 +54,9 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	int		k;
 	int		idx;
 	int 	len;
+	int 	input_idx;
 	char	c;
 	char	**path_type;
-	char	*tmp;
 
 	path_type = &cmd_t->output_path;
 	c = '>';
@@ -95,61 +109,46 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							str_replace_sub(cmd_t->arg_v[i], "", idx, len);
 							cmd_t->output_type = 'R';
 						}
-						i = -1;
-						break ;
+						
+						idx = 0;
+						continue;
 
 					}
 					else if (cmd_t->arg_v[i + 1])
 					{
 
 						// PARSE echo bon> jour
+						print_structure(cmd_t);
 
-						len = 0;
-						while (cmd_t->arg_v[i + 1][len] && cmd_t->arg_v[i + 1][len] != '>' && cmd_t->arg_v[i + 1][len] != '<')
-							len++;
-						*path_type = malloc(sizeof(char) * (len + 1));
-						k = 0;
-						while (k < len)
-						{
-							(*path_type)[k] = cmd_t->arg_v[i + 1][k];
-							k++;
-						}
-						(*path_type)[k] = '\0';
+						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
+						remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
+						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
 
-						tmp = malloc(sizeof(char) * 2);
-						if (!tmp)
-							return (-1);
-						tmp[0] = c;
-						tmp[1] = '\0';
-						k = 0;
-						printf("String avant: %s\n", cmd_t->arg_v[i]);
-						while (k < 2)
+						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
 						{
-							if (replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], tmp, "") == -1)
+							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+							if (!cmd_t->arg_v)
 								return (-1);
-							k++;
+							cmd_t->input_v[input_idx] = NULL;
+							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+								return (-1);
 						}
-						free(tmp);
-						printf("String après: %s\n", cmd_t->arg_v[i]);
+
+						input_idx = 0;
+						while (cmd_t->arg_v[i][input_idx] && cmd_t->arg_v[i][input_idx] != '>' && cmd_t->arg_v[i][input_idx] != '<')
+							input_idx++;
+
+						char	*path;
+						path = ft_strndup(cmd_t->arg_v[i], input_idx);
+						printf("%s\n", path);
+
+						// cmd_t->output_path = cmd_t->input_path;
+
+						print_structure(cmd_t);
+
+						idx = 0;
+						continue ;
 						
-						if (ft_strlen(cmd_t->arg_v[i]) == 0)
-							ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
-
-						if (cmd_t->output_type == 'A')
-						{
-							// replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], );
-							str_replace_sub(cmd_t->arg_v[i + 1], "", 0, len);
-							str_replace_sub(cmd_t->parsing_v[i + 1], "", 0, len);
-						}
-						else
-						{
-							str_replace_sub(cmd_t->arg_v[i + 1], "", 0, len);
-							str_replace_sub(cmd_t->parsing_v[i + 1], "", 0, len);
-							cmd_t->output_type = 'R';
-						}
-						i = -1;
-						break ;
-
 					}
 				}
 

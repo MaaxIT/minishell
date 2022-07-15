@@ -28,6 +28,7 @@ char	**ft_pop(char **tab, int idx, int tabsize)
 		i++;
 		j++;
 	}
+
 	if (tab[idx])
 		free(tab[idx]);
 	free(tab);

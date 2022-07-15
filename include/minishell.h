@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/15 22:09:50 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 23:57:55 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int			parse_input(t_cmd_lst *cmd_t);
 int			parse_options(t_cmd_lst *cmd_t);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 int			parse_redirections(t_cmd_lst *cmd_t);
-int			update_inputsv_optionsv_after_redir(t_cmd_lst *cmd);
+int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
 void		sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input);
 
 /* Memory utils prototypes */

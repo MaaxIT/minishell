@@ -23,13 +23,19 @@ static char	**ft_pop_null(char **tab, int *tabsize)
 	return (tab);
 }
 
-int	update_inputv_optionsv_after_redir(t_cmd_lst *cmd)
+int	update_inputv_optionsv_after_redir(t_cmd_lst *cmd_t)
 {
-	cmd->options_v = ft_pop_null(cmd->options_v, &cmd->options_c);
-	if (!cmd->options_v)
-		return (0);
-	cmd->input_v = ft_pop_null(cmd->input_v, &cmd->input_c);
-	if (!cmd->input_v)
-		return (0);
-	return (9);
+	if (cmd_t->input_v)
+	{
+		cmd_t->input_v = ft_pop_null(cmd_t->input_v, &cmd_t->input_c);
+		if (!cmd_t->input_v)
+			return (-1);
+	}
+	if (cmd_t->options_v)
+	{
+		cmd_t->options_v = ft_pop_null(cmd_t->options_v, &cmd_t->options_c);
+		if (!cmd_t->options_v)
+			return (-1);
+	}
+	return (0);
 }

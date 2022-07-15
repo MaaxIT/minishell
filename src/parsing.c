@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 23:06:35 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 23:30:23 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		}
 		if (parse_quotes(cmd_t, env) == -1)
 			return (NULL);
-		print_structure(cmd_t);
 
 		// Remove potential quotes from the binary
 		len = 0;
