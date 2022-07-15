@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/14 19:14:57 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 03:00:14 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 {
 	int		i;
 	int		j;
+	int		k;
 	int		idx;
-	int		done;
+	int 	len;
 	char	c;
 	char	**path_type;
+
+	printf("arg=%s type=%c output_path=%s\n", cmd_t->arg_v[1], cmd_t->output_type, cmd_t->output_path);
 
 	path_type = &cmd_t->output_path;
 	c = '>';
@@ -55,58 +58,69 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 			idx = 0;
 			while (cmd_t->arg_v[i][idx])
 			{
-				done = 0;
+
+				
 				if (cmd_t->arg_v[i][idx] == c)
 				{
-					cmd_t->output_type = 'R';
 					if (cmd_t->arg_v[i][idx + 1] == c)
 					{
 						cmd_t->output_type = 'A';
-						idx++;	
+						idx++;
 					}
 					if (cmd_t->arg_v[i][idx + 1])
 					{
-						*path_type = ft_strdup(&cmd_t->arg_v[i][idx + 1]);
-						if (!*path_type)
-							return (-1); // memory error
+						// PARSE echo bon>jour
+						// idx:          |
+						// idx+1:         |
+
+						len = idx + 1;
+						while (cmd_t->arg_v[i][len] && cmd_t->arg_v[i][len] != '>' && cmd_t->arg_v[i][len] != '<')
+							len++;
+
+						*path_type = malloc(sizeof(char) * len - idx);
+						k = 0;
+						while (k < len - (idx + 1))
+						{
+							(*path_type)[k] = cmd_t->arg_v[i][idx + 1 + k];
+							k++;
+						}
+						(*path_type)[k] = '\0';
 						if (cmd_t->output_type == 'A')
-							str_replace_sub(cmd_t->arg_v[i], "", idx, ft_strlen(cmd_t->arg_v[i]));
+							str_replace_sub(cmd_t->arg_v[i], "", idx - 1, len);
 						else
-							str_replace_sub(cmd_t->arg_v[i], "", idx + 1, ft_strlen(cmd_t->arg_v[i]));
-						done = 1;
+						{
+							str_replace_sub(cmd_t->arg_v[i], "", idx, len);
+							cmd_t->output_type = 'R';
+						}
+						printf("%s\n", cmd_t->arg_v[1]);
+						i = -1;
+						break ;
+
 					}
 					else if (cmd_t->arg_v[i + 1])
 					{
-						*path_type = ft_strdup(cmd_t->arg_v[i + 1]); // here and above - instead of using strdup - looping until we found another > or \0
-						if (!*path_type)
-							return (-1); // memory error
-						cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
-						if (!cmd_t->arg_v)
-							return (0); // What to do here?
-						cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
-						if (!cmd_t->arg_v)
-							return (0); // What to do here?
-// OLD CODE					//str_replace_sub(cmd_t->arg_v[i], "", 0, ft_strlen(cmd_t->arg_v[i]));
-// OLD CODE					//str_replace_sub(cmd_t->arg_v[i + 1], "", 0, ft_strlen(cmd_t->arg_v[i + 1]));
-						idx = 0;
-						i = -1;
-						done = 1;
-						break;
+
+						// PARSE echo bon> jour
+
 					}
-					if (done == 0)
-						cmd_t->output_type = 0;
 				}
+
 				idx++;
 			}
 			i++;
+			idx = 0;
+			while (idx < cmd_t->arg_c)
+			{
+				if (ft_strlen(cmd_t->arg_v[idx]) == 0)
+					ft_pop(cmd_t->arg_v, idx, cmd_t->arg_c--);
+				else
+					idx++;
+			}
 		}
 		j++;
 	}
 
-	for (i = 0; i < cmd_t->arg_c; i++)
-		printf("%d: %s\n", i, cmd_t->arg_v[i]);
-	printf("Path: %s(input) %s(output)\n", cmd_t->input_path, cmd_t->output_path);
-	printf("Type: %c\n", cmd_t->output_type);
+	printf("arg=%s type=%c output_path=%s\n", cmd_t->arg_v[1], cmd_t->output_type, cmd_t->output_path);
 
 	return (0);
 }
@@ -160,6 +174,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	size_t	len;
 	t_list	*val;
 	char	*sub;
+	char 	*subparsing;
 
 	cmd_t->parsing_v = malloc(sizeof(char *) * (cmd_t->input_c + 1));
 
@@ -220,27 +235,33 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				sub = ft_substr(cmd_t->input_v[i], idx - len, len);
 				if (!sub)
 					return (-1);
+				subparsing = ft_substr(cmd_t->parsing_v[i], idx - len, len);
+				if (!subparsing)
+					return (-1);
 				printf("==> Environment variable detected: |%s|\n", sub);
 				val = get_env_by_id(env, sub);
-				free(sub);
 				if (val)
 				{
-					if (str_replace_sub(cmd_t->input_v[i], val->value, idx - len, idx) == -1)
+					if (replace_sub_in_str(&cmd_t->input_v[i], sub, val->value) == -1)
 						return (-1); // memory error
+					free(sub);
 					sub = ft_strdup_char('D', ft_strlen(val->value));
 					if (!sub)
 						return (-1); // memory error
-					if (str_replace_sub(cmd_t->parsing_v[i], sub, idx - len, idx) == -1)
+					if (replace_sub_in_str(&cmd_t->parsing_v[i], subparsing, sub) == -1)
 						return (-1); // memory error
 					free(sub);
+					free(subparsing);
 					idx += (ft_strlen(val->value) - (len + 2));
 				}
 				else
 				{
-					if (str_replace_sub(cmd_t->input_v[i], "", idx - len, idx) == -1)
+					if (replace_sub_in_str(&cmd_t->input_v[i], sub, "") == -1)
+						return (-1);
+					free(sub);
+					if (replace_sub_in_str(&cmd_t->parsing_v[i], subparsing, "") == -1)
 						return (-1); // memory error
-					if (str_replace_sub(cmd_t->parsing_v[i], "", idx - len, idx) == -1)
-						return (-1); // memory error
+					free(subparsing);
 					idx -= (len + 2);
 				}
 				sync_input_args(cmd_t);
@@ -253,7 +274,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	// i = 0;
 	// while (i < cmd_t->input_c)
 	// {
-	// 	printf("---- INPUT BEFORE %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], ft_strlen(cmd_t->input_v[i]), cmd_t->parsing_v[i], ft_strlen(cmd_t->parsing_v[i]));
+	// 	printf("---- INPUT AFTER %d ----\n-> %s            (VALUE (%zu))\n-> %s            (PARSING (%zu))\n-> 0123456789...    (INDEXES)\n------------------\n\n", i, cmd_t->input_v[i], ft_strlen(cmd_t->input_v[i]), cmd_t->parsing_v[i], ft_strlen(cmd_t->parsing_v[i]));
 	// 	i++;
 	// }
 

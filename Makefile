@@ -6,7 +6,7 @@
 #    By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/06/23 19:55:11 by mpeharpr         ###   ########.fr        #
+#    Updated: 2022/07/14 20:52:25 by mpeharpr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ INC				= $(shell ls $(INC_DIR))
 
 # Compiler options
 CC				= gcc
-COMP_FLAGS		= -Wall -Wextra -Werror
+COMP_FLAGS		= -Wall -Wextra -Werror -g
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
 

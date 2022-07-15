@@ -28,8 +28,48 @@ char	**ft_pop(char **tab, int idx, int tabsize)
 		i++;
 		j++;
 	}
-	free(tab[idx]);
+	if (tab[idx])
+		free(tab[idx]);
 	free(tab);
 	i = 0;
 	return (ret);
+}
+
+static int	ft_check_fit(char *str, char *set)
+{
+	size_t	i;
+	size_t	set_len;
+
+	i = 0;
+	set_len = ft_strlen(set);
+	while (str[i] && set[i] && i < set_len)
+	{
+		if (str[i] == set[i])
+		{
+			if (i + 1 == set_len)
+				return (1);
+		}
+		else
+			return (0);
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_strnstr(char *str, char *set, size_t len)
+{
+	size_t	i;
+	size_t	set_len;
+
+	i = 0;
+	set_len = ft_strlen(set);
+	if (set_len == 0 || !set || !set[0])
+		return (str);
+	while (str[i] && (i + set_len) <= len)
+	{
+		if (str[i] == set[0] && ft_check_fit(&str[i], set))
+			return (str + i);
+		i++;
+	}
+	return (NULL);
 }
