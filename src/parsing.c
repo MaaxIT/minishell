@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 04:47:36 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 16:52:56 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,8 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		}
 		if (parse_quotes(cmd_t, env) == -1)
 			return (NULL);
-
-		// if (parse_redirections(cmd_t) == -1)
-			// return (NULL);
+		if (parse_redirections(cmd_t) == -1)
+			return (NULL);
 
 		if (i == 0)
 		{

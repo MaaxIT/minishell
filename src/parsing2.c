@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 16:50:58 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 20:42:15 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	int 	len;
 	char	c;
 	char	**path_type;
+	char	*tmp;
 
 	path_type = &cmd_t->output_path;
 	c = '>';
@@ -98,6 +99,57 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 					{
 
 						// PARSE echo bon> jour
+
+						len = 0;
+						while (cmd_t->arg_v[i + 1][len] && cmd_t->arg_v[i + 1][len] != '>' && cmd_t->arg_v[i + 1][len] != '<')
+							len++;
+						*path_type = malloc(sizeof(char) * (len + 1));
+						k = 0;
+						while (k < len)
+						{
+							(*path_type)[k] = cmd_t->arg_v[i + 1][k];
+							k++;
+						}
+						(*path_type)[k] = '\0';
+
+						tmp = malloc(sizeof(char) * 2);
+						if (!tmp)
+							return (-1);
+						tmp[0] = c;
+						tmp[1] = '\0';
+						k = 0;
+						printf("String avant: %s\n", cmd_t->arg_v[i]);
+						while (k < 2)
+						{
+							if (replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], tmp, "") == -1)
+								return (-1);
+							k++;
+						}
+						free(tmp);
+						printf("String après: %s\n", cmd_t->arg_v[i]);
+						
+						printf("%d %s %zu\n", i, cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]));
+						
+						if (ft_strlen(cmd_t->arg_v[i]) == 0)
+							ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+
+						for (int a = 0; cmd_t->arg_v[a]; a++)
+							printf("Arg %d: |%s|\n", a, cmd_t->arg_v[a]);
+
+						if (cmd_t->output_type == 'A')
+						{
+							// replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], );
+							str_replace_sub(cmd_t->arg_v[i + 1], "", 0, len);
+							str_replace_sub(cmd_t->parsing_v[i + 1], "", 0, len);
+						}
+						else
+						{
+							str_replace_sub(cmd_t->arg_v[i + 1], "", 0, len);
+							str_replace_sub(cmd_t->parsing_v[i + 1], "", 0, len);
+							cmd_t->output_type = 'R';
+						}
+						i = -1;
+						break ;
 
 					}
 				}
