@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 20:42:15 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 22:58:04 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,18 @@
 void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 {
 	int	idx;
+	int	is_bin;
 
 	idx = 0;
 	while (idx < cmd_t->arg_c)
 	{
 		if (ft_strncmp(cmd_t->arg_v[idx], old_input, -1) == 0)
 		{
+			is_bin = (cmd_t->arg_v[idx] == cmd_t->binary);
 			free(cmd_t->arg_v[idx]);
 			cmd_t->arg_v[idx] = new_input;
+			if (is_bin)
+				cmd_t->binary = new_input;
 			break ;
 		}
 		idx++;
@@ -128,13 +132,8 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						free(tmp);
 						printf("String après: %s\n", cmd_t->arg_v[i]);
 						
-						printf("%d %s %zu\n", i, cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]));
-						
 						if (ft_strlen(cmd_t->arg_v[i]) == 0)
 							ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
-
-						for (int a = 0; cmd_t->arg_v[a]; a++)
-							printf("Arg %d: |%s|\n", a, cmd_t->arg_v[a]);
 
 						if (cmd_t->output_type == 'A')
 						{

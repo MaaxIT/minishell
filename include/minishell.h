@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/15 06:35:42 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/15 22:09:50 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ typedef struct	s_cmd_lst {
 	char				output_type; 	// R = replace (>), A = APPEND (>>)
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
+
+// REMOVE THAT (main.c)
+int			print_structure(t_cmd_lst *cmd_t);
 
 /* Signals prototype */
 void		signals_init();
