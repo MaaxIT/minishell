@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 01:38:22 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 01:39:15 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						while (cmd_t->arg_v[i][input_idx] && cmd_t->arg_v[i][input_idx] != '>' && cmd_t->arg_v[i][input_idx] != '<')
 							input_idx++;
 
-						print_structure(cmd_t);
-						printf("%d |%s| %d\n", i, cmd_t->arg_v[i], input_idx);
 						*path_type = ft_strndup(cmd_t->arg_v[i], input_idx);
 						if (!*path_type)
 							return (-1);
