@@ -6,7 +6,7 @@
 #    By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/07/14 20:52:25 by mpeharpr         ###   ########.fr        #
+#    Updated: 2022/07/16 12:56:53 by mpeharpr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,11 +54,11 @@ all: $(NAME)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DEP)
 	@$(MKDIR) $(OBJ_DIR)
 	@echo "$(GREEN)Compiling	$(YELLOW)$(shell basename $<)$(CLEAR)"
-	@$(CC) $(COMP_FLAGS) $(INCLUDE_FLAGS) -c $< -o $@
+	@$(CC) -I ~/.brew/opt/readline/include $(COMP_FLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
 $(NAME): $(OBJ_DEP) $(INC_DEP)
 	@echo "$(BLUE)Building	$(PURPLE)$(NAME)$(CLEAR)"
-	@$(CC) $(COMP_FLAGS) $(OBJ_DEP) $(EXT_COMP_FLAGS) -o $(NAME)
+	@$(CC) -lreadline -L ~/.brew/opt/readline/lib $(COMP_FLAGS) $(OBJ_DEP) $(EXT_COMP_FLAGS) -o $(NAME)
 	@echo "$(GREEN)Program $(PURPLE)($(NAME))$(GREEN) has been successfully generated!$(CLEAR)"
 
 clean:

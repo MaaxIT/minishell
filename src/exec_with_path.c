@@ -15,6 +15,7 @@ static int	exec(const char *path, char **argv, char **envp)
 	int	err;
 
 	g_pid = fork();		// NOT SURE OF THIS TRICK AND NEEDA PROTECT
+	err = 0;
 	if (g_pid == 0)
 		err = execve(path, argv, envp); // PROTECT FROM EXECVE ERRORS
 	else
@@ -33,6 +34,7 @@ int	exec_with_path(t_list **env, const char *cmd, char **argv)
 	int	i;
 	char	**envp;
 
+	envp = NULL;
 	paths = 0;
 	if (cmd && cmd[0] == '/' && access(cmd, F_OK) == 0)
 	{

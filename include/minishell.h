@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 01:11:02 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:16:43 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 /* Internal libraries */
 # include <unistd.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>

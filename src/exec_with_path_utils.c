@@ -11,7 +11,7 @@ static char	**malloc_paths(char **dirpaths)
 	paths = malloc(sizeof(char *) * (i + 1));
 	if (!paths)
 		return (NULL);
-	paths[i] = '\0';
+	paths[i] = NULL;
 	return (paths);
 }
 
@@ -74,7 +74,7 @@ char	**create_envp(t_list *env)
 	envp = malloc(sizeof(char *) * (ft_lstsize(env) + 1));
 	if (!envp)
 		return (NULL);
-	envp[ft_lstsize(env)] = '\0';
+	envp[ft_lstsize(env)] = NULL;
 	while (env)
 	{
 		tmp = ft_strjoin(env->id, "=");

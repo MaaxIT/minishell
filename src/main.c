@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 01:18:35 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:22:08 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ int	new_cmd(t_list **env)
 	}
 	if (cmd_str)
 		free(cmd_str);
-	new_cmd(env);
+	if (env)
+		new_cmd(env);
 	return (9);
 }
 
