@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 14:24:05 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 16:37:43 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,6 +370,7 @@ int	parse_options(t_cmd_lst *cmd_t)
 {
 	int	i;
 	int	idx;
+	int	is_opt;
 
 	cmd_t->options_v = malloc(sizeof(char *) * (cmd_t->options_c + 1));
 	if (!cmd_t->options_v)
@@ -378,7 +379,10 @@ int	parse_options(t_cmd_lst *cmd_t)
 	idx = 0;
 	while (i < cmd_t->arg_c)
 	{
-		if (cmd_t->arg_v[i][0] == '-')
+		is_opt = cmd_t->arg_v[i][0] == '-';
+		if (i > 1)
+			is_opt = (is_opt && ft_strncmp(cmd_t->binary, "echo", 6) != 0);
+		if (is_opt)
 			cmd_t->options_v[idx++] = cmd_t->arg_v[i];	
 		i++;
 	}
@@ -398,8 +402,8 @@ int	parse_input(t_cmd_lst *cmd_t)
 	idx = 0;
 	while (i < cmd_t->arg_c)
 	{
-		if (cmd_t->arg_v[i][0] != '-')
-			cmd_t->input_v[idx++] = cmd_t->arg_v[i];	
+		if (cmd_t->arg_v[i][0] != '-' || (ft_strncmp(cmd_t->binary, "echo", 6) == 0 && i > 1))
+			cmd_t->input_v[idx++] = cmd_t->arg_v[i];
 		i++;
 	}
 	cmd_t->input_v[idx] = NULL;
@@ -409,13 +413,17 @@ int	parse_input(t_cmd_lst *cmd_t)
 void	parse_counts(t_cmd_lst *cmd_t)
 {
 	int	idx;
+	int	is_opt;
 
 	idx = 1;
 	cmd_t->input_c = 0;
 	cmd_t->options_c = 0;
 	while (idx < cmd_t->arg_c)
 	{
-		if (cmd_t->arg_v[idx][0] == '-')
+		is_opt = cmd_t->arg_v[idx][0] == '-';
+		if (idx > 1)
+			is_opt = (is_opt && ft_strncmp(cmd_t->binary, "echo", 6) != 0);
+		if (is_opt)
 			cmd_t->options_c++;
 		else
 			cmd_t->input_c++;
