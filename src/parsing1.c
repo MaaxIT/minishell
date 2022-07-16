@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/15 23:30:23 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 18:14:21 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	if (!pipe_split)
 		return (NULL);
 	i = 0;
+
 	while (pipe_split[i])
 	{
 		cmd_t = malloc(sizeof(t_cmd_lst));
@@ -119,7 +120,8 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		len = 0;
 		while (len < ft_strlen(cmd_t->binary))
 		{
-			idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "\"", "");
+			idx = 1;
+	//		idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "\"", "");
 			if (idx == -1)
 				return (NULL);
 			else if (idx == 0)
@@ -127,7 +129,7 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 				len = 0;
 				continue ;
 			}
-			idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "'", "");
+	//		idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "'", "");
 			if (idx == -1)
 				return (NULL);
 			else if (idx == 0)

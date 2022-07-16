@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/08 15:41:56 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 18:23:27 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 	ft_lstclear(env);
 	free_command_lst(top_cmd);
 	rl_clear_history();
+	ft_putstr_fd(STDOUT_FILENO, "exit\n");
 	exit(0);
 }

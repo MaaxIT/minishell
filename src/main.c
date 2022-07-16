@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 13:22:08 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 18:55:15 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,6 @@ int	print_structure(t_cmd_lst *cmd_t)
 	return (0);
 }
 
-void	pipe_test_to_del(t_list **env)
-{
-/*	Pipe test	*/
-	t_cmd_lst	*cmd1;
-	t_cmd_lst	*cmd2;
-	t_cmd_lst	*cmd3;
-
-	cmd1 = initialize_command("ls", *env);
-	cmd2 = initialize_command("exit", *env);
-	cmd3 = initialize_command("wc -l", *env);
-	cmd1->next = cmd2;
-	cmd2->next = cmd3;
-	cmd3->next = 0;
-	ft_pipe(env, cmd1);
-/*	Pipe		*/
-}
-
 int	new_cmd(t_list **env)
 {
 	char	*cmd_str;
@@ -92,7 +75,7 @@ int	new_cmd(t_list **env)
 	g_pid = 0;
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
 	if (!cmd_str)
-		bi_exit(-1, env, NULL);
+		bi_exit(1, env, NULL);
 	if (cmd_str[0] != '\0')
 	{
 		add_history(cmd_str);
