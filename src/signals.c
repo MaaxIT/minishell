@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:47:05 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 20:35:09 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 21:12:16 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static void	sigquit_handler(int signo)
 		kill(g_pid, SIGQUIT); // PROTECT
 		ft_putstr_fd(STDERR_FILENO, "Quit: 3\n");
 	}
-	else
-		ft_putstr_fd(STDERR_FILENO, "\b \b");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	signals_init(void)
