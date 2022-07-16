@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 01:59:58 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 02:03:51 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	int		i;
 	int		j;
 	int		k;
+	int		fd;
 	int		idx;
 	int 	len;
 	int 	input_idx;
@@ -105,7 +106,9 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strndup(cmd_t->arg_v[i] + idx + 1, len - (idx + 1));
 						if (!path_type)
 							return (-1);
-						printf("%s\n", *path_type);
+
+						fd = rd_output(*path_type);
+						close(fd);
 
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						if (cmd_t->output_type == 'A')
@@ -175,7 +178,10 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strndup(cmd_t->arg_v[i], input_idx);
 						if (!*path_type)
 							return (-1);
-						
+
+						fd = rd_output(*path_type);
+						close(fd);
+
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], *path_type, "");
 						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
