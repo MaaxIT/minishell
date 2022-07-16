@@ -21,21 +21,36 @@ int	bi_env(int fd, t_list *env)
 int	bi_export(int fd, t_list **env_address, t_cmd_lst *cmd)
 {
 // NOT READY, NEED TO TREAT CASE WITH NO ARG
-	(void)fd; (void)cmd; char *value = "val"; char *id = "id";
+	(void)fd; (void)cmd;
 // NEED TO PARSE THE OTHER
 	t_list	*new;
 	t_list	*env;
+	char	*value;
+	char	*id;
+	char	**split;
+	
+	value = NULL;
+	id = NULL;
+
+	if (!cmd->input_v || !cmd->input_v[0])
+		return (9); // RETURN TRE RIGHT CODE HERE!!
+	split = ft_split(cmd->input_v[0], '=');
+	if (split[0])
+		id = split[0];
+	if (split[1])
+		value = split[1];
+	if (!id || !value)
+		return (9); // RETURN TRE RIGHT CODE HERE!!
+	free(split);
 
 	env = (*env_address)->next;
 	while (env)
 	{
 		if (!ft_strncmp(id, env->id, ft_strlen(id)))
 		{
-			free(env->value);
-			env->value = malloc(sizeof(char) * ft_strlen(value));
-			if (!env->value)
-				return (0);
-			ft_strlcpy(env->value, value, ft_strlen(value));
+			if (env->value)
+				free(env->value);
+			env->value = value;
 			return (9);
 		}
 		env = env->next;
