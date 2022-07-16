@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_no_pipe.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:51:36 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 19:51:52 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	close_fd(int fd1, int fd2)
@@ -28,7 +40,6 @@ static int	run_no_pipe(t_list **env, t_cmd_lst *cmd, int in_fd, int out_fd)
 
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
-
 	dup2(in_fd, STDIN_FILENO);
 	dup2(out_fd, STDOUT_FILENO); // PROTECTION FOR ALL THIS
 	run_command(env, cmd, cmd);
@@ -38,7 +49,7 @@ static int	run_no_pipe(t_list **env, t_cmd_lst *cmd, int in_fd, int out_fd)
 	return (9);
 }
 
-int no_pipe(t_list **env, t_cmd_lst *cmd)
+int	no_pipe(t_list **env, t_cmd_lst *cmd)
 {
 	int	in_fd;
 	int	out_fd;

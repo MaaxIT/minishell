@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_out_quotes.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:21:53 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 20:05:30 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	find_closing_quote_idx(const char *str, int i, char quote)
@@ -9,8 +21,8 @@ static int	find_closing_quote_idx(const char *str, int i, char quote)
 
 static char	**malloc_words(const char *str, char sep)
 {
-	int	i;
-	int	nbr_words;
+	int		i;
+	int		nbr_words;
 	char	**ret;
 
 	if (str[0] != sep)
@@ -57,15 +69,11 @@ static int	find_next_sep_out_quotes_idx(const char *str, int i, char sep)
 	return (i);
 }
 
-char	**ft_split_out_quotes(const char *str, char sep)
+static char	**ft_split_out_quotes_loop(const char *str, char sep, char **ret)
 {
-	char	**ret;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
-	ret = malloc_words(str, sep);
-	if (!ret)
-		return (NULL);	
 	i = 0;
 	j = 0;
 	while (str[i])
@@ -73,7 +81,7 @@ char	**ft_split_out_quotes(const char *str, char sep)
 		while (str[i] && str[i] == sep)
 			i++;
 		if (!str[i])
-			break;
+			break ;
 		ret[j] = malloc(sizeof(char) * (-i + 1 + \
 			find_next_sep_out_quotes_idx(str, i, sep)));
 		if (!ret[j])
@@ -86,5 +94,17 @@ char	**ft_split_out_quotes(const char *str, char sep)
 		i = find_next_sep_out_quotes_idx(str, i, sep);
 		j++;
 	}
+	return (ret);
+}
+
+char	**ft_split_out_quotes(const char *str, char sep)
+{
+	char	**ret;
+
+	ret = malloc_words(str, sep);
+	if (!ret)
+		return (NULL);
+	if (!ft_split_out_quotes_loop(str, sep, ret))
+		return (NULL);
 	return (ret);
 }

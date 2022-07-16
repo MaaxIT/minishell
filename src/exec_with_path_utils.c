@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_with_path_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:49:28 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 19:50:00 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	**malloc_paths(char **dirpaths)
 {
-	int	i;
+	int		i;
 	char	**paths;
 
 	i = 0;
@@ -17,7 +29,7 @@ static char	**malloc_paths(char **dirpaths)
 
 static char	**add_cmd_to_path(char **dirpaths, const char *cmd)
 {
-	int	i;
+	int		i;
 	char	**paths;
 	char	*tmp;
 
@@ -67,7 +79,7 @@ char	**find_paths(t_list *env, const char *cmd)
 char	**create_envp(t_list *env)
 {
 	char	**envp;
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = 0;

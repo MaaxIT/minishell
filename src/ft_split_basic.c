@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_basic.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:59:02 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 20:05:49 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	**malloc_words(const char *str, char sep)
 {
-	int	i;
-	int	nbr_words;
+	int		i;
+	int		nbr_words;
 	char	**ret;
 
 	if (str[0] != sep)
@@ -24,15 +36,11 @@ static char	**malloc_words(const char *str, char sep)
 	return (ret);
 }
 
-char	**ft_split(const char *str, char sep)
+static char	**fill(const char *str, char sep, char **ret)
 {
-	char	**ret;
 	int	i;
 	int	j;
 
-	ret = malloc_words(str, sep);
-	if (!ret)
-		return (NULL);
 	i = 0;
 	j = 0;
 	while (str[j])
@@ -40,7 +48,7 @@ char	**ft_split(const char *str, char sep)
 		while (str[j] && str[j] == sep)
 			j++;
 		if (!str[j])
-			break;
+			break ;
 		ret[i] = malloc(sizeof(char) * (ft_strlensep(&str[j], sep) + 1));
 		if (!ret[i])
 		{
@@ -52,5 +60,17 @@ char	**ft_split(const char *str, char sep)
 			j++;
 		i++;
 	}
+	return (ret);
+}
+
+char	**ft_split(const char *str, char sep)
+{
+	char	**ret;
+
+	ret = malloc_words(str, sep);
+	if (!ret)
+		return (NULL);
+	if (!fill(str, sep, ret))
+		return (NULL);
 	return (ret);
 }

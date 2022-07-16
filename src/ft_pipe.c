@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:58:36 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 19:58:55 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int	run_cmd_pipe(t_list **env, int pipefd[2], int tempfd, t_cmd_lst *cmd, t_cmd_lst *top_cmd)
+static int	run_cmd_pipe(t_list **env, int pipefd[2], int tempfd, \
+		t_cmd_lst *cmd, t_cmd_lst *top_cmd)
 {
 	if (close(pipefd[0]) == -1)
 		return (0);
@@ -43,8 +56,8 @@ static int	adjust_fd(t_cmd_lst *cmd, int pipefd[2], int *readfd)
 
 int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 {
-	int	pipefd[2];
-	int	readfd;
+	int			pipefd[2];
+	int			readfd;
 	t_cmd_lst	*top_cmd;
 
 	top_cmd = cmd;

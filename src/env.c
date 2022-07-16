@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:55:04 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/13 14:52:36 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 19:31:55 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	update_env_return(t_list **env)
 {
 	static int	must_free = 9;
-	
+
 	if (must_free)
 		free((*env)->value);
 	(*env)->value = ft_itoa(errno);
@@ -47,29 +47,11 @@ static int	env_value_offset(char *envline)
 	return (0);
 }
 
-/* Initialize the environment linked list 
-Return -1 on failure
-Return 0 on success
-*/
-int	init_env_list(t_list **head, char **envp)
+static int	init_env_list_loop(char **envp, t_list **head, char *id, char *value)
 {
 	t_list	*new;
 	int		offset;
-	char	*id;
-	char	*value;
 
-	if (!envp)
-		return (-1);
-	id = malloc(2 * sizeof(char));
-	if (!id)
-		return (0);//PROTECT
-	ft_strlcpy(id, "?", 2);
-	value = malloc(2 * sizeof(char));
-	if (!value)
-		return (0);//PROTECT
-	ft_strlcpy(value, "0", 2);
-	new = ft_lstnew(id, value);
-	ft_lstadd_back(head, new);
 	while (*envp)
 	{
 		offset = env_value_offset(*envp);
@@ -91,6 +73,33 @@ int	init_env_list(t_list **head, char **envp)
 		}
 		envp++;
 	}
+	return (0);
+}
+
+/* Initialize the environment linked list 
+Return -1 on failure
+Return 0 on success
+*/
+int	init_env_list(t_list **head, char **envp)
+{
+	t_list	*new;
+	char	*id;
+	char	*value;
+
+	if (!envp)
+		return (-1);
+	id = malloc(2 * sizeof(char));
+	if (!id)
+		return (0);//PROTECT
+	ft_strlcpy(id, "?", 2);
+	value = malloc(2 * sizeof(char));
+	if (!value)
+		return (0);//PROTECT
+	ft_strlcpy(value, "0", 2);
+	new = ft_lstnew(id, value);
+	ft_lstadd_back(head, new);
+	if (init_env_list_loop(envp, head, id, value) == -1)
+		return (-1);
 	return (0);
 }
 

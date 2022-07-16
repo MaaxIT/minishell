@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:50:31 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 19:50:56 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	ft_nbrlen(int nbr)
@@ -20,12 +32,12 @@ static int	ft_nbrlen(int nbr)
 char	*ft_itoa(int nbr)
 {
 	char	*ret;
-	int	i;
-	int	sign;
+	int		i;
+	int		sign;
 
 	ret = malloc(sizeof(char) * (ft_nbrlen(nbr) + 1));
 	if (!ret)
-		return (NULL);// IS THAT ENOUGH?
+		return (NULL); // IS THAT ENOUGH?
 	sign = 1;
 	if (nbr < 0)
 		sign = -1;
@@ -37,7 +49,7 @@ char	*ft_itoa(int nbr)
 		if (sign == -1 && i == 0)
 		{
 			ret[i] = '-';
-			break;
+			break ;
 		}
 		ret[i] = nbr % 10 + '0';
 		nbr /= 10;

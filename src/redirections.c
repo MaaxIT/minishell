@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 15:40:36 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/06/23 17:18:20 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 19:20:37 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,14 @@ int	rd_output_append(char *path)
 	if (!path)
 		fd = dup(STDOUT_FILENO);
 	else
-/*	{
-		if (!access(path, W_OK) || access(path, F_OK) == -1)
-*/			fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
-/*		else
-			fd = -1;
-	}
-*/
+			fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	return (fd);
 }
 
 void	rd_delimiter(char *delimiter)
 {
 	char	*line;
-	int	cmp;
+	int		cmp;
 
 	line = readline("> "); // PROTECT AGAINST READLINE ERRORS?
 	cmp = ft_strncmp(delimiter, line, ft_strlen(delimiter));

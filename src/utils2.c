@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 02:50:08 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/08 22:32:57 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 19:13:07 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {
-	int	len;
+	int		len;
 	char	*ret;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	len = ft_strlen(s1) + ft_strlen(s2);
 	ret = malloc(sizeof(char) * (len + 1));
@@ -51,18 +51,18 @@ void	ft_free_2d_table(char **to_free)
 }
 
 /* Checks if the string contains a character */
-int ft_strincludes(const char *str, char c)
+int	ft_strincludes(const char *str, char c)
 {
-    int i;
-    
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == c)
-            return (1);
-        i++;
-    }
-    return (0);
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 /* Concatenate 2 strings */
@@ -86,32 +86,29 @@ size_t	ft_strlcat(char *dst, char const *src, size_t nbr)
 }
 
 /* Convert a splitted 2d array into a single string separated by a character */
-char    *ft_arrjoin(char **split, size_t len, char sep)
+char	*ft_arrjoin(char **split, size_t len, char sep)
 {
-    size_t  i;
-    size_t  strlen;
-    char    *str;
+	size_t	i;
+	size_t	strlen;
+	char	*str;
 
-    i = 0;
-    strlen = 0;
-    while (i < len)
-        strlen += ft_strlen(split[i++]) + 1;
-    
-    str = malloc(strlen * sizeof(char));
-    if (!str)
-        return (NULL);
-
-    i = 0;
-    while (i < strlen)
-        str[i++] = '\0';
-        
-    i = 0;
-    while (i < len)
-    {
-        ft_strlcat(str, split[i], -1);
-        if (i < len - 1)
-            str[ft_strlen(str)] = sep;
-        i++;
-    }
-    return (str);
+	i = 0;
+	strlen = 0;
+	while (i < len)
+		strlen += ft_strlen(split[i++]) + 1;
+	str = malloc(strlen * sizeof(char));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < strlen)
+		str[i++] = '\0';
+	i = 0;
+	while (i < len)
+	{
+		ft_strlcat(str, split[i], -1);
+		if (i < len - 1)
+			str[ft_strlen(str)] = sep;
+		i++;
+	}
+	return (str);
 }

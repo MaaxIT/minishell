@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_prototypes.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:14:44 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 19:15:03 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	run_command(t_list **env, t_cmd_lst *cmd, t_cmd_lst *top_cmd)
@@ -30,7 +42,7 @@ int	run_command(t_list **env, t_cmd_lst *cmd, t_cmd_lst *top_cmd)
 int	run(t_list **env, t_cmd_lst *cmd)
 {
 	t_cmd_lst	*top_cmd;
-	int		ret;
+	int			ret;
 
 	if (!cmd)
 		return (0);

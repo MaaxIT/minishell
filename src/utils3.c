@@ -1,39 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/16 19:05:05 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/07/16 19:09:41 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-char	**ft_pop(char **tab, int idx, int tabsize)
-{
-	char	**ret;
-	int	i;
-	int	j;
-
-	if (idx >= tabsize || !tab)
-	{
-		ft_free_2d_table(tab);
-		return (0);
-	}
-	ret = malloc(sizeof(char *) * tabsize);
-	if (!ret)
-	{
-		ft_free_2d_table(tab);
-		return (NULL);
-	}
-	ret[tabsize - 1] = NULL;
-	i = 0;
-	j = 0;
-	while (j < tabsize && i < tabsize - 1)
-	{
-		if (j == idx)
-			j++;
-		ret[i] = tab[j];
-		i++;
-		j++;
-	}
-
-	if (tab[idx])
-		free(tab[idx]);
-	free(tab);
-	return (ret);
-}
 
 static int	ft_check_fit(char *str, char *set)
 {
