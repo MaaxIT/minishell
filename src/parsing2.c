@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 14:01:13 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 14:24:05 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,7 +331,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				subparsing = ft_substr(cmd_t->parsing_v[i], idx - len, len);
 				if (!subparsing)
 					return (-1);
-				printf("==> Environment variable detected: |%s|\n", sub);
 				val = get_env_by_id(env, sub);
 				if (val)
 				{
@@ -364,8 +363,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		}
 		i++;
 	}
-
-	print_structure(cmd_t);
 	return (0);
 }
 
