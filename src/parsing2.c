@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 02:03:51 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 14:01:13 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 			idx = 0;
 			while (cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
 			{
+				input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
+				if (input_idx > -1)
+				{	
+					if (cmd_t->parsing_v[input_idx][idx] == 'S' || cmd_t->parsing_v[input_idx][idx] == 'D')
+					{
+						idx++;
+						continue ;
+					}
+				}
 				if (cmd_t->arg_v[i][idx] == c)
 				{
 					if (cmd_t->arg_v[i][idx + 1] == c)
@@ -141,17 +150,12 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 								return (-1);
 						}
 
-						print_structure(cmd_t);
-						
 						idx = 0;
 						continue;
 
 					}
 					else if (cmd_t->arg_v[i + 1])
 					{
-
-						// PARSE echo bon> jour
-						print_structure(cmd_t);
 
 						// Parse the char part (the previous argument)
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
@@ -195,8 +199,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
 								return (-1);
 						}
-							
-						print_structure(cmd_t);
 
 						idx = 0;
 						continue ;
@@ -293,10 +295,8 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		{
 			if (cmd_t->parsing_v[i][idx] == 'E')
 			{
-				printf("1: %s (%d)\n", cmd_t->input_v[i], idx);
 				if (remove_char_from_str(cmd_t, &cmd_t->input_v[i], idx) == -1)
 					return (-1);
-				printf("2: %s\n", cmd_t->input_v[i]);
 				if (remove_char_from_str(NULL, &cmd_t->parsing_v[i], idx) == -1)
 					return (-1);
 			}
@@ -340,7 +340,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 					if (replace_sub_in_str(cmd_t, &cmd_t->input_v[i], sub, val->value) == -1)
 						return (-1); // memory error
 					free(sub);
-					sub = ft_strdup_char('D', ft_strlen(val->value));
+					sub = ft_strdup_char('M', ft_strlen(val->value));
 					if (!sub)
 						return (-1); // memory error
 					if (replace_sub_in_str(NULL, &cmd_t->parsing_v[i], subparsing, sub) == -1)
@@ -365,6 +365,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		i++;
 	}
 
+	print_structure(cmd_t);
 	return (0);
 }
 
