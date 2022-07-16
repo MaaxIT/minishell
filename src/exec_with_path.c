@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:47:07 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 20:11:19 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:33:35 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static int	relative_path(t_list **env, const char *cmd, char **argv)
 	}
 	else
 	{
-		ft_putstr_fd(STDOUT_FILENO, cmd); // PROTECT
-		ft_putstr_fd(STDOUT_FILENO, ": command not found\n"); // PROTECT
+		ft_putstr_fd(STDERR_FILENO, cmd); // PROTECT
+		ft_putstr_fd(STDERR_FILENO, ": command not found\n"); // PROTECT
 		errno = 127;
 	}
 	return (ewp_clear(9, paths, envp));

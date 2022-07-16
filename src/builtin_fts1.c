@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:23:54 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:32:05 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ int	bi_cd(int fd, t_cmd_lst *cmd)
 		return (0);
 	err = chdir(cmd->input_v[0]);
 	if (err == -1)
-		return (0); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+	{
+		ft_putstr_fd(STDERR_FILENO, "SuperShell: cd: ");
+		ft_putstr_fd(STDERR_FILENO, cmd->input_v[0]); // PROTECT?
+		ft_putstr_fd(STDERR_FILENO, ": ");
+		return (print_error(0)); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+	}
 	return (9);
 }
 
@@ -77,6 +82,6 @@ int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 	ft_lstclear(env);
 	free_command_lst(top_cmd);
 	rl_clear_history();
-	ft_putstr_fd(STDOUT_FILENO, "exit\n");
+	ft_putstr_fd(STDERR_FILENO, "exit\n");
 	exit(0);
 }
