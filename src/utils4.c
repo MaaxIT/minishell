@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 01:10:42 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 01:10:44 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:18:17 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,16 @@ char	*ft_strndup(const char *str, size_t n)
 		ret[i] = '\0';
 	}
 	return (ret);
+}
+
+int	ft_is_a_whitespace_or_empty_string(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && (str[i] == 32 || (str[i] >= 9 && str[i] <= 13)))
+		i++;
+	if (str[i])
+		return (0);
+	return (9);
 }

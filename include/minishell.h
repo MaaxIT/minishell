@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 13:16:43 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:20:34 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,11 @@ char    	*ft_arrjoin(char **split, size_t len, char sep);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_pop(char **tab, int idx, int tabsize);
 char		*ft_strnstr(char *str, char *set, size_t len);
-int		ft_strlensep(const char *str, char sep);
+int			ft_strlensep(const char *str, char sep);
 void		ft_bzero(void *str, size_t size);
 char		*ft_strdup(const char *str);
 char		*ft_strndup(const char *str, size_t n);
+int			ft_is_a_whitespace_or_empty_string(const char *str);
 
 /* Split prototype */
 char    	**split_cmd_lst(char *cmd);

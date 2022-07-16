@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:47:07 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:48:20 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:11:19 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static int	exec(const char *path, char **argv, char **envp)
 		print_error(0);
 		return (0);
 	}
+	else
+		errno = 0;
 	return (9);
 }
 

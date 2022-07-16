@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:21:30 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:19:51 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	new_cmd(t_list **env)
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
 	if (!cmd_str)
 		bi_exit(1, env, NULL);
-	if (cmd_str[0] != '\0')
+	if (!ft_is_a_whitespace_or_empty_string(cmd_str))
 	{
 		add_history(cmd_str);
 		cmd_t = initialize_command(cmd_str, *env);
