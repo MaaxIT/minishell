@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 01:39:15 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/16 01:59:58 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 {
 	int		i;
 	int		j;
+	int		k;
 	int		idx;
 	int 	len;
 	int 	input_idx;
@@ -104,11 +105,40 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strndup(cmd_t->arg_v[i] + idx + 1, len - (idx + 1));
 						if (!path_type)
 							return (-1);
+						printf("%s\n", *path_type);
 
+						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						if (cmd_t->output_type == 'A')
-							str_replace_sub(cmd_t->arg_v[i], "", idx - 1, len);
+						{
+							k = idx - 1;
+							while (k < len)
+							{
+								remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx - 1);
+								k++;
+							}
+						}
 						else
-							str_replace_sub(cmd_t->arg_v[i], "", idx, len);
+						{
+							k = idx;
+							while (k < len)
+							{
+								remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx);
+								k++;
+							}
+						}
+						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
+
+						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
+						{
+							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+							if (!cmd_t->arg_v)
+								return (-1);
+							cmd_t->input_v[input_idx] = NULL;
+							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+								return (-1);
+						}
+
+						print_structure(cmd_t);
 						
 						idx = 0;
 						continue;
@@ -164,7 +194,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 
 						idx = 0;
 						continue ;
-						
 					}
 				}
 
