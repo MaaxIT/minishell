@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 15:40:36 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:20:37 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 21:26:21 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	rd_delimiter(char *delimiter)
 	int		cmp;
 
 	line = readline("> "); // PROTECT AGAINST READLINE ERRORS?
-	cmp = ft_strncmp(delimiter, line, ft_strlen(delimiter));
+	cmp = ft_strncmp(delimiter, line, -1);
 	free(line);
 	if (cmp)
 		rd_delimiter(delimiter);

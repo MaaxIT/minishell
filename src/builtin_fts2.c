@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:24:22 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:24:28 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 21:27:45 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	bi_export(int fd, t_list **env_address, t_cmd_lst *cmd)
 	env = (*env_address)->next;
 	while (env)
 	{
-		if (!ft_strncmp(id, env->id, ft_strlen(id)))
+		if (!ft_strncmp(id, env->id, -1))
 		{
 			if (env->value)
 				free(env->value);
@@ -84,14 +84,14 @@ int	bi_unset(t_list **env_address, t_cmd_lst *cmd)
 	if (!cmd->input_v || !cmd->input_v[0])
 		return (0);
 	id = cmd->input_v[0];
-	if (!ft_strncmp(id, env->id, ft_strlen(id)))
+	if (!ft_strncmp(id, env->id, -1))
 	{
 		*env_address = env->next;
 		ft_lstdelone(env);
 	}
 	while (env->next)
 	{
-		if (!ft_strncmp(id, env->next->id, ft_strlen(id)))
+		if (!ft_strncmp(id, env->next->id, -1))
 		{
 			tmp = env->next;
 			env->next = env->next->next;

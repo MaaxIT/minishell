@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:49:28 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:50:00 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 21:28:44 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ char	**find_paths(t_list *env, const char *cmd)
 	char		**dirpaths;
 	char		**paths;
 
-	while (env && ft_strncmp(id, env->id, ft_strlen(id)))
+	while (env && ft_strncmp(id, env->id, -1))
 		env = env->next;
-	if (!ft_strncmp(id, env->id, ft_strlen(id)))
+	if (!ft_strncmp(id, env->id, -1))
 		global_paths = env->value;
 	else
 		return (NULL);

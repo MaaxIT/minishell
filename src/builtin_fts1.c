@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 20:32:05 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/16 21:27:14 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 		if (cmd->input_v[i + 1] && write(fd, " ", 1) == -1)
 			return (0);
 		if (cmd->options_v && cmd->options_v[i] && \
-			!ft_strncmp(cmd->options_v[i], "-n", 3))
+			!ft_strncmp(cmd->options_v[i], "-n", -1))
 			newline = 0;
 		i++;
 	}
