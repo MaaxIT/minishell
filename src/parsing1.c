@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 20:52:14 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/24 15:49:38 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,47 @@ int	free_command_lst(t_cmd_lst *cmd_t)
 	return (0);
 }
 
-static void	initialize_structure(t_cmd_lst *cmd_t)
+static int	parse_order(t_cmd_lst *cmd_t, t_list *env, int i)
 {
-	cmd_t->original = NULL;
-	cmd_t->binary = NULL;
-	cmd_t->options_c = 0;
-	cmd_t->options_v = NULL;
-	cmd_t->input_c = 0;
-	cmd_t->input_v = NULL;
-	cmd_t->arg_c = 0;
-	cmd_t->arg_v = NULL;
-	cmd_t->parsing_v = NULL;
-	cmd_t->input_path = NULL;
-	cmd_t->output_path = NULL;
-	cmd_t->output_type = 0;
-	cmd_t->next = NULL;
+	parse_counts(cmd_t);
+	if (cmd_t->options_c > 0)
+		parse_options(cmd_t);
+	if (cmd_t->input_c > 0)
+	{
+		if (parse_input(cmd_t) == -1)
+			return (-1);
+	}
+	if (parse_quotes(cmd_t, env) == -1)
+		return (-1);
+	if (remove_quotes_from_bin(cmd_t, i) == -1)
+		return (-1);
+	if (parse_redirections(cmd_t) == -1)
+		return (-1);
+	return (0);
+}
+
+/*
+returns:
+	-1 = NULL
+	0 = do nothing
+*/
+static int	loop_new_command(t_cmd_lst *cmd_t, t_list *env, int i, char **pipes)
+{
+	char	**split;
+	int		idx;
+
+	initialize_structure(cmd_t);
+	split = split_cmd_lst(pipes[i]);
+	if (!split)
+		return (-1); // NOT ENOUGH, NEED TO FREE PIPESPLT
+	idx = 0;
+	while (split[idx])
+		idx++;
+	cmd_t->original = pipes[i];
+	cmd_t->arg_c = idx;
+	cmd_t->arg_v = split;
+	cmd_t->binary = cmd_t->arg_v[0];
+	return (parse_order(cmd_t, env, i));
 }
 
 t_cmd_lst	*initialize_command(char *line, t_list *env)
@@ -74,85 +100,20 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	t_cmd_lst	*head;
 	t_cmd_lst	*head_bckp;
 	char		**pipe_split;
-	char		**split;
 	int			i;
-	int			idx;
-	size_t		len;
 
-	if (!line)
-		return (NULL);
 	pipe_split = ft_split_out_quotes(line, '|');
 	if (!pipe_split)
 		return (NULL);
 	i = 0;
-
 	while (pipe_split[i])
 	{
 		cmd_t = malloc(sizeof(t_cmd_lst));
 		if (!cmd_t)
 			return (NULL); // NOT ENOUGH, FREE PIPESPLT FST
-		initialize_structure(cmd_t);
-
-		split = split_cmd_lst(pipe_split[i]);
-		if (!split)
-			return (NULL); // NOT ENOUGH, NEED TO FREE PIPESPLT
-
-		idx = 0;
-		while (split[idx])
-			idx++;
-		
-		cmd_t->original = pipe_split[i];
-		cmd_t->arg_c = idx;
-		cmd_t->arg_v = split;
-		cmd_t->binary = cmd_t->arg_v[0];
-		parse_counts(cmd_t);
-		if (cmd_t->options_c > 0)
-			parse_options(cmd_t);
-		if (cmd_t->input_c > 0)
-		{
-			if (parse_input(cmd_t) == -1)
-				return (NULL);
-		}
-		if (parse_quotes(cmd_t, env) == -1)
+		if (loop_new_command(cmd_t, env, i, pipe_split) == -1)
 			return (NULL);
-
-		// Remove potential quotes from the binary
-		len = 0;
-		while (len < ft_strlen(cmd_t->binary))
-		{
-			idx = 1;
-	//		idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "\"", "");
-			if (idx == -1)
-				return (NULL);
-			else if (idx == 0)
-			{
-				len = 0;
-				continue ;
-			}
-	//		idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "'", "");
-			if (idx == -1)
-				return (NULL);
-			else if (idx == 0)
-			{
-				len = 0;
-				continue ;
-			}
-			len++;
-		}
-			
-		if (parse_redirections(cmd_t) == -1)
-			return (NULL);
-
-		if (i == 0)
-		{
-			head_bckp = cmd_t;
-			head = cmd_t;
-		}
-		else
-		{
-			head->next = cmd_t;
-			head = head->next;
-		}
+		init_next_command(&cmd_t, &head_bckp, &head, i);
 		i++;
 	}
 	ft_free_2d_table(pipe_split);

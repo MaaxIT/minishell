@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 20:20:34 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/24 15:54:17 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,9 @@ char    	*insert_str_at_index(char *str, char *to_insert, int idx);
 char    	*ft_strdup_char(char c, size_t repeats);
 int 		replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old_sub, char *new_sub);
 int 		remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx);
+int			remove_quotes_from_bin(t_cmd_lst *cmd_t, int i);
+void		init_next_command(t_cmd_lst **c, t_cmd_lst **b, t_cmd_lst **h, int i);
+void		initialize_structure(t_cmd_lst *cmd_t);
 
 /* Errors prototypes */
 int			print_error(int ret);

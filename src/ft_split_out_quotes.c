@@ -101,6 +101,8 @@ char	**ft_split_out_quotes(const char *str, char sep)
 {
 	char	**ret;
 
+	if (!str)
+		return (NULL);
 	ret = malloc_words(str, sep);
 	if (!ret)
 		return (NULL);

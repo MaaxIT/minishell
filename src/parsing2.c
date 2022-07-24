@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 16:37:43 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/07/24 15:54:34 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	int 	input_idx;
 	char	c;
 	char	**path_type;
-
-	print_structure(cmd_t);
 
 	path_type = &cmd_t->output_path;
 	c = '>';
@@ -210,7 +208,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
-	print_structure(cmd_t);
 	return (0);
 }
 
