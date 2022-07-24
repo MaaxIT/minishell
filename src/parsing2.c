@@ -59,6 +59,8 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	char	c;
 	char	**path_type;
 
+	print_structure(cmd_t);
+
 	path_type = &cmd_t->output_path;
 	c = '>';
 	j = 0;
@@ -110,7 +112,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						fd = rd_output(*path_type);
 						close(fd);
 
-						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						if (cmd_t->output_type == 'A')
 						{
 							k = idx - 1;
@@ -129,16 +130,21 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 								k++;
 							}
 						}
-						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
 
-						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
+						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
+						if (input_idx >= 0)
 						{
-							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
-							if (!cmd_t->arg_v)
-								return (-1);
-							cmd_t->input_v[input_idx] = NULL;
-							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-								return (-1);
+							cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
+
+							if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
+							{
+								cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+								if (!cmd_t->arg_v)
+									return (-1);
+								cmd_t->input_v[input_idx] = NULL;
+								if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+									return (-1);
+							}
 						}
 
 						idx = 0;
@@ -150,6 +156,8 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 
 						// Parse the char part (the previous argument)
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
+						if (!input_idx)
+							return (-1); // this is not possible.
 						remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
 						if (cmd_t->output_type == 'A')
 							remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
@@ -202,6 +210,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
+	print_structure(cmd_t);
 	return (0);
 }
 
