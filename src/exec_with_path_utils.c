@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_with_path_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:49:28 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 21:28:44 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/24 15:56:16 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static char	**add_cmd_to_path(char **dirpaths, const char *cmd)
 	char	**paths;
 	char	*tmp;
 
-	paths = malloc_paths(dirpaths); // if !path, does not enter the while loop and return path = NULL
+	// if !path, does not enter the while loop and return path = NULL
+	paths = malloc_paths(dirpaths);
 	i = 0;
 	while (paths && dirpaths[i])
 	{
