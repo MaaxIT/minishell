@@ -39,8 +39,8 @@ CC				= gcc
 COMP_FLAGS		= -Wall -Wextra -Werror -g
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
-# READLINE_PATH	= /usr/local/Cellar/readline/8.1.2 #on modern MacOS
-READLINE_PATH	= ~/.brew/opt/readline # for school macs
+#READLINE_PATH	= /usr/local/Cellar/readline/8.1.2
+READLINE_PATH	= ~/.brew/opt/readline
 
 # Bash commands
 RM				= rm -rf
@@ -60,7 +60,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DEP)
 
 $(NAME): $(OBJ_DEP) $(INC_DEP)
 	@echo "$(BLUE)Building	$(PURPLE)$(NAME)$(CLEAR)"
-	@$(CC) -lreadline -L $(READLINE_PATH)/lib $(COMP_FLAGS) $(OBJ_DEP) $(EXT_COMP_FLAGS) -o $(NAME)
+	@$(CC) $(EXT_COMP_FLAGS) -L $(READLINE_PATH)/lib $(COMP_FLAGS) $(OBJ_DEP) -o $(NAME)
 	@echo "$(GREEN)Program $(PURPLE)($(NAME))$(GREEN) has been successfully generated!$(CLEAR)"
 
 clean:
