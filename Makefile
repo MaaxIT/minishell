@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+         #
+#    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/07/16 12:56:53 by mpeharpr         ###   ########.fr        #
+#    Updated: 2022/07/24 16:29:00 by maxime           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,12 @@ CC				= gcc
 COMP_FLAGS		= -Wall -Wextra -Werror -g
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
-#READLINE_PATH	= /usr/local/Cellar/readline/8.1.2
-READLINE_PATH	= ~/.brew/opt/readline
+
+ifeq ($(shell uname), Darwin)
+	READLINE_PATH	= /usr/local/Cellar/readline/8.1.2
+else
+	READLINE_PATH	= ~/.brew/opt/readline
+endif
 
 # Bash commands
 RM				= rm -rf
