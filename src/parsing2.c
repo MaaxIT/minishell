@@ -103,15 +103,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						while (cmd_t->arg_v[i][len] && cmd_t->arg_v[i][len] != '>' && cmd_t->arg_v[i][len] != '<')
 							len++;
 
-						// *path_type = malloc(sizeof(char) * len - idx);
-						// k = 0;
-						// while (k < len - (idx + 1))
-						// {
-						// 	(*path_type)[k] = cmd_t->arg_v[i][idx + 1 + k];
-						// 	k++;
-						// }
-						// (*path_type)[k] = '\0';
-						
 						*path_type = ft_strndup(cmd_t->arg_v[i] + idx + 1, len - (idx + 1));
 						if (!path_type)
 							return (-1);
@@ -166,7 +157,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 
 						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
 						{
-							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i--, cmd_t->arg_c--);
 							if (!cmd_t->arg_v)
 								return (-1);
 							cmd_t->input_v[input_idx] = NULL;
@@ -176,23 +167,23 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 
 						// Parse the pathname part
 						input_idx = 0;
-						while (cmd_t->arg_v[i][input_idx] && cmd_t->arg_v[i][input_idx] != '>' && cmd_t->arg_v[i][input_idx] != '<')
+						while (cmd_t->arg_v[i + 1][input_idx] && cmd_t->arg_v[i + 1][input_idx] != '>' && cmd_t->arg_v[i + 1][input_idx] != '<')
 							input_idx++;
 
-						*path_type = ft_strndup(cmd_t->arg_v[i], input_idx);
+						*path_type = ft_strndup(cmd_t->arg_v[i + 1], input_idx);
 						if (!*path_type)
 							return (-1);
 
 						fd = rd_output(*path_type);
 						close(fd);
 
-						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
-						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], *path_type, "");
-						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
+						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i + 1]);
+						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
+						cmd_t->input_v[input_idx] = cmd_t->arg_v[i + 1];
 							
 						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
 						{
-							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i + 1, cmd_t->arg_c--);
 							if (!cmd_t->arg_v)
 								return (-1);
 							cmd_t->input_v[input_idx] = NULL;
