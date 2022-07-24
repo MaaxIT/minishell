@@ -3,63 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 20:19:51 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/24 21:33:59 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	print_structure(t_cmd_lst *cmd_t)
-{
-	int	idx;
-
-	printf("\n-===- Debugging structure -===-\n");
-	printf("- original: |%s|\n", cmd_t->original);
-	printf("- binary: |%s|\n", cmd_t->binary);
-	printf("- options_c: %d\n", cmd_t->options_c);
-	printf("- options_v:\n");
-	idx = 0;
-	while (idx < cmd_t->options_c)
-	{
-		printf("	%d:  |%s|\n", idx, cmd_t->options_v[idx]);
-		idx++;
-	}
-	printf("- input_c: %d\n", cmd_t->input_c);
-	printf("- input_v:\n");
-	idx = 0;
-	while (idx < cmd_t->input_c)
-	{
-		printf("	%d:  |%s|\n", idx, cmd_t->input_v[idx]);
-		idx++;
-	}
-	printf("- arg_c: %d\n", cmd_t->arg_c);
-	printf("- arg_v:\n");
-	idx = 0;
-	while (idx < cmd_t->arg_c)
-	{
-		printf("	%d:  |%s|\n", idx, cmd_t->arg_v[idx]);
-		idx++;
-	}
-	if (cmd_t->parsing_v)
-	{
-		printf("- parsing_v:\n");
-		idx = 0;
-		while (idx < cmd_t->input_c)
-		{
-			printf("	%d:  |%s|\n", idx, cmd_t->parsing_v[idx]);
-			idx++;
-		}
-	}
-	printf("- output_type: %c\n", cmd_t->output_type);
-	printf("- output_path: %s\n", cmd_t->output_path);
-	printf("- input_path: %s\n", cmd_t->input_path);
-	printf("- next: %p\n", cmd_t->next);
-	printf("-===- End of debugging structure -===-\n\n");
-	return (0);
-}
 
 int	new_cmd(t_list **env)
 {

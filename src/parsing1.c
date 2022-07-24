@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/24 15:49:38 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/24 21:53:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 			return (NULL); // NOT ENOUGH, FREE PIPESPLT FST
 		if (loop_new_command(cmd_t, env, i, pipe_split) == -1)
 			return (NULL);
-		init_next_command(&cmd_t, &head_bckp, &head, i);
+		init_next_cmd(&cmd_t, &head_bckp, &head, i);
 		i++;
 	}
 	ft_free_2d_table(pipe_split);

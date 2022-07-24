@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:47:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/24 15:49:47 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/24 21:53:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	remove_quotes_from_bin(t_cmd_lst *cmd_t, int i)
 	return (0);
 }
 
-void	init_next_command(t_cmd_lst **c, t_cmd_lst **b, t_cmd_lst **h, int i)
+void	init_next_cmd(t_cmd_lst **c, t_cmd_lst **b, t_cmd_lst **h, int i)
 {
 	if (i == 0)
 	{

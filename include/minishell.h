@@ -6,10 +6,9 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/24 16:19:30 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/24 21:53:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -39,7 +38,7 @@ typedef struct s_list {
 }	t_list;
 
 /* Example: echo -n Hello world */
-typedef struct	s_cmd_lst {
+typedef struct s_cmd_lst {
 	char				*original;		// "echo -n Hello World"
 	char				*binary;		// "echo"
 	int					options_c;		// 1
@@ -51,7 +50,7 @@ typedef struct	s_cmd_lst {
 	char				**parsing_v;	// [[MMMM], [MMMM]]
 	char				*input_path;
 	char				*output_path;
-	char				output_type; 	// R = replace (>), A = APPEND (>>)
+	char				output_type;	// R = replace (>), A = APPEND (>>)
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
@@ -59,7 +58,7 @@ typedef struct	s_cmd_lst {
 int			print_structure(t_cmd_lst *cmd_t);
 
 /* Signals prototype */
-void		signals_init();
+void		signals_init(void);
 
 /* Pipe prototype */
 int			ft_pipe(t_list **env, t_cmd_lst *cmd);
@@ -96,7 +95,7 @@ char		*ft_strjoin(const char *s1, const char *s2);
 void		ft_free_2d_table(char **to_free);
 int			ft_strincludes(const char *str, char c);
 size_t		ft_strlcat(char *dst, const char *src, size_t nbr);
-char    	*ft_arrjoin(char **split, size_t len, char sep);
+char		*ft_arrjoin(char **split, size_t len, char sep);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_pop(char **tab, int idx, int tabsize);
 char		*ft_strnstr(char *str, char *set, size_t len);
@@ -107,7 +106,7 @@ char		*ft_strndup(const char *str, size_t n);
 int			ft_is_a_whitespace_or_empty_string(const char *str);
 
 /* Split prototype */
-char    	**split_cmd_lst(char *cmd);
+char		**split_cmd_lst(char *cmd);
 char		**ft_split(const char *str, char sep);
 char		**ft_split_out_quotes(const char *str, char sep);
 char		**free_split(char **arr);
@@ -127,12 +126,12 @@ void		sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input);
 /* Memory utils prototypes */
 int			str_replace_sub(char *origin, char *new, size_t start, size_t end);
 char		*new_str_without_char(char *str, int idx, int freestr);
-char    	*insert_str_at_index(char *str, char *to_insert, int idx);
-char    	*ft_strdup_char(char c, size_t repeats);
-int 		replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old_sub, char *new_sub);
-int 		remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx);
+char		*insert_str_at_index(char *str, char *to_insert, int idx);
+char		*ft_strdup_char(char c, size_t repeats);
+int			replace_sub_in_str(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
+int			remove_char_from_str(t_cmd_lst *cmd_t, char **s, int idx);
 int			remove_quotes_from_bin(t_cmd_lst *cmd_t, int i);
-void		init_next_command(t_cmd_lst **c, t_cmd_lst **b, t_cmd_lst **h, int i);
+void		init_next_cmd(t_cmd_lst **c, t_cmd_lst **b, t_cmd_lst **h, int i);
 void		initialize_structure(t_cmd_lst *cmd_t);
 
 /* Errors prototypes */

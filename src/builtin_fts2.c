@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_fts2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:24:22 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 21:27:45 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/24 21:48:17 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,15 @@ int	bi_env(int fd, t_list *env)
 
 int	bi_export(int fd, t_list **env_address, t_cmd_lst *cmd)
 {
-// NOT READY, NEED TO TREAT CASE WITH NO ARG
-	(void)fd; (void)cmd;
-// NEED TO PARSE THE OTHER
 	t_list	*new;
 	t_list	*env;
 	char	*value;
 	char	*id;
 	char	**split;
-	
+
+	(void)fd; // NOT READY, NEED TO TREAT CASE WITH NO ARG
 	value = NULL;
 	id = NULL;
-
 	if (!cmd->input_v || !cmd->input_v[0])
 		return (9); // RETURN TRE RIGHT CODE HERE!!
 	split = ft_split(cmd->input_v[0], '=');
@@ -54,7 +51,6 @@ int	bi_export(int fd, t_list **env_address, t_cmd_lst *cmd)
 	if (!id || !value)
 		return (9); // RETURN TRE RIGHT CODE HERE!!
 	free(split);
-
 	env = (*env_address)->next;
 	while (env)
 	{
@@ -96,7 +92,7 @@ int	bi_unset(t_list **env_address, t_cmd_lst *cmd)
 			tmp = env->next;
 			env->next = env->next->next;
 			ft_lstdelone(tmp);
-			break;
+			break ;
 		}
 		env = env->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:55:04 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 21:29:09 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/24 21:36:58 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	env_value_offset(char *envline)
 	return (0);
 }
 
-static int	init_env_list_loop(char **envp, t_list **head, char *id, char *value)
+static int	init_env_list_loop(char **envp, t_list **head, char *id, char *val)
 {
 	t_list	*new;
 	int		offset;
@@ -56,19 +56,19 @@ static int	init_env_list_loop(char **envp, t_list **head, char *id, char *value)
 	{
 		offset = env_value_offset(*envp);
 		if (offset == -1)
-			return (-1); // This will NEVER happen since -1 is returned when *envp == NULL (can't be possible)
-		if (offset > 0) // otherwise the line has no = and it should not hpapend (what do we do then?)
+			return (-1); // will never happen since envp can't be NULL
+		if (offset > 0) // otherwise the line has no = (what we do so?)
 		{
 			id = ft_substr(*envp, 0, offset);
 			if (!id)
 				return (-1);
-			value = ft_substr(*envp, offset + 1, -1);
-			if (!value)
+			val = ft_substr(*envp, offset + 1, -1);
+			if (!val)
 			{
 				free(id);
 				return (-1);
 			}
-			new = ft_lstnew(id, value);
+			new = ft_lstnew(id, val);
 			ft_lstadd_back(head, new);
 		}
 		envp++;

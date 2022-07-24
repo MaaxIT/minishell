@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_fts.c                                      :+:      :+:    :+:   */
+/*   builtin_fts1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 21:27:14 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/24 21:53:35 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	bi_cd(int fd, t_cmd_lst *cmd)
 	int	err;
 
 	(void)fd;
-
 	if (!cmd->input_v || !cmd->input_v[0])
 		return (0);
 	err = chdir(cmd->input_v[0]);
@@ -55,7 +54,7 @@ int	bi_cd(int fd, t_cmd_lst *cmd)
 		ft_putstr_fd(STDERR_FILENO, "SuperShell: cd: ");
 		ft_putstr_fd(STDERR_FILENO, cmd->input_v[0]); // PROTECT?
 		ft_putstr_fd(STDERR_FILENO, ": ");
-		return (print_error(0)); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+		return (print_error(0)); //IS THAT ENOUGH? PRINTING THE ERR IN TREATCMD
 	}
 	return (9);
 }
