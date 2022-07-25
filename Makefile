@@ -6,7 +6,7 @@
 #    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/07/24 16:29:00 by maxime           ###   ########.fr        #
+#    Updated: 2022/07/25 20:55:57 by maxime           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DEP)
 
 $(NAME): $(OBJ_DEP) $(INC_DEP)
 	@echo "$(BLUE)Building	$(PURPLE)$(NAME)$(CLEAR)"
-	@$(CC) $(EXT_COMP_FLAGS) -L $(READLINE_PATH)/lib $(COMP_FLAGS) $(OBJ_DEP) -o $(NAME)
+	@$(CC) $(EXT_COMP_FLAGS) -L $(READLINE_PATH)/lib $(COMP_FLAGS) $(OBJ_DEP) -lreadline -o $(NAME)
 	@echo "$(GREEN)Program $(PURPLE)($(NAME))$(GREEN) has been successfully generated!$(CLEAR)"
 
 clean:
