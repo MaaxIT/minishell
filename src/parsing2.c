@@ -6,31 +6,59 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/24 21:42:47 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/25 16:11:39 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
+int    print_structure(t_cmd_lst *cmd_t)
 {
-	int	idx;
-	int	is_bin;
+	int     idx;
 
+	printf("\n-===- Debugging structure -===-\n");
+	printf("- original: |%s|\n", cmd_t->original);
+	printf("- binary: |%s|\n", cmd_t->binary);
+	printf("- options_c: %d\n", cmd_t->options_c);
+	printf("- options_v:\n");
+	idx = 0;
+	while (idx < cmd_t->options_c)
+	{
+		printf("        %d:  |%s|\n", idx, cmd_t->options_v[idx]);
+		idx++;
+	}
+	printf("- input_c: %d\n", cmd_t->input_c);
+	printf("- input_v:\n");
+	idx = 0;
+	while (idx < cmd_t->input_c)
+	{
+		printf("        %d:  |%s|\n", idx, cmd_t->input_v[idx]);
+		idx++;
+	}
+	printf("- arg_c: %d\n", cmd_t->arg_c);
+	printf("- arg_v:\n");
 	idx = 0;
 	while (idx < cmd_t->arg_c)
 	{
-		if (ft_strncmp(cmd_t->arg_v[idx], old_input, -1) == 0)
-		{
-			is_bin = (cmd_t->arg_v[idx] == cmd_t->binary);
-			free(cmd_t->arg_v[idx]);
-			cmd_t->arg_v[idx] = new_input;
-			if (is_bin)
-				cmd_t->binary = new_input;
-			break ;
-		}
+		printf("        %d:  |%s|\n", idx, cmd_t->arg_v[idx]);
 		idx++;
 	}
+	if (cmd_t->parsing_v)
+	{
+		printf("- parsing_v:\n");
+		idx = 0;
+		while (idx < cmd_t->input_c)
+		{
+			printf("        %d:  |%s|\n", idx, cmd_t->parsing_v[idx]);
+			idx++;
+		}
+	}
+	printf("- output_type: %c\n", cmd_t->output_type);
+	printf("- output_path: %s\n", cmd_t->output_path);
+	printf("- input_path: %s\n", cmd_t->input_path);
+	printf("- next: %p\n", cmd_t->next);
+	printf("-===- End of debugging structure -===-\n\n");
+	return (0);
 }
 
 int	get_input_idx(t_cmd_lst *cmd_t, char *str)
@@ -45,6 +73,31 @@ int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 		idx++;
 	}
 	return (-1);
+}
+
+void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
+{
+	int	idx;
+	int	is_bin;
+	int	input_idx;
+
+	idx = 0;
+	while (idx < cmd_t->arg_c)
+	{
+		if (ft_strncmp(cmd_t->arg_v[idx], old_input, -1) == 0)
+		{
+			is_bin = (cmd_t->arg_v[idx] == cmd_t->binary);
+			input_idx = get_input_idx(cmd_t, old_input);
+			free(cmd_t->arg_v[idx]);
+			cmd_t->arg_v[idx] = new_input;
+			if (input_idx >= 0)
+				cmd_t->input_v[input_idx] = new_input;
+			if (is_bin)
+				cmd_t->binary = new_input;
+			break ;
+		}
+		idx++;
+	}
 }
 
 int	parse_redirections(t_cmd_lst *cmd_t)
@@ -105,11 +158,13 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							return (-1);
 						fd = rd_output(*path_type);
 						close(fd);
+						printf("2: %s = %s\n", cmd_t->input_v[0], cmd_t->arg_v[1]);
 						if (cmd_t->output_type == 'A')
 						{
-							k = idx - 1;
+							k = idx -1;
 							while (k < len)
 							{
+								printf("Removing char %c\n", cmd_t->arg_v[i][idx - 1]);
 								remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx - 1);
 								k++;
 							}
@@ -124,28 +179,28 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							}
 						}
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
-						if (input_idx >= 0)
+						printf("%d\n", input_idx);
+						if (input_idx >= 0 && ft_strlen(cmd_t->input_v[input_idx]) == 0)
 						{
-							cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
-							if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
-							{
-								cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
-								if (!cmd_t->arg_v)
-									return (-1);
-								cmd_t->input_v[input_idx] = NULL;
-								if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-									return (-1);
-							}
+							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
+							if (!cmd_t->arg_v)
+								return (-1);
+							cmd_t->input_v[input_idx] = NULL;
+							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+								return (-1);
 						}
 						idx = 0;
+						print_structure(cmd_t);
 						continue ;
 					}
 					else if (cmd_t->arg_v[i + 1])
 					{
+						printf("1\n");
 						// Parse the char part (the previous argument)
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
-						if (!input_idx)
+						if (input_idx < 0)
 							return (-1); // this is not possible.
+						printf("putain\n");
 						remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
 						if (cmd_t->output_type == 'A')
 							remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
@@ -159,6 +214,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
 								return (-1);
 						}
+						printf("2\n");
 						// Parse the pathname part
 						input_idx = 0;
 						while (cmd_t->arg_v[i + 1][input_idx] && cmd_t->arg_v[i + 1][input_idx] != '>' && cmd_t->arg_v[i + 1][input_idx] != '<')
@@ -168,6 +224,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							return (-1);
 						fd = rd_output(*path_type);
 						close(fd);
+						printf("%s\n", *path_type);
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i + 1]);
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 						cmd_t->input_v[input_idx] = cmd_t->arg_v[i + 1];
