@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/25 16:11:39 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/26 23:48:58 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int    print_structure(t_cmd_lst *cmd_t)
 {
-(void)cmd_t;
-/*	int     idx;
+	(void)cmd_t;
+	int     idx;
 
 	printf("\n-===- Debugging structure -===-\n");
 	printf("- original: |%s|\n", cmd_t->original);
@@ -58,7 +58,7 @@ int    print_structure(t_cmd_lst *cmd_t)
 	printf("- output_path: %s\n", cmd_t->output_path);
 	printf("- input_path: %s\n", cmd_t->input_path);
 	printf("- next: %p\n", cmd_t->next);
-	printf("-===- End of debugging structure -===-\n\n");*/
+	printf("-===- End of debugging structure -===-\n\n");
 	return (0);
 }
 
@@ -76,6 +76,38 @@ int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 	return (-1);
 }
 
+void	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
+{
+	int	i;
+	int	options_new_c;
+	int	input_new_c;
+
+	options_new_c = cmd_t->options_c;
+	input_new_c = cmd_t->input_c;
+	i = 0;
+	while (i < cmd_t->options_c)
+	{
+		if (cmd_t->options_v[i] == addr)
+		{
+			cmd_t->options_v[i] = NULL;
+			options_new_c--;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < cmd_t->input_c)
+	{
+		if (cmd_t->input_v[i] == addr)
+		{	
+			cmd_t->input_v[i] = NULL;
+			input_new_c--;
+		}
+		i++;
+	}
+	cmd_t->options_c = options_new_c;
+	cmd_t->input_c = input_new_c;
+}
+
 void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 {
 	int	idx;
@@ -91,10 +123,28 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 			input_idx = get_input_idx(cmd_t, old_input);
 			free(cmd_t->arg_v[idx]);
 			cmd_t->arg_v[idx] = new_input;
-			if (input_idx >= 0)
-				cmd_t->input_v[input_idx] = new_input;
 			if (is_bin)
-				cmd_t->binary = new_input;
+				cmd_t->binary = cmd_t->arg_v[idx];
+			else if (input_idx >= 0)
+				cmd_t->input_v[input_idx] = cmd_t->arg_v[idx];
+			if (ft_strlen(new_input) == 0)
+			{
+				cmd_t->arg_v = ft_pop(cmd_t->arg_v, idx, cmd_t->arg_c--);
+				if (!cmd_t->arg_v)
+					return ; // EXIT HERE, MEMORY ERROR
+				if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+					return ; // EXIT HERE, MEMORY ERROR
+				if (is_bin)
+				{
+					if (cmd_t->arg_c > 0)
+					{
+						cmd_t->binary = cmd_t->arg_v[0];
+						remove_from_input_and_options(cmd_t, cmd_t->arg_v[0]);
+					}
+					else
+						cmd_t->binary = NULL;
+				}
+			}
 			break ;
 		}
 		idx++;
@@ -159,13 +209,11 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							return (-1);
 						fd = rd_output(*path_type);
 						close(fd);
-//						printf("2: %s = %s\n", cmd_t->input_v[0], cmd_t->arg_v[1]);
 						if (cmd_t->output_type == 'A')
 						{
 							k = idx -1;
 							while (k < len)
 							{
-//								printf("Removing char %c\n", cmd_t->arg_v[i][idx - 1]);
 								remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx - 1);
 								k++;
 							}
@@ -180,7 +228,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							}
 						}
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
-//						printf("%d\n", input_idx);
 						if (input_idx >= 0 && ft_strlen(cmd_t->input_v[input_idx]) == 0)
 						{
 							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
@@ -191,17 +238,14 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 								return (-1);
 						}
 						idx = 0;
-						print_structure(cmd_t);
 						continue ;
 					}
 					else if (cmd_t->arg_v[i + 1])
 					{
-//						printf("1\n");
 						// Parse the char part (the previous argument)
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						if (input_idx < 0)
 							return (-1); // this is not possible.
-//						printf("putain\n");
 						remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
 						if (cmd_t->output_type == 'A')
 							remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
@@ -215,7 +259,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
 								return (-1);
 						}
-//						printf("2\n");
 						// Parse the pathname part
 						input_idx = 0;
 						while (cmd_t->arg_v[i + 1][input_idx] && cmd_t->arg_v[i + 1][input_idx] != '>' && cmd_t->arg_v[i + 1][input_idx] != '<')
@@ -225,7 +268,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							return (-1);
 						fd = rd_output(*path_type);
 						close(fd);
-//						printf("%s\n", *path_type);
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i + 1]);
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 						cmd_t->input_v[input_idx] = cmd_t->arg_v[i + 1];
@@ -248,6 +290,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
+	// print_structure(cmd_t);
 	return (0);
 }
 
