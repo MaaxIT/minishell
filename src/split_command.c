@@ -52,7 +52,7 @@ static void	init_split(char *cmd, int *idx, int *capt, int *i)
 	*capt = 0;
 	*i = 0;
 	while (cmd[*i] && cmd[*i] == ' ')
-		i++;
+		(*i)++;
 }
 
 /* Split the str with spaces + simple & double quotes */

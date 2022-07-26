@@ -36,15 +36,19 @@ returns:
 	-1 = NULL
 	0 = do nothing
 */
-static int	loop_new_command(t_cmd_lst *cmd_t, t_list *env, int i, char **pipes)
+static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 {
 	char	**split;
 	int		idx;
+	t_cmd_lst	*cmd_t;
 
+	cmd_t = malloc(sizeof(t_cmd_lst));
+	if (!cmd_t)
+		return (NULL); // NOT ENOUGH, FREE PIPESPLT FST
 	initialize_structure(cmd_t);
 	split = split_cmd_lst(pipes[i]);
 	if (!split)
-		return (-1); // NOT ENOUGH, NEED TO FREE PIPESPLT
+		return (NULL); // NOT ENOUGH, NEED TO FREE PIPESPLT
 	idx = 0;
 	while (split[idx])
 		idx++;
@@ -52,13 +56,15 @@ static int	loop_new_command(t_cmd_lst *cmd_t, t_list *env, int i, char **pipes)
 	cmd_t->arg_c = idx;
 	cmd_t->arg_v = split;
 	cmd_t->binary = cmd_t->arg_v[0];
-	return (parse_order(cmd_t, env, i));
+	if (parse_order(cmd_t, env, i) == -1)
+		return (NULL);
+	else
+		return (cmd_t);
 }
 
 t_cmd_lst	*initialize_command(char *line, t_list *env)
 {
 	t_cmd_lst	*cmd_t;
-	t_cmd_lst	*head;
 	t_cmd_lst	*head_bckp;
 	char		**pipe_split;
 	int			i;
@@ -69,12 +75,13 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	i = 0;
 	while (pipe_split[i])
 	{
-		cmd_t = malloc(sizeof(t_cmd_lst));
+		cmd_t = loop_new_command(env, i, pipe_split);
 		if (!cmd_t)
-			return (NULL); // NOT ENOUGH, FREE PIPESPLT FST
-		if (loop_new_command(cmd_t, env, i, pipe_split) == -1)
-			return (NULL);
-		init_next_cmd(&cmd_t, &head_bckp, &head, i);
+			return (NULL); // NOT ENOUG, FREE PIPE SPLT FIRST
+		if (!i)
+			head_bckp = cmd_t;
+		else
+			ft_cmd_lstadd_back(&head_bckp, cmd_t);
 		i++;
 	}
 	ft_free_2d_table(pipe_split);

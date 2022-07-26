@@ -131,7 +131,6 @@ char		*ft_strdup_char(char c, size_t repeats);
 int			replace_sub_in_str(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
 int			remove_char_from_str(t_cmd_lst *cmd_t, char **s, int idx);
 int			remove_quotes_from_bin(t_cmd_lst *cmd_t, int i);
-void		init_next_cmd(t_cmd_lst **c, t_cmd_lst **b, t_cmd_lst **h, int i);
 void		initialize_structure(t_cmd_lst *cmd_t);
 
 /* Errors prototypes */
@@ -142,12 +141,14 @@ int			init_env_list(t_list **head, char **envp);
 int			update_env_return(t_list **env);
 t_list		*get_env_by_id(t_list *env, char *id);
 
-/* Linked list prototypes */
+/* Linked (cmd) list prototypes */
 void		ft_lstadd_back(t_list **lst, t_list *new);
 t_list		*ft_lstnew(char *id, char *value);
 int			ft_lstsize(t_list *lst);
 void		ft_lstdelone(t_list *lst);
 void		ft_lstclear(t_list **lst);
+
+void		ft_cmd_lstadd_back(t_cmd_lst **top, t_cmd_lst *new);
 
 /* Other prototypes */
 int			new_cmd(t_list **env);

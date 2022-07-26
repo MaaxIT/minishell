@@ -38,6 +38,8 @@ char	*ft_strnstr(char *str, char *set, size_t len)
 	size_t	i;
 	size_t	set_len;
 
+	if (!str)
+		return (NULL);
 	i = 0;
 	set_len = ft_strlen(set);
 	if (set_len == 0 || !set || !set[0])

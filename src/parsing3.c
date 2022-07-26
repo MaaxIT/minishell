@@ -46,20 +46,6 @@ int	remove_quotes_from_bin(t_cmd_lst *cmd_t, int i)
 	return (0);
 }
 
-void	init_next_cmd(t_cmd_lst **c, t_cmd_lst **b, t_cmd_lst **h, int i)
-{
-	if (i == 0)
-	{
-		*b = *c;
-		*h = *c;
-	}
-	else
-	{
-		(*h)->next = *c;
-		*h = (*h)->next;
-	}
-}
-
 void	initialize_structure(t_cmd_lst *cmd_t)
 {
 	cmd_t->original = NULL;
