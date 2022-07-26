@@ -27,6 +27,8 @@ int	rd_output(char *path)
 {
 	int	fd;
 
+	if (access(path, F_OK) == 0 && unlink(path) == -1)
+		return(-1);
 	if (!path)
 		fd = dup(STDOUT_FILENO);
 	else
