@@ -14,7 +14,8 @@
 
 int    print_structure(t_cmd_lst *cmd_t)
 {
-	int     idx;
+(void)cmd_t;
+/*	int     idx;
 
 	printf("\n-===- Debugging structure -===-\n");
 	printf("- original: |%s|\n", cmd_t->original);
@@ -57,7 +58,7 @@ int    print_structure(t_cmd_lst *cmd_t)
 	printf("- output_path: %s\n", cmd_t->output_path);
 	printf("- input_path: %s\n", cmd_t->input_path);
 	printf("- next: %p\n", cmd_t->next);
-	printf("-===- End of debugging structure -===-\n\n");
+	printf("-===- End of debugging structure -===-\n\n");*/
 	return (0);
 }
 
@@ -158,13 +159,13 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							return (-1);
 						fd = rd_output(*path_type);
 						close(fd);
-						printf("2: %s = %s\n", cmd_t->input_v[0], cmd_t->arg_v[1]);
+//						printf("2: %s = %s\n", cmd_t->input_v[0], cmd_t->arg_v[1]);
 						if (cmd_t->output_type == 'A')
 						{
 							k = idx -1;
 							while (k < len)
 							{
-								printf("Removing char %c\n", cmd_t->arg_v[i][idx - 1]);
+//								printf("Removing char %c\n", cmd_t->arg_v[i][idx - 1]);
 								remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx - 1);
 								k++;
 							}
@@ -179,7 +180,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							}
 						}
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
-						printf("%d\n", input_idx);
+//						printf("%d\n", input_idx);
 						if (input_idx >= 0 && ft_strlen(cmd_t->input_v[input_idx]) == 0)
 						{
 							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
@@ -195,12 +196,12 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 					}
 					else if (cmd_t->arg_v[i + 1])
 					{
-						printf("1\n");
+//						printf("1\n");
 						// Parse the char part (the previous argument)
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						if (input_idx < 0)
 							return (-1); // this is not possible.
-						printf("putain\n");
+//						printf("putain\n");
 						remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
 						if (cmd_t->output_type == 'A')
 							remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
@@ -214,7 +215,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
 								return (-1);
 						}
-						printf("2\n");
+//						printf("2\n");
 						// Parse the pathname part
 						input_idx = 0;
 						while (cmd_t->arg_v[i + 1][input_idx] && cmd_t->arg_v[i + 1][input_idx] != '>' && cmd_t->arg_v[i + 1][input_idx] != '<')
@@ -224,7 +225,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							return (-1);
 						fd = rd_output(*path_type);
 						close(fd);
-						printf("%s\n", *path_type);
+//						printf("%s\n", *path_type);
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i + 1]);
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 						cmd_t->input_v[input_idx] = cmd_t->arg_v[i + 1];
