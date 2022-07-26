@@ -68,3 +68,42 @@ int	ft_is_a_whitespace_or_empty_string(const char *str)
 		return (0);
 	return (9);
 }
+
+static int	free_command(t_cmd_lst *cmd_t)
+{
+	int	idx;
+
+	if (cmd_t->options_v)
+		free(cmd_t->options_v);
+	if (cmd_t->input_v)
+		free(cmd_t->input_v);
+	if (cmd_t->arg_v)
+	{
+		idx = 0;
+		while (idx < cmd_t->arg_c)
+			free(cmd_t->arg_v[idx++]);
+		free(cmd_t->arg_v);
+	}
+	if (cmd_t->parsing_v)
+	{
+		idx = 0;
+		while (idx < cmd_t->input_c)
+			free(cmd_t->parsing_v[idx++]);
+		free(cmd_t->parsing_v);
+	}
+	free(cmd_t);
+	return (0);
+}
+
+int	free_command_lst(t_cmd_lst *cmd_t)
+{
+	t_cmd_lst	*tmp;
+
+	while (cmd_t)
+	{
+		tmp = cmd_t->next;
+		free_command(cmd_t);
+		cmd_t = tmp;
+	}
+	return (0);
+}
