@@ -42,6 +42,14 @@ static int	exec(const char *path, char **argv, char **envp)
 	return (9);
 }
 
+static void	ft_not_found(const char *cmd)
+{
+	ft_putstr_fd(STDERR_FILENO, "SuperShell: ");// PROTECT
+	ft_putstr_fd(STDERR_FILENO, cmd);// PROTECT
+	ft_putstr_fd(STDERR_FILENO, ": command not found\n");// PROTECT
+	errno = 127;
+}
+
 static int	relative_path(t_list **env, const char *cmd, char **argv)
 {
 	char	**paths;
@@ -49,9 +57,12 @@ static int	relative_path(t_list **env, const char *cmd, char **argv)
 	int		i;
 
 	paths = find_paths(*env, cmd);
-	envp = NULL;
 	if (!paths)
+	{
+		ft_not_found(cmd);
 		return (0); //ENOUGH? Not in fd?
+	}
+	envp = NULL;
 	i = get_the_right_path_index(paths);
 	if (access(paths[i], F_OK) == 0)
 	{
@@ -61,12 +72,7 @@ static int	relative_path(t_list **env, const char *cmd, char **argv)
 		exec(paths[i], argv, envp);
 	}
 	else
-	{
-		ft_putstr_fd(STDERR_FILENO, "SuperShell: "); // PROTECT
-		ft_putstr_fd(STDERR_FILENO, cmd); // PROTECT
-		ft_putstr_fd(STDERR_FILENO, ": command not found\n"); // PROTECT
-		errno = 127;
-	}
+		ft_not_found(cmd);
 	return (ewp_clear(9, paths, envp));
 }
 

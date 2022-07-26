@@ -65,6 +65,8 @@ char	**find_paths(t_list *env, const char *cmd)
 
 	while (env && ft_strncmp(id, env->id, -1))
 		env = env->next;
+	if (!env)
+		return (NULL);
 	if (!ft_strncmp(id, env->id, -1))
 		global_paths = env->value;
 	else
