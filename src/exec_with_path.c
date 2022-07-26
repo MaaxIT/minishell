@@ -31,14 +31,15 @@ static int	exec(const char *path, char **argv, char **envp)
 	if (g_pid == 0)
 		err = execve(path, argv, envp); // PROTECT FROM EXECVE ERRORS
 	else
-		waitpid(g_pid, NULL, 0); // PROTECT FROM WAITPID ERRORS
+	{
+		waitpid(g_pid, &errno, 0); // PROTECT FROM WAITPID ERRORS
+		errno /= 256;
+	}
 	if (err == -1)
 	{
 		print_error(0);
 		return (0);
 	}
-	else
-		errno = 0;
 	return (9);
 }
 
