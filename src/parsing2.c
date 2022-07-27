@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 15:39:53 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 16:09:51 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,9 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strndup(cmd_t->arg_v[i] + idx + 1, len - (idx + 1));
 						if (!path_type)
 							return (-1);
-						fd = rd_output(*path_type);
-						close(fd);
+						fd = open(*path_type, O_CREAT, 0644);
+						if (fd >= 0)
+							close(fd);
 						if (cmd_t->output_type == 'A')
 						{
 							k = idx -1;
@@ -262,8 +263,9 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strndup(cmd_t->arg_v[i + 1], input_idx);
 						if (!*path_type)
 							return (-1);
-						fd = rd_output(*path_type);
-						close(fd);
+						fd = open(*path_type, O_CREAT, 0644);
+						if (fd >= 0)
+							close(fd);
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 						idx = 0;
 						continue ;
