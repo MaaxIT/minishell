@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 01:10:42 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 20:18:17 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/27 18:47:35 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int	free_command(t_cmd_lst *cmd_t)
 	if (cmd_t->parsing_v)
 	{
 		idx = 0;
-		while (idx < cmd_t->input_c)
+		while (idx < cmd_t->arg_c)
 			free(cmd_t->parsing_v[idx++]);
 		free(cmd_t->parsing_v);
 	}

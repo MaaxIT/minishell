@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:06:54 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/27 15:30:24 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 19:54:29 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_pop(char **tab, int idx, int tabsize)
 	if (idx >= tabsize || !tab)
 	{
 		ft_free_2d_table(tab);
-		return (0);
+		return (NULL);
 	}
 	ret = malloc(sizeof(char *) * tabsize);
 	if (!ret)
@@ -44,8 +44,8 @@ char	**ft_pop(char **tab, int idx, int tabsize)
 		ft_free_2d_table(tab);
 		return (NULL);
 	}
-	ret[tabsize - 1] = NULL;
 	fill(tab, idx, tabsize, ret);
+	ret[tabsize - 1] = NULL;
 	if (tab[idx])
 		free(tab[idx]);
 	free(tab);

@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/24 21:53:04 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 18:49:29 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static int	parse_order(t_cmd_lst *cmd_t, t_list *env, int i)
 	}
 	if (parse_quotes(cmd_t, env) == -1)
 		return (-1);
-	if (remove_quotes_from_bin(cmd_t, i) == -1)
-		return (-1);
+	i = (int)i;
+	// if (remove_quotes_from_bin(cmd_t, i) == -1)
+		// return (-1);
 	if (parse_redirections(cmd_t) == -1)
 		return (-1);
 	return (0);
