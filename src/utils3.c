@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:05:05 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:09:41 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/27 17:42:55 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,18 @@ void	ft_bzero(void *str, size_t size)
 	str_cpy = str;
 	while (i < size)
 		str_cpy[i++] = '\0';
+}
+
+int	is_env_char(int ch, int is_first)
+{
+	int	rtrn;
+	int	check;
+
+	rtrn = ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'));
+	check = (ch != '_' && !(ch >= '0' && ch <= '9'));
+	if (is_first)
+		rtrn = (rtrn && check);
+	else
+	    rtrn = (rtrn || !check);
+	return (rtrn);
 }
