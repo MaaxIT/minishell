@@ -53,9 +53,9 @@ char	*ft_strnstr(char *str, char *set, size_t len)
 	return (NULL);
 }
 
-int	ft_strlensep(const char *str, char sep)
+size_t	ft_strlensep(const char *str, char sep)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i] && str[i] != sep)

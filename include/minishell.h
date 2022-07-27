@@ -99,7 +99,7 @@ char		*ft_arrjoin(char **split, size_t len, char sep);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_pop(char **tab, int idx, int tabsize);
 char		*ft_strnstr(char *str, char *set, size_t len);
-int			ft_strlensep(const char *str, char sep);
+size_t		ft_strlensep(const char *str, char sep);
 void		ft_bzero(void *str, size_t size);
 char		*ft_strdup(const char *str);
 char		*ft_strndup(const char *str, size_t n);

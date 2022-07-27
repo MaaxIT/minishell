@@ -82,7 +82,7 @@ int	exec_with_path(t_list **env, const char *cmd, char **argv)
 	char	**envp;
 
 	envp = NULL;
-	if (cmd && access(cmd, F_OK) == 0)
+	if (cmd && ft_strlensep(cmd, '/') != ft_strlen(cmd) && access(cmd, F_OK) == 0)
 	{
 		envp = create_envp((*env)->next);
 		if (!envp)
