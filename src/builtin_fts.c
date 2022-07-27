@@ -14,7 +14,6 @@
 
 int	bi_echo(int fd, t_cmd_lst *cmd)
 {
-	int	err;
 	int	i;
 	int	newline;
 
@@ -22,20 +21,16 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 	newline = 1;
 	while (i < cmd->input_c)
 	{
-		err = ft_putstr_fd(fd, cmd->input_v[i]);
-		if (err == -1)
-			return (0); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
-		if (cmd->input_v[i + 1] && write(fd, " ", 1) == -1)
-			return (0);
+		ft_putstr_fd(fd, cmd->input_v[i]);
+		if (cmd->input_v[i + 1])
+			write(fd, " ", 1);
 		if (cmd->options_v && cmd->options_v[i] && \
 			!ft_strncmp(cmd->options_v[i], "-n", -1))
 			newline = 0;
 		i++;
 	}
 	if (newline)
-		err = write(fd, "\n", 1);
-	if (err == -1)
-		return (0); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+		write(fd, "\n", 1);
 	return (9);
 }
 
@@ -50,7 +45,7 @@ int	bi_cd(int fd, t_cmd_lst *cmd)
 	if (err == -1)
 	{
 		ft_putstr_fd(STDERR_FILENO, "SuperShell: cd: ");
-		ft_putstr_fd(STDERR_FILENO, cmd->input_v[0]); // PROTECT?
+		ft_putstr_fd(STDERR_FILENO, cmd->input_v[0]);
 		ft_putstr_fd(STDERR_FILENO, ": ");
 		print_error(0); //IS THAT ENOUGH? PRINTING THE ERR IN TREATCMD
 		errno = 1;
@@ -62,16 +57,12 @@ int	bi_cd(int fd, t_cmd_lst *cmd)
 int	bi_pwd(int fd)
 {
 	char	*cwd;
-	int		err;
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 		return (0); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
-	err = ft_putstr_fd(fd, cwd);
-	if (err == -1)
-		return (0); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
-	if (write(fd, "\n", 1) == -1)
-		return (0); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+	ft_putstr_fd(fd, cwd);
+	write(fd, "\n", 1);
 	return (9);
 }
 
@@ -92,14 +83,10 @@ int	bi_env(int fd, t_list *env)
 	{
 		if (env->id && env->value)
 		{
-			if (env->id && ft_putstr_fd(fd, env->id) == -1)
-				return (0);
-			if (write(fd, "=", 1) == -1)
-				return (0);
-			if (env->value && ft_putstr_fd(fd, env->value) == -1)
-				return (0);
-			if (write(fd, "\n", 1) == -1)
-				return (0);
+			ft_putstr_fd(fd, env->id);
+			write(fd, "=", 1);
+			ft_putstr_fd(fd, env->value);
+			write(fd, "\n", 1);
 		}
 		env = env->next;
 	}
