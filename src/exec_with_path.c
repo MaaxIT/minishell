@@ -24,18 +24,20 @@ static int	get_the_right_path_index(char **paths)
 
 static int	exec(const char *path, char **argv, char **envp)
 {
+	int	execve_ret;
 	int	err;
 
 	g_pid = fork(); // NOT SURE OF THIS TRICK AND NEEDA PROTECT
-	err = 0;
+	execve_ret = 0;
 	if (g_pid == 0)
-		err = execve(path, argv, envp); // PROTECT FROM EXECVE ERRORS
+		execve_ret = execve(path, argv, envp); // PROTECT FROM EXECVE ERRORS
 	else
 	{
-		waitpid(g_pid, &errno, 0); // PROTECT FROM WAITPID ERRORS
-		errno /= 256;
+		waitpid(g_pid, &err, 0); // PROTECT FROM WAITPID ERRORS
+		if (errno != 130)
+			errno = err / 256;
 	}
-	if (err == -1)
+	if (execve_ret == -1)
 	{
 		print_error(0);
 		return (0);
