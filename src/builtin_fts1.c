@@ -18,8 +18,6 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 	int	i;
 	int	newline;
 
-	if (!cmd->input_v)
-		return (9);
 	i = 0;
 	newline = 1;
 	while (i < cmd->input_c)
