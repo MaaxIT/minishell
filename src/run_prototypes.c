@@ -29,7 +29,7 @@ int	run_command(t_list **env, t_cmd_lst *cmd, t_cmd_lst *top_cmd)
 	else if (!ft_strncmp(cmd->binary, "env", -1))
 		err = bi_env(fd, *env);
 	else if (!ft_strncmp(cmd->binary, "export", -1))
-		err = bi_export(fd, env, cmd);
+		err = bi_export(env, cmd);
 	else if (!ft_strncmp(cmd->binary, "unset", -1))
 		err = bi_unset(env, cmd);
 	else

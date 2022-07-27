@@ -69,7 +69,7 @@ int			bi_cd(int fd, t_cmd_lst *cmd);
 int			bi_pwd(int fd);
 int			bi_exit(int fd, t_list **env, t_cmd_lst *cmd);
 int			bi_env(int fd, t_list *env);
-int			bi_export(int fd, t_list **env, t_cmd_lst *cmd);
+int			bi_export(t_list **env, t_cmd_lst *cmd);
 int			bi_unset(t_list **env, t_cmd_lst *cmd);
 
 /* exec_with_path and its utils */
@@ -104,6 +104,7 @@ void		ft_bzero(void *str, size_t size);
 char		*ft_strdup(const char *str);
 char		*ft_strndup(const char *str, size_t n);
 int			ft_is_a_whitespace_or_empty_string(const char *str);
+int		ft_isalnum(char c);
 
 /* Split prototype */
 char		**split_cmd_lst(char *cmd);
