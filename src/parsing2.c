@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 20:04:46 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 23:49:26 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
 		}
 		i++;
 	}
+	if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+		return ; // EXIT HERE, MEMORY ERROR
 	cmd_t->options_c = options_new_c;
 	cmd_t->input_c = input_new_c;
 }
@@ -131,8 +133,7 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 			{
 				if (cmd_t->parsing_v && cmd_t->parsing_v[idx])
 				{
-					int pute = cmd_t->arg_c;
-					cmd_t->parsing_v = ft_pop(cmd_t->parsing_v, idx, pute--);
+					cmd_t->parsing_v = ft_pop(cmd_t->parsing_v, idx, cmd_t->arg_c);
 					if (!cmd_t->parsing_v)
 						return ; // EXIT HERE, MEMORY ERROR
 				}
@@ -141,8 +142,6 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 					return ; // EXIT HERE, MEMORY ERROR
 				if (input_idx >= 0)
 					cmd_t->input_v[input_idx] = NULL;
-				if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-					return ; // EXIT HERE, MEMORY ERROR
 				if (is_bin)
 				{
 					if (cmd_t->arg_c > 0)
@@ -153,6 +152,8 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 					else
 						cmd_t->binary = NULL;
 				}
+				if (update_inputv_optionsv_after_redir(cmd_t) == -1)
+					return ; // EXIT HERE, MEMORY ERROR
 			}
 			break ;
 		}
