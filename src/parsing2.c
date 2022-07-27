@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 23:49:26 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 00:32:37 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		while (i < cmd_t->arg_c)
 		{
 			idx = 0;
-			while (cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
+			while (cmd_t->arg_v && cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
 			{
 				if (cmd_t->parsing_v[i][idx] == 'S' || cmd_t->parsing_v[i][idx] == 'D')
 				{
@@ -212,9 +212,18 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strndup(cmd_t->arg_v[i] + idx + 1, len - (idx + 1));
 						if (!path_type)
 							return (-1);
-						fd = open(*path_type, O_CREAT, 0644);
-						if (fd >= 0)
-							close(fd);
+						if (cmd_t->output_type == 'A' && cmd_t->input_path)
+						{
+							rd_delimiter(cmd_t->input_path);
+							free(*path_type);
+							*path_type = NULL;
+						}
+						else
+						{
+							fd = open(*path_type, O_CREAT, 0644);
+							if (fd >= 0)
+								close(fd);
+						}
 						if (cmd_t->output_type == 'A')
 						{
 							k = idx - 1;
@@ -249,9 +258,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 					else if (cmd_t->arg_v[i + 1])
 					{
 						// Parse the char part (the previous argument)
-						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
-						if (input_idx < 0)
-							return (-1); // this is not possible.
 						if (remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1) == 1)
 							i--;
 						if (cmd_t->output_type == 'A' && remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1) == 1)
@@ -263,11 +269,21 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						*path_type = ft_strndup(cmd_t->arg_v[i + 1], input_idx);
 						if (!*path_type)
 							return (-1);
-						fd = open(*path_type, O_CREAT, 0644);
-						if (fd >= 0)
-							close(fd);
+						if (cmd_t->output_type == 'A' && cmd_t->input_path)
+						{
+							rd_delimiter(cmd_t->input_path);
+							free(*path_type);
+							*path_type = NULL;
+						}
+						else
+						{
+							fd = open(*path_type, O_CREAT, 0644);
+							if (fd >= 0)
+								close(fd);
+						}
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
-						idx = 0;
+						if (i < 0)
+							i = 0;
 						continue ;
 					}
 				}

@@ -6,38 +6,11 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 19:24:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 00:26:29 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Replace a substring in str and reallocate it with the good size */
-int	str_replace_sub(char *origin, char *new, size_t start, size_t end)
-{
-	char	*backup;
-	size_t	max;
-
-	backup = ft_strdup(origin);
-	if (!backup)
-		return (-1);
-	free(origin);
-	max = start + ft_strlen(new);
-	if (ft_strlen(backup) > max)
-		max = ft_strlen(backup);
-	origin = malloc(sizeof(char) * (max + 1));
-	if (!origin)
-	{
-		origin = backup;
-		return (-1);
-	}
-	ft_bzero(origin, max);
-	ft_strlcpy(origin, backup, start + 1);
-	ft_strlcpy(origin + ft_strlen(origin), new, -1);
-	ft_strlcpy(origin + ft_strlen(origin), backup + end, -1);
-	free(backup);
-	return (0);
-}
 
 int	replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 {
@@ -45,7 +18,9 @@ int	replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	char	*new;
 	size_t	sep_idx;
 	size_t	len;
+	int		rtrn;
 
+	rtrn = 0;
 	found = ft_strnstr(*str, old, -1);
 	if (!found)
 		return (-2);
@@ -59,13 +34,16 @@ int	replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	ft_strlcat(new, newsub, -1);
 	ft_strlcat(new, *str + sep_idx + ft_strlen(old), -1);
 	if (cmd_t)
+	{
+		rtrn = (ft_strlen(new) == 0);
 		sync_arg(cmd_t, *str, new);
+	}
 	else
 	{
 		free(*str);
 		*str = new;
 	}
-	return (0);
+	return (rtrn);
 }
 
 /* Remove a character from a string */
@@ -91,32 +69,6 @@ int	remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx)
 		*str = cpy;
 	}
 	return (rtrn);
-}
-
-/* Return a new allocated string of str without the character at index idx */
-char	*new_str_without_char(char *str, int idx, int freestr)
-{
-	char	*new;
-	int		i;
-	int		ins;
-
-	if (!str)
-		return (NULL);
-	new = malloc(sizeof(char) * ft_strlen(str));
-	if (!new)
-		return (NULL);
-	i = 0;
-	ins = 0;
-	while (str[i])
-	{
-		if (i != idx)
-			new[ins++] = str[i];
-		i++;
-	}
-	new[ins] = '\0';
-	if (freestr)
-		free(str);
-	return (new);
 }
 
 /* Generate a new string with a repeating character */
