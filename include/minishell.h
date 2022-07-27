@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/27 17:47:09 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 00:25:41 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
 void		sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input);
 
 /* Memory utils prototypes */
-int			str_replace_sub(char *origin, char *new, size_t start, size_t end);
-char		*new_str_without_char(char *str, int idx, int freestr);
 char		*insert_str_at_index(char *str, char *to_insert, int idx);
 char		*ft_strdup_char(char c, size_t repeats);
 int			replace_sub_in_str(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
