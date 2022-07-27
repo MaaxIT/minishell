@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/26 23:48:58 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 14:31:38 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
-	// print_structure(cmd_t);
 	return (0);
 }
 
@@ -400,17 +399,15 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 					len++;
 					idx++;
 				}
-				sub = ft_substr(cmd_t->input_v[i], idx - len, len);
+				sub = ft_substr(cmd_t->input_v[i], idx - len - 1, len + 1);
 				if (!sub)
 					return (-1);
-				subparsing = ft_substr(cmd_t->parsing_v[i], idx - len, len);
+				subparsing = ft_substr(cmd_t->parsing_v[i], idx - len - 1, len + 1);
 				if (!subparsing)
 					return (-1);
-				val = get_env_by_id(env, sub);
+				val = get_env_by_id(env, sub + 1);
 				if (val)
 				{
-					if (remove_char_from_str(cmd_t, &cmd_t->input_v[i], idx - len - 1) == -1)
-						return (-1); // memory error
 					if (replace_sub_in_str(cmd_t, &cmd_t->input_v[i], sub, val->value) == -1)
 						return (-1); // memory error
 					free(sub);
