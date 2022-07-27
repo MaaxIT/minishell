@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 16:09:51 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 17:50:11 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,13 +389,14 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		idx = 0;
 		while (cmd_t->input_v[i] && cmd_t->input_v[i][idx])
 		{
-			if (cmd_t->input_v[i][idx] == '$' && cmd_t->parsing_v[i][idx] == 'M')
+			if (cmd_t->input_v[i][idx] == '$' && is_env_char(cmd_t->input_v[i][idx + 1], 1) && cmd_t->parsing_v[i][idx] == 'M')
 			{
 				len = 0;
 				idx++;
 				while (cmd_t->parsing_v[i][idx] && \
 					(cmd_t->parsing_v[i][idx] == 'D' || cmd_t->parsing_v[i][idx] == 'M') && \
-					cmd_t->input_v[i][idx] != '$' && cmd_t->input_v[i][idx] != '\'' && cmd_t->input_v[i][idx] != '\"')
+					cmd_t->input_v[i][idx] != '$' && cmd_t->input_v[i][idx] != '\'' && cmd_t->input_v[i][idx] != '\"' \
+					&& is_env_char(cmd_t->input_v[i][idx], (len == 0)))
 				{
 					len++;
 					idx++;
