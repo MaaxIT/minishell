@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:17:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/24 21:54:01 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 20:09:40 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	count_splits(char *cmd)
 		}
 		else if (cmd[i] && cmd[i] != ' ' && !capt)
 			idx++;
+		printf("%s (%c) (%d)\n", cmd, cmd[i + 1], i + 1);
 		while (cmd[i + 1] && cmd[i + 1] != ' ' && !capt)
 			i++;
 		i++;
