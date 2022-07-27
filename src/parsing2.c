@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/28 00:32:37 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 00:44:19 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							rd_delimiter(cmd_t->input_path);
 							free(*path_type);
 							*path_type = NULL;
+							cmd_t->input_path = NULL;
 						}
 						else
 						{
@@ -270,11 +271,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						if (!*path_type)
 							return (-1);
 						if (cmd_t->output_type == 'A' && cmd_t->input_path)
-						{
 							rd_delimiter(cmd_t->input_path);
-							free(*path_type);
-							*path_type = NULL;
-						}
 						else
 						{
 							fd = open(*path_type, O_CREAT, 0644);
@@ -282,6 +279,12 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 								close(fd);
 						}
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
+						if (cmd_t->output_type == 'A' && cmd_t->input_path)
+						{
+							free(*path_type);
+							*path_type = NULL;
+							cmd_t->input_path = NULL;
+						}
 						if (i < 0)
 							i = 0;
 						continue ;
