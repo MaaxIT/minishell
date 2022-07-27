@@ -36,7 +36,7 @@ static char	**add_cmd_to_path(char **dirpaths, const char *cmd)
 	// if !path, does not enter the while loop and return path = NULL
 	paths = malloc_paths(dirpaths);
 	i = 0;
-	while (paths && dirpaths[i])
+	while (paths && dirpaths && dirpaths[i])
 	{
 		tmp = ft_strjoin(dirpaths[i], "/");
 		if (!tmp)
@@ -70,6 +70,8 @@ char	**find_paths(t_list *env, const char *cmd)
 	if (!ft_strncmp(id, env->id, -1))
 		global_paths = env->value;
 	else
+		return (NULL);
+	if (!global_paths)
 		return (NULL);
 	dirpaths = ft_split(global_paths, ':');
 	paths = add_cmd_to_path(dirpaths, cmd);

@@ -25,7 +25,7 @@ static int	ft_isvalid(t_cmd_lst *cmd)
 			return(ft_print_invalid(0, str));
 		i++;
 	}
-	if (!str[i] || str[i] != '=')
+	if (str[i] && str[i] != '=')
 		return (0);
 	return (9);
 }
@@ -36,10 +36,6 @@ static int	ft_export(t_list **env_address, t_list *env, char *id, char *value)
 
 	if (!id)
 		return (9); // RETURN TRE RIGHT CODE HERE!!
-	else if (!value)
-		value = ft_strdup("");
-	if (!value)
-		return (9);
 	while (env)
 	{
 		if (!ft_strncmp(id, env->id, -1))
@@ -58,6 +54,29 @@ static int	ft_export(t_list **env_address, t_list *env, char *id, char *value)
 	return (9); //RETURN RIGHT CODE
 }
 
+static void	ft_export_no_arg(t_list *env)
+{
+	while (env)
+	{
+		if (env->id && !ft_strncmp(env->id, "_", -1))
+		{
+			env = env->next;
+			continue;
+		}
+		ft_putstr_fd(STDOUT_FILENO, "declare -x ");
+		if (env->id)
+			ft_putstr_fd(STDOUT_FILENO, env->id);
+		if (env->value)
+		{
+			write(STDOUT_FILENO, "=\"", 2);
+			ft_putstr_fd(STDOUT_FILENO, env->value);
+			write(STDOUT_FILENO, "\"", 1);
+		}
+		write(STDOUT_FILENO, "\n", 1);
+		env = env->next;
+	}
+}
+
 int	bi_export(t_list **env_address, t_cmd_lst *cmd)
 {
 	int	ret;
@@ -65,7 +84,7 @@ int	bi_export(t_list **env_address, t_cmd_lst *cmd)
 
 	if (!cmd->input_v)
 	{
-	//	ft_export_no_arg();
+		ft_export_no_arg((*env_address)->next);
 		return (9); //OK?
 	}
 	if (!ft_isvalid(cmd))

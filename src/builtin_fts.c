@@ -90,14 +90,17 @@ int	bi_env(int fd, t_list *env)
 	env = env->next;
 	while (env)
 	{
-		if (env->id && ft_putstr_fd(fd, env->id) == -1)
-			return (0);
-		if (write(fd, "=", 1) == -1)
-			return (0);
-		if (env->value && ft_putstr_fd(fd, env->value) == -1)
-			return (0);
-		if (write(fd, "\n", 1) == -1)
-			return (0);
+		if (env->id && env->value)
+		{
+			if (env->id && ft_putstr_fd(fd, env->id) == -1)
+				return (0);
+			if (write(fd, "=", 1) == -1)
+				return (0);
+			if (env->value && ft_putstr_fd(fd, env->value) == -1)
+				return (0);
+			if (write(fd, "\n", 1) == -1)
+				return (0);
+		}
 		env = env->next;
 	}
 	return (9);
