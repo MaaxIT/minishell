@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/24 21:53:04 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 17:47:09 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void		ft_bzero(void *str, size_t size);
 char		*ft_strdup(const char *str);
 char		*ft_strndup(const char *str, size_t n);
 int			ft_is_a_whitespace_or_empty_string(const char *str);
+int			is_env_char(int ch, int is_first);
 
 /* Split prototype */
 char		**split_cmd_lst(char *cmd);
