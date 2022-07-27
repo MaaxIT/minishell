@@ -6,7 +6,7 @@
 #    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/07/25 20:55:57 by maxime           ###   ########.fr        #
+#    Updated: 2022/07/27 15:21:13 by maxime           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ INC				= $(shell ls $(INC_DIR))
 
 # Compiler options
 CC				= gcc
-COMP_FLAGS		= -Wall -Wextra -Werror -g
+COMP_FLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
 

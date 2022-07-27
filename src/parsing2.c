@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 14:31:38 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 15:39:53 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,13 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 				cmd_t->arg_v = ft_pop(cmd_t->arg_v, idx, cmd_t->arg_c--);
 				if (!cmd_t->arg_v)
 					return ; // EXIT HERE, MEMORY ERROR
+				if (input_idx >= 0)
+				{
+					cmd_t->input_v[input_idx] = NULL;
+					if (cmd_t->parsing_v[input_idx])
+						free(cmd_t->parsing_v[input_idx]);
+					cmd_t->parsing_v[input_idx] = NULL;
+				}
 				if (update_inputv_optionsv_after_redir(cmd_t) == -1)
 					return ; // EXIT HERE, MEMORY ERROR
 				if (is_bin)
@@ -214,7 +221,11 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							k = idx -1;
 							while (k < len)
 							{
-								remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx - 1);
+								if (remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx - 1) == 1)
+								{
+									i--;
+									break ;
+								}
 								k++;
 							}
 						}
@@ -223,19 +234,13 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							k = idx;
 							while (k < len)
 							{
-								remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx);
+								if (remove_char_from_str(cmd_t, &cmd_t->arg_v[i], idx) == 1)
+								{
+									i--;
+									break ;
+								}
 								k++;
 							}
-						}
-						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
-						if (input_idx >= 0 && ft_strlen(cmd_t->input_v[input_idx]) == 0)
-						{
-							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i, cmd_t->arg_c--);
-							if (!cmd_t->arg_v)
-								return (-1);
-							cmd_t->input_v[input_idx] = NULL;
-							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-								return (-1);
 						}
 						idx = 0;
 						continue ;
@@ -246,19 +251,10 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i]);
 						if (input_idx < 0)
 							return (-1); // this is not possible.
-						remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
-						if (cmd_t->output_type == 'A')
-							remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1);
-						cmd_t->input_v[input_idx] = cmd_t->arg_v[i];
-						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
-						{
-							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i--, cmd_t->arg_c--);
-							if (!cmd_t->arg_v)
-								return (-1);
-							cmd_t->input_v[input_idx] = NULL;
-							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-								return (-1);
-						}
+						if (remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1) == 1)
+							i--;
+						if (cmd_t->output_type == 'A' && remove_char_from_str(cmd_t, &cmd_t->arg_v[i], ft_strlen(cmd_t->arg_v[i]) - 1) == 1)
+							i--;
 						// Parse the pathname part
 						input_idx = 0;
 						while (cmd_t->arg_v[i + 1][input_idx] && cmd_t->arg_v[i + 1][input_idx] != '>' && cmd_t->arg_v[i + 1][input_idx] != '<')
@@ -268,18 +264,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							return (-1);
 						fd = rd_output(*path_type);
 						close(fd);
-						input_idx = get_input_idx(cmd_t, cmd_t->arg_v[i + 1]);
 						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
-						cmd_t->input_v[input_idx] = cmd_t->arg_v[i + 1];
-						if (ft_strlen(cmd_t->input_v[input_idx]) == 0)
-						{
-							cmd_t->arg_v = ft_pop(cmd_t->arg_v, i + 1, cmd_t->arg_c--);
-							if (!cmd_t->arg_v)
-								return (-1);
-							cmd_t->input_v[input_idx] = NULL;
-							if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-								return (-1);
-						}
 						idx = 0;
 						continue ;
 					}
@@ -290,6 +275,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 		}
 		j++;
 	}
+	print_structure(cmd_t);
 	return (0);
 }
 
@@ -339,6 +325,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 {
 	int		i;
 	int		idx;
+	int		rtrn;
 	size_t	len;
 	t_list	*val;
 	char	*sub;
@@ -371,10 +358,22 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		{
 			if (cmd_t->parsing_v[i][idx] == 'E')
 			{
-				if (remove_char_from_str(cmd_t, &cmd_t->input_v[i], idx) == -1)
+				rtrn = remove_char_from_str(cmd_t, &cmd_t->input_v[i], idx);
+				if (rtrn == -1)
 					return (-1);
-				if (remove_char_from_str(NULL, &cmd_t->parsing_v[i], idx) == -1)
+				if (rtrn == 1)
+				{
+					i--;
+					break ;
+				}
+				rtrn = remove_char_from_str(NULL, &cmd_t->parsing_v[i], idx);
+				if (rtrn == -1)
 					return (-1);
+				if (rtrn == 1)
+				{
+					i--;
+					break ;
+				}
 			}
 			else
 				idx++;

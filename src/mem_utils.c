@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/25 15:03:25 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/27 15:36:19 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ int	replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	if (cmd_t)
 		sync_arg(cmd_t, *str, new);
 	else
+	{
 		free(*str);
-	*str = new;
+		*str = new;
+	}
 	return (0);
 }
 
@@ -70,18 +72,25 @@ int	replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 int	remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx)
 {
 	char	*cpy;
+	int		rtrn;
 
+	rtrn = 0;
 	cpy = malloc(ft_strlen(*str) * sizeof(char));
 	if (!cpy)
 		return (-1);
 	ft_strlcpy(cpy, *str, idx + 1);
 	ft_strlcat(cpy, *str + idx + 1, -1);
 	if (cmd_t)
+	{	
+		rtrn = (ft_strlen(cpy) == 0);
 		sync_arg(cmd_t, *str, cpy);
+	}
 	else
+	{
 		free(*str);
-	*str = cpy;
-	return (0);
+		*str = cpy;
+	}
+	return (rtrn);
 }
 
 /* Return a new allocated string of str without the character at index idx */
