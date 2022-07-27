@@ -153,7 +153,6 @@ void		ft_lstclear(t_list **lst);
 void		ft_cmd_lstadd_back(t_cmd_lst **top, t_cmd_lst *new);
 
 /* Other prototypes */
-int			new_cmd(t_list **env);
 int			run(t_list **env, t_cmd_lst *cmd);
 int			run_command(t_list **env, t_cmd_lst *cmd, t_cmd_lst *top_cmd);
 int			no_pipe(t_list **env, t_cmd_lst *cmd);
