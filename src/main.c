@@ -20,7 +20,7 @@ static void	parse_and_run(t_list **env, char *cmd_str)
 	cmd_t = initialize_command(cmd_str, *env);
 	if (!cmd_t)
 		print_error(0);
-	if (ft_is_a_whitespace_or_empty_string(cmd_t->binary))
+	if (!cmd_t->binary || ft_is_a_whitespace_or_empty_string(cmd_t->binary))
 		return;
 	if (cmd_t && !run(env, cmd_t))
 		print_error(0); //IS THAT ENOUGH?
