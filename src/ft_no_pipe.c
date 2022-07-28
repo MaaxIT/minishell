@@ -57,11 +57,11 @@ int	no_pipe(t_list **env, t_cmd_lst *cmd)
 
 	in_fd = rd_input(cmd->input_path);
 	if (in_fd == -1)
-		return (0); // RNOUGH?
+		return (0);
 	out_fd = get_out_fd(cmd);
 	if (out_fd == -1)
 	{
-		close(in_fd); // ENOUGH?
+		close(in_fd);
 		return (0);
 	}
 	ret = run_no_pipe(env, cmd, in_fd, out_fd);

@@ -37,7 +37,7 @@ char	*ft_itoa(int nbr)
 
 	ret = malloc(sizeof(char) * (ft_nbrlen(nbr) + 1));
 	if (!ret)
-		return (NULL); // IS THAT ENOUGH?
+		return (NULL);
 	sign = 1;
 	if (nbr < 0)
 		sign = -1;

@@ -17,6 +17,8 @@ int	update_env_return(t_list **env)
 {
 	static int	must_free = 9;
 
+	if (!env)
+		return (0);
 	if (must_free)
 		free((*env)->value);
 	(*env)->value = ft_itoa(errno);
@@ -56,7 +58,7 @@ static int	init_env_list_loop(char **envp, t_list **head, char *id, char *val)
 	{
 		offset = env_value_offset(*envp);
 		if (offset == -1)
-			return (-1); // will never happen since envp can't be NULL
+			return (-1);
 		if (offset > 0) // otherwise the line has no = (what we do so?)
 		{
 			id = ft_substr(*envp, 0, offset);

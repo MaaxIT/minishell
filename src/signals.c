@@ -39,8 +39,11 @@ static void	sigquit_handler(int signo)
 		errno = 128 + signo;
 }
 
-void	signals_init(void)
+int	signals_init(void)
 {
-	signal(SIGINT, sigint_handler); // ERROR IF == SIG_ERR
-	signal(SIGQUIT, sigquit_handler); // ERROR IF == SIG_ERR
+	if (signal(SIGINT, sigint_handler) == SIG_ERR)
+		return (0);
+	if (signal(SIGQUIT, sigquit_handler) == SIG_ERR)
+		return (0);
+	return (9);
 }

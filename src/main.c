@@ -24,13 +24,18 @@ static void	parse_and_run(t_list **env, char *cmd_str)
 		return;
 	}
 	if (!cmd_t->binary || ft_is_a_whitespace_or_empty_string(cmd_t->binary))
+	{
+		errno = 0;
+		if (!update_env_return(env))
+			print_error(0);
 		return;
+	}
 	if (cmd_t && !run(env, cmd_t))
-		print_error(0); //IS THAT ENOUGH?
+		print_error(0);
 	if (cmd_t)
 		free_command_lst(cmd_t);
 	if (!update_env_return(env))
-		print_error(0); //IS THAT ENOUGH?
+		print_error(0);
 }
 
 static int	trim_whitespaces(char **str)
@@ -80,8 +85,12 @@ int	main(int argc, char *argv[], char *envp[])
 	argv = (char **)argv;
 	env = NULL;
 	init_env_list(&env, envp); // Still need to manage errors
-	signals_init();
+	if (!signals_init())
+	{
+		print_error(0);
+		return (0);
+	}
 	if (!new_cmd(&env))
-		return (0);//TREAT ERROR WITH ERRNO
+		return (0);
 	return (0);
 }
