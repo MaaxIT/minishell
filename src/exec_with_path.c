@@ -47,9 +47,9 @@ static int	exec(const char *path, char **argv, char **envp)
 
 static void	ft_not_found(const char *cmd)
 {
-	ft_putstr_fd(STDERR_FILENO, "SuperShell: ");// PROTECT
-	ft_putstr_fd(STDERR_FILENO, cmd);// PROTECT
-	ft_putstr_fd(STDERR_FILENO, ": command not found\n");// PROTECT
+	ft_putstr_fd(STDERR_FILENO, "SuperShell: ");
+	ft_putstr_fd(STDERR_FILENO, cmd);
+	ft_putstr_fd(STDERR_FILENO, ": command not found\n");
 	errno = 127;
 }
 

@@ -33,7 +33,6 @@ static char	**add_cmd_to_path(char **dirpaths, const char *cmd)
 	char	**paths;
 	char	*tmp;
 
-	// if !path, does not enter the while loop and return path = NULL
 	paths = malloc_paths(dirpaths);
 	i = 0;
 	while (paths && dirpaths && dirpaths[i])
