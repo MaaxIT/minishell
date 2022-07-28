@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 20:07:33 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 16:31:03 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	init_split(char *cmd, int *idx, int *capt, int *i)
 }
 
 /* Split the str with spaces + simple & double quotes */
-static int	split_with_quotes(char *cmd, char **arr)
+static int	split_with_quotes(char *cmd, char **arr, char *parsing)
 {
 	int	i;
 	int	idx;
@@ -67,7 +67,7 @@ static int	split_with_quotes(char *cmd, char **arr)
 	last = i;
 	while (cmd[i])
 	{
-		if (cmd[i] && (cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
+		if (cmd[i] && parsing[i] != 'E' && (cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
 			capt = !capt;
 		else if (cmd[i] && cmd[i] == ' ' && !capt)
 		{
@@ -90,12 +90,14 @@ char	**split_cmd_lst(char *cmd)
 	int		splitc;
 	char	**splitv;
 	int		idx;
+	char	*parsing;
 
 	if (!cmd)
 		return (NULL); // In case cmd is invalid
+	parsing = ft_strdup_char('M', ft_strlen(cmd));
 	if (!quotes_even(cmd))
 		return (NULL); // In case quotes are not closed, SHOULD STILL WORK
-	splitc = count_splits(cmd);
+	splitc = count_splits(cmd, parsing);
 	if (splitc <= 0)
 		return (NULL); // In case cmd is empty
 	splitv = malloc(sizeof(char *) * (splitc + 1));
@@ -104,7 +106,11 @@ char	**split_cmd_lst(char *cmd)
 	idx = 0;
 	while (idx <= splitc)
 		splitv[idx++] = NULL;
-	if (split_with_quotes(cmd, splitv) == -1)
+	if (split_with_quotes(cmd, splitv, parsing) == -1)
+	{
+		free(parsing);	
 		return (free_split(splitv));
+	}
+	free(parsing);
 	return (splitv);
 }

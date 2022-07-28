@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/28 00:25:41 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 16:17:19 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void		ft_bzero(void *str, size_t size);
 char		*ft_strdup(const char *str);
 char		*ft_strndup(const char *str, size_t n);
 int			ft_is_a_whitespace_or_empty_string(const char *str);
-int		ft_isalnum(char c);
+int			ft_isalnum(char c);
 int			is_env_char(int ch, int is_first);
 
 /* Split prototype */
@@ -112,7 +112,7 @@ char		**split_cmd_lst(char *cmd);
 char		**ft_split(const char *str, char sep);
 char		**ft_split_out_quotes(const char *str, char sep);
 char		**free_split(char **arr);
-int			count_splits(char *cmd);
+int			count_splits(char *cmd, char *parsing);
 
 /* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line, t_list *env);
@@ -124,6 +124,7 @@ int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 int			parse_redirections(t_cmd_lst *cmd_t);
 int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
 void		sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input);
+int			parse_input_quotes(char *input, char *parse);
 
 /* Memory utils prototypes */
 char		*insert_str_at_index(char *str, char *to_insert, int idx);
