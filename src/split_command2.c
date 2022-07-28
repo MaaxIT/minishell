@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:17:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/27 23:32:28 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 16:11:23 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**free_split(char **arr)
 }
 
 /* Count the amount of splits we will have in order to pre-allocate */
-int	count_splits(char *cmd)
+int	count_splits(char *cmd, char *parsing)
 {
 	int	i;
 	int	idx;
@@ -38,7 +38,7 @@ int	count_splits(char *cmd)
 	{
 		while (cmd[i] && cmd[i] == ' ' && !capt)
 			i++;
-		if (cmd[i] && (cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
+		if (cmd[i] && parsing[i] != 'E' && (cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
 		{
 			if (!capt)
 				idx++;

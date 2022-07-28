@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 18:49:29 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 16:40:00 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ static int	parse_order(t_cmd_lst *cmd_t, t_list *env, int i)
 	if (parse_quotes(cmd_t, env) == -1)
 		return (-1);
 	i = (int)i;
-	// if (remove_quotes_from_bin(cmd_t, i) == -1)
-		// return (-1);
 	if (parse_redirections(cmd_t) == -1)
 		return (-1);
+	print_structure(cmd_t);
 	return (0);
 }
 
@@ -50,6 +49,8 @@ static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 	split = split_cmd_lst(pipes[i]);
 	if (!split)
 		return (NULL); // NOT ENOUGH, NEED TO FREE PIPESPLT
+	for (int j = 1; split[j]; j++)
+		printf("|%s|\n", split[j]);
 	idx = 0;
 	while (split[idx])
 		idx++;
@@ -70,9 +71,14 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	char		**pipe_split;
 	int			i;
 
-	pipe_split = ft_split_out_quotes(line, '|');
-	if (!pipe_split)
-		return (NULL);
+	// pipe_split = ft_split_out_quotes(line, '|');
+	// if (!pipe_split)
+		// return (NULL);
+	
+	pipe_split = malloc(sizeof(char *) * 2);
+	pipe_split[0] = ft_strdup(line);
+	pipe_split[1] = NULL;
+
 	i = 0;
 	while (pipe_split[i])
 	{

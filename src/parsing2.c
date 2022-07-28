@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/28 00:44:19 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 17:52:39 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,15 +300,15 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 }
 
 /*
-	By default, all chars have meaning
-	D = Escaped by double quotes (no meaning)
+	By default, all chars have meaning (= M)
+	D = Escaped by double quotes (no meaning except on env vars)
 	S = Escaped by simple quotes (no meaning)
 	M = Meaning
 	E = This quote has been managed, remove it from the string
 */
 int	parse_input_quotes(char *input, char *parse)
 {
-	int		i;
+	size_t	i;
 	int		idx;
 
 	i = 0;
@@ -318,7 +318,7 @@ int	parse_input_quotes(char *input, char *parse)
 		{
 			parse[i] = 'E';
 			idx = i + 1;
-			while (input[idx] != '\"')
+			while (input[idx] && input[idx] != '\"')
 			{
 				if (input[idx] != '$')
 					parse[idx] = 'D';
@@ -331,12 +331,15 @@ int	parse_input_quotes(char *input, char *parse)
 		{
 			parse[i] = 'E';
 			idx = i + 1;
-			while (input[idx] != '\'')
+			while (input[idx] && input[idx] != '\'')
 				parse[idx++] = 'S';
 			parse[idx] = 'E';
 			i = idx;
 		}
 		i++;
+		if (i > ft_strlen(input))
+			i = ft_strlen(input);
+		printf("%zu\n", i);
 	}
 	return (0);
 }
@@ -357,11 +360,9 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	i = 0;
 	while (i < cmd_t->arg_c)
 	{
-		cmd_t->parsing_v[i] = malloc(sizeof(char) * (ft_strlen(cmd_t->arg_v[i]) + 1));
-		len = 0;
-		while (len < ft_strlen(cmd_t->arg_v[i]))
-			cmd_t->parsing_v[i][len++] = 'M';
-		cmd_t->parsing_v[i][len] = '\0';
+		cmd_t->parsing_v[i] = ft_strdup_char('M', ft_strlen(cmd_t->arg_v[i]));
+		if (!cmd_t->parsing_v[i])
+			return (-1); // Memory error
 		i++;
 	}
 	i = 0;
@@ -386,6 +387,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 					i--;
 					break ;
 				}
+				print_structure(cmd_t);
 				rtrn = remove_char_from_str(NULL, &cmd_t->parsing_v[i], idx);
 				if (rtrn == -1)
 					return (-1);
