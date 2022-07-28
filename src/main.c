@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/28 13:40:04 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 14:44:28 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,23 @@ static void	parse_and_run(t_list **env, char *cmd_str)
 		print_error(0); //IS THAT ENOUGH?
 }
 
-static int	fix_autocompletion_char(char **str)
+int	trim_whitespaces(char **str)
 {
-	int		i;
-	char	*new;
+	char	*cpy;
+	int		start;
+	int		end;
 
-	i = 0;
-	while ((*str)[i] && !((*str)[i] == 32 && !(*str)[i + 1]))
-		i++;
-	new = ft_strndup(*str, i);
-	if (!new)
+	start = 0;
+	while ((*str)[start] && ((*str)[start] == 32 || ((*str)[start] >= 9 && (*str)[start] <= 13)))
+		start++;
+	end = ft_strlen(*str) - 1;
+	while ((*str)[end] && ((*str)[end] == 32 || ((*str)[end] >= 9 && (*str)[end] <= 13)))
+		end--;
+	cpy = ft_strndup(*str + start, (end - start + 1));
+	if (!cpy)
 		return (-1);
 	free(*str);
-	*str = new;
+	*str = cpy;
 	return (0);
 }
 
@@ -52,7 +56,7 @@ static int	new_cmd(t_list **env)
 
 	g_pid = 0;
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
-	if (!cmd_str || fix_autocompletion_char(&cmd_str) == -1)
+	if (!cmd_str || trim_whitespaces(&cmd_str) == -1)
 		bi_exit(1, env, NULL);
 	if (!ft_is_a_whitespace_or_empty_string(cmd_str))
 		parse_and_run(env, cmd_str);
