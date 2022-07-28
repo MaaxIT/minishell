@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/24 21:33:59 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 13:40:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,30 @@ static void	parse_and_run(t_list **env, char *cmd_str)
 	if (!update_env_return(env))
 		print_error(0); //IS THAT ENOUGH?
 }
- 
+
+static int	fix_autocompletion_char(char **str)
+{
+	int		i;
+	char	*new;
+
+	i = 0;
+	while ((*str)[i] && !((*str)[i] == 32 && !(*str)[i + 1]))
+		i++;
+	new = ft_strndup(*str, i);
+	if (!new)
+		return (-1);
+	free(*str);
+	*str = new;
+	return (0);
+}
+
 static int	new_cmd(t_list **env)
 {
 	char	*cmd_str;
 
 	g_pid = 0;
 	cmd_str = readline(SHELL_PREFIX); //PROTECT AGAINST READLINE ERRORS?
-	if (!cmd_str)
+	if (!cmd_str || fix_autocompletion_char(&cmd_str) == -1)
 		bi_exit(1, env, NULL);
 	if (!ft_is_a_whitespace_or_empty_string(cmd_str))
 		parse_and_run(env, cmd_str);
