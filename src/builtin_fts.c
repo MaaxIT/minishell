@@ -47,7 +47,7 @@ int	bi_cd(int fd, t_cmd_lst *cmd)
 		ft_putstr_fd(STDERR_FILENO, "SuperShell: cd: ");
 		ft_putstr_fd(STDERR_FILENO, cmd->input_v[0]);
 		ft_putstr_fd(STDERR_FILENO, ": ");
-		print_error(0); //IS THAT ENOUGH? PRINTING THE ERR IN TREATCMD
+		print_error(0);
 		errno = 1;
 		return (0);
 	}

@@ -34,7 +34,7 @@ static int	exec(const char *path, char **argv, char **envp)
 	else
 	{
 		waitpid(g_pid, &err, 0); // PROTECT FROM WAITPID ERRORS
-		if (errno != 130)
+		if (errno != 128 + SIGQUIT && errno != 128 + SIGINT)
 			errno = err / 256;
 	}
 	if (execve_ret == -1)

@@ -30,7 +30,7 @@ static void	parse_and_run(t_list **env, char *cmd_str)
 		print_error(0); //IS THAT ENOUGH?
 }
 
-int	trim_whitespaces(char **str)
+static int	trim_whitespaces(char **str)
 {
 	char	*cpy;
 	int		start;

@@ -12,17 +12,23 @@
 
 #include "minishell.h"
 
+static void	error_and_exit(int x)
+{
+	print_error(0);
+	exit(x);
+}
+
 static int	run_cmd_pipe(t_list **env, int pipefd[2], int tempfd, \
 		t_cmd_lst *cmd, t_cmd_lst *top_cmd)
 {
 	if (close(pipefd[0]) == -1)
-		return (0);
+		error_and_exit(0);
 	if (dup2(tempfd, STDIN_FILENO) == -1)
-		return (0);
+		error_and_exit(0);
 	if (cmd->next && dup2(pipefd[1], STDOUT_FILENO) == -1)
-		return (0);
+		error_and_exit(0);
 	if (close(pipefd[1]) == -1)
-		return (0);
+		error_and_exit(0);
 	run_command(env, cmd, top_cmd);
 	exit(9);
 }
@@ -41,9 +47,9 @@ static int	adjust_fd(t_cmd_lst *cmd, int pipefd[2], int *readfd)
 	{
 		if (close(pipefd[1]) == -1)
 			return (0);
-		if (cmd->output_type == 'R') // R FOR REPLACE
+		if (cmd->output_type == 'R')
 			pipefd[1] = rd_output(cmd->output_path);
-		else if (cmd->output_type == 'A') // A FOR APPEND
+		else if (cmd->output_type == 'A')
 			pipefd[1] = rd_output_append(cmd->output_path);
 		if (pipefd[1] == -1)
 		{
@@ -74,7 +80,7 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 		close(readfd);
 		readfd = dup(pipefd[0]);
 		close(pipefd[0]);
-		close(pipefd[1]);
+		close(pipefd[1]); //PROTECT
 		waitpid(g_pid, NULL, 0);
 		cmd = cmd->next;
 	}

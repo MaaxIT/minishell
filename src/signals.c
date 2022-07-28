@@ -21,7 +21,7 @@ static void	sigint_handler(int signo)
 	if (!g_pid)
 		rl_redisplay();
 	else
-		errno = 130;
+		errno = 128 + signo;
 }
 
 static void	sigquit_handler(int signo)
@@ -35,6 +35,8 @@ static void	sigquit_handler(int signo)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	if (g_pid)
+		errno = 128 + signo;
 }
 
 void	signals_init(void)
