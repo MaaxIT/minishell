@@ -52,7 +52,7 @@ void	rd_delimiter(char *delimiter)
 	char	*line;
 	int		cmp;
 
-	line = readline("> "); // PROTECT AGAINST READLINE ERRORS?
+	line = readline("> ");
 	cmp = ft_strncmp(delimiter, line, -1);
 	free(line);
 	if (cmp)

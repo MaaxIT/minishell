@@ -28,7 +28,7 @@ static void	sigquit_handler(int signo)
 {
 	if (g_pid)
 	{
-		kill(g_pid, signo); // PROTECT
+		kill(g_pid, signo);
 		ft_putstr_fd(STDERR_FILENO, "Quit: 3\n");
 	}
 	rl_replace_line("", 0);

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	close_fd(int fd1, int fd2)
+static int	close_fd(int x, int fd1, int fd2)
 {
 	if (fd1 != -1 && close(fd1) == -1)
 	{
@@ -22,7 +22,7 @@ static int	close_fd(int fd1, int fd2)
 	}
 	if (fd2 != -1 && close(fd2) == -1)
 		return (0);
-	return (9);
+	return (x);
 }
 
 static int	get_out_fd(t_cmd_lst *cmd)
@@ -40,12 +40,18 @@ static int	run_no_pipe(t_list **env, t_cmd_lst *cmd, int in_fd, int out_fd)
 
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
-	dup2(in_fd, STDIN_FILENO);
-	dup2(out_fd, STDOUT_FILENO); // PROTECTION FOR ALL THIS
+	if (in == -1 || out == -1)
+		return (close_fd(0, in, out));
+	if (dup2(in_fd, STDIN_FILENO) == -1)
+		return (close_fd(0, in, out));
+	if (dup2(out_fd, STDOUT_FILENO) == -1)
+		return (close_fd(0, in, out));
 	run_command(env, cmd, cmd);
-	dup2(in, STDIN_FILENO);
-	dup2(out, STDOUT_FILENO);
-	close_fd(in, out); // PROTECTION
+	if (dup2(in, STDIN_FILENO) == -1)
+		return (close_fd(0, in, out));
+	if (dup2(out, STDOUT_FILENO) == -1)
+		return (close_fd(0, in, out));
+	close_fd(0, in, out);
 	return (9);
 }
 
@@ -65,6 +71,6 @@ int	no_pipe(t_list **env, t_cmd_lst *cmd)
 		return (0);
 	}
 	ret = run_no_pipe(env, cmd, in_fd, out_fd);
-	close_fd(in_fd, out_fd); // PROTECTION
+	close_fd(0, in_fd, out_fd);
 	return (ret);
 }
