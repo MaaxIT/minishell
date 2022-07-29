@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_with_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:47:07 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 21:20:20 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/29 17:13:09 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int	exec_with_path(t_list **env, const char *cmd, char **argv)
 	char	**envp;
 
 	envp = NULL;
-	if (cmd && ft_strlensep(cmd, '/') != ft_strlen(cmd) && access(cmd, F_OK) == 0)
+	if (cmd && ft_strlensep(cmd, '/') != ft_strlen(cmd) && \
+	access(cmd, F_OK) == 0)
 	{
 		envp = create_envp((*env)->next);
 		if (!envp)

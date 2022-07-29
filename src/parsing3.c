@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:47:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/24 21:53:04 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:14:48 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	remove_quotes_from_bin(t_cmd_lst *cmd_t, int i)
 	len = 0;
 	while (len < ft_strlen(cmd_t->binary)) // why was this part commented?
 	{
-		idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "\"", "");
+		idx = replace_sub(cmd_t, &cmd_t->arg_v[i], "\"", "");
 		if (idx == -1)
 			return (-1);
 		else if (idx == 0)
@@ -33,7 +33,7 @@ int	remove_quotes_from_bin(t_cmd_lst *cmd_t, int i)
 			len = 0;
 			continue ;
 		}
-		idx = replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], "'", "");
+		idx = replace_sub(cmd_t, &cmd_t->arg_v[i], "'", "");
 		if (idx == -1)
 			return (-1);
 		else if (idx == 0)

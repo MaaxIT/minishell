@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:05:05 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/27 17:42:55 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:17:12 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_bzero(void *str, size_t size)
 		str_cpy[i++] = '\0';
 }
 
-int	is_env_char(int ch, int is_first)
+int	is_envchar(int ch, int is_first)
 {
 	int	rtrn;
 	int	check;
@@ -84,6 +84,6 @@ int	is_env_char(int ch, int is_first)
 	if (is_first)
 		rtrn = (rtrn && check);
 	else
-	    rtrn = (rtrn || !check);
+		rtrn = (rtrn || !check);
 	return (rtrn);
 }

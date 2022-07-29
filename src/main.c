@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/28 16:34:04 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:38:22 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static void	parse_and_run(t_list **env, char *cmd_str)
 	if (!cmd_t)
 	{
 		print_error(0);
-		return;
+		return ;
 	}
 	if (!cmd_t->binary || ft_is_a_whitespace_or_empty_string(cmd_t->binary))
 	{
 		errno = 0;
 		if (!update_env_return(env))
 			print_error(0);
-		return;
+		return ;
 	}
 	if (cmd_t && !run(env, cmd_t))
 		print_error(0);

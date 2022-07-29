@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/28 16:31:03 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:12:44 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static int	split_with_quotes(char *cmd, char **arr, char *parsing)
 	last = i;
 	while (cmd[i])
 	{
-		if (cmd[i] && parsing[i] != 'E' && (cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
+		if (cmd[i] && parsing[i] != 'E' && (cmd[i] == '\'' || cmd[i] == '\"') \
+		&& cmd[i + 1])
 			capt = !capt;
 		else if (cmd[i] && cmd[i] == ' ' && !capt)
 		{
@@ -108,7 +109,7 @@ char	**split_cmd_lst(char *cmd)
 		splitv[idx++] = NULL;
 	if (split_with_quotes(cmd, splitv, parsing) == -1)
 	{
-		free(parsing);	
+		free(parsing);
 		return (free_split(splitv));
 	}
 	free(parsing);

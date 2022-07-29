@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_fts_export.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 17:10:29 by maxime            #+#    #+#             */
+/*   Updated: 2022/07/29 17:20:50 by maxime           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	ft_print_invalid(int ret, char *arg)
@@ -10,7 +22,7 @@ static int	ft_print_invalid(int ret, char *arg)
 
 static int	ft_isvalid(t_cmd_lst *cmd)
 {
-	int	i;
+	int		i;
 	char	*str;
 
 	if (!cmd->input_v || !cmd->input_v[0])
@@ -18,11 +30,11 @@ static int	ft_isvalid(t_cmd_lst *cmd)
 	str = cmd->input_v[0];
 	i = 0;
 	if (str[0] && str[0] >= '0' && str[0] <= '9')
-		return(ft_print_invalid(0, str));
+		return (ft_print_invalid(0, str));
 	while (str[i] && str[i] != '=')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return(ft_print_invalid(0, str));
+			return (ft_print_invalid(0, str));
 		i++;
 	}
 	if (str[i] && str[i] != '=')
@@ -61,7 +73,7 @@ static void	ft_export_no_arg(t_list *env)
 		if (env->id && !ft_strncmp(env->id, "_", -1))
 		{
 			env = env->next;
-			continue;
+			continue ;
 		}
 		ft_putstr_fd(STDOUT_FILENO, "declare -x ");
 		if (env->id)
@@ -79,7 +91,7 @@ static void	ft_export_no_arg(t_list *env)
 
 int	bi_export(t_list **env_address, t_cmd_lst *cmd)
 {
-	int	ret;
+	int		ret;
 	char	**split;
 
 	if (!cmd->input_v)

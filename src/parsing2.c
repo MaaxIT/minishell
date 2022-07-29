@@ -6,16 +6,15 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 16:26:40 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:44:19 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int    print_structure(t_cmd_lst *cmd_t)
+int	print_structure(t_cmd_lst *cmd_t)
 {
-	(void)cmd_t;
-	int     idx;
+	int	idx;
 
 	printf("\n-===- Debugging structure -===-\n");
 	printf("- original: |%s|\n", cmd_t->original);
@@ -50,7 +49,7 @@ int    print_structure(t_cmd_lst *cmd_t)
 		idx = 0;
 		while (idx < cmd_t->arg_c)
 		{
-			printf("        %d:  |%s| (%p)\n", idx, cmd_t->parsing_v[idx], cmd_t->parsing_v[idx]);
+			printf("        %d:  |%s|\n", idx, cmd_t->parsing_v[idx]);
 			idx++;
 		}
 	}
@@ -76,7 +75,7 @@ int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 	return (-1);
 }
 
-void	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
+int	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
 {
 	int	i;
 	int	options_new_c;
@@ -98,19 +97,20 @@ void	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
 	while (i < cmd_t->input_c)
 	{
 		if (cmd_t->input_v[i] == addr)
-		{	
+		{
 			cmd_t->input_v[i] = NULL;
 			input_new_c--;
 		}
 		i++;
 	}
 	if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-		return ; // EXIT HERE, MEMORY ERROR
+		return (-1);
 	cmd_t->options_c = options_new_c;
 	cmd_t->input_c = input_new_c;
+	return (0);
 }
 
-void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
+int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 {
 	int	idx;
 	int	is_bin;
@@ -135,11 +135,11 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 				{
 					cmd_t->parsing_v = ft_pop(cmd_t->parsing_v, idx, cmd_t->arg_c);
 					if (!cmd_t->parsing_v)
-						return ; // EXIT HERE, MEMORY ERROR
+						return (-1);
 				}
 				cmd_t->arg_v = ft_pop(cmd_t->arg_v, idx, cmd_t->arg_c--);
 				if (!cmd_t->arg_v)
-					return ; // EXIT HERE, MEMORY ERROR
+					return (-1);
 				if (input_idx >= 0)
 					cmd_t->input_v[input_idx] = NULL;
 				if (is_bin)
@@ -147,18 +147,20 @@ void	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 					if (cmd_t->arg_c > 0)
 					{
 						cmd_t->binary = cmd_t->arg_v[0];
-						remove_from_input_and_options(cmd_t, cmd_t->arg_v[0]);
+						if (remove_from_input_and_options(cmd_t, cmd_t->arg_v[0]) == -1)
+							return (-1);
 					}
 					else
 						cmd_t->binary = NULL;
 				}
 				if (update_inputv_optionsv_after_redir(cmd_t) == -1)
-					return ; // EXIT HERE, MEMORY ERROR
+					return (-1);
 			}
 			break ;
 		}
 		idx++;
 	}
+	return (0);
 }
 
 int	parse_redirections(t_cmd_lst *cmd_t)
@@ -278,7 +280,7 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 							if (fd >= 0)
 								close(fd);
 						}
-						replace_sub_in_str(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
+						replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 						if (cmd_t->output_type == 'A' && cmd_t->input_path)
 						{
 							free(*path_type);
@@ -361,7 +363,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	size_t	len;
 	t_list	*val;
 	char	*sub;
-	char	*subparsing;
+	char	*subparse;
 
 	cmd_t->parsing_v = malloc(sizeof(char *) * (cmd_t->arg_c + 1));
 	if (!cmd_t->parsing_v)
@@ -376,13 +378,11 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	}
 	cmd_t->parsing_v[i] = NULL;
 	i = 0;
-	print_structure(cmd_t);
 	while (i < cmd_t->arg_c)
 	{
 		parse_input_quotes(cmd_t->arg_v[i], cmd_t->parsing_v[i]);
 		i++;
 	}
-	print_structure(cmd_t);
 	i = 0;
 	while (i < cmd_t->arg_c)
 	{
@@ -420,14 +420,15 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		idx = 0;
 		while (cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
 		{
-			if (cmd_t->arg_v[i][idx] == '$' && is_env_char(cmd_t->arg_v[i][idx + 1], 1) && cmd_t->parsing_v[i][idx] == 'M')
+			if (cmd_t->arg_v[i][idx] == '$' && is_envchar(cmd_t->arg_v[i][idx + 1], 1) && \
+			cmd_t->parsing_v[i][idx] == 'M')
 			{
 				len = 0;
 				idx++;
 				while (cmd_t->parsing_v[i][idx] && \
 					(cmd_t->parsing_v[i][idx] == 'D' || cmd_t->parsing_v[i][idx] == 'M') && \
-					cmd_t->arg_v[i][idx] != '$' && cmd_t->arg_v[i][idx] != '\'' && cmd_t->arg_v[i][idx] != '\"' \
-					&& is_env_char(cmd_t->arg_v[i][idx], (len == 0)))
+					cmd_t->arg_v[i][idx] != '$' && cmd_t->arg_v[i][idx] != '\'' && \
+					cmd_t->arg_v[i][idx] != '\"' && is_envchar(cmd_t->arg_v[i][idx], (len == 0)))
 				{
 					len++;
 					idx++;
@@ -435,32 +436,32 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				sub = ft_substr(cmd_t->arg_v[i], idx - len - 1, len + 1);
 				if (!sub)
 					return (-1);
-				subparsing = ft_substr(cmd_t->parsing_v[i], idx - len - 1, len + 1);
-				if (!subparsing)
+				subparse = ft_substr(cmd_t->parsing_v[i], idx - len - 1, len + 1);
+				if (!subparse)
 					return (-1);
 				val = get_env_by_id(env, sub + 1);
 				if (val)
 				{
-					if (replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], sub, val->value) == -1)
+					if (replace_sub(cmd_t, &cmd_t->arg_v[i], sub, val->value) == -1)
 						return (-1); // memory error
 					free(sub);
 					sub = ft_strdup_char('M', ft_strlen(val->value));
 					if (!sub)
 						return (-1); // memory error
-					if (replace_sub_in_str(NULL, &cmd_t->parsing_v[i], subparsing, sub) == -1)
+					if (replace_sub(NULL, &cmd_t->parsing_v[i], subparse, sub) == -1)
 						return (-1); // memory error
 					free(sub);
-					free(subparsing);
+					free(subparse);
 					idx += (ft_strlen(val->value) - (len + 2));
 				}
 				else
 				{
-					if (replace_sub_in_str(cmd_t, &cmd_t->arg_v[i], sub, "") == -1)
+					if (replace_sub(cmd_t, &cmd_t->arg_v[i], sub, "") == -1)
 						return (-1);
 					free(sub);
-					if (replace_sub_in_str(NULL, &cmd_t->parsing_v[i], subparsing, "") == -1)
+					if (replace_sub(NULL, &cmd_t->parsing_v[i], subparse, "") == -1)
 						return (-1); // memory error
-					free(subparsing);
+					free(subparse);
 					idx -= (len + 2);
 				}
 			}
@@ -488,7 +489,7 @@ int	parse_options(t_cmd_lst *cmd_t)
 		if (i > 1)
 			is_opt = (is_opt && ft_strncmp(cmd_t->binary, "echo", 6) != 0);
 		if (is_opt)
-			cmd_t->options_v[idx++] = cmd_t->arg_v[i];	
+			cmd_t->options_v[idx++] = cmd_t->arg_v[i];
 		i++;
 	}
 	cmd_t->options_v[idx] = NULL;
@@ -507,7 +508,8 @@ int	parse_input(t_cmd_lst *cmd_t)
 	idx = 0;
 	while (i < cmd_t->arg_c)
 	{
-		if (cmd_t->arg_v[i][0] != '-' || (ft_strncmp(cmd_t->binary, "echo", 6) == 0 && i > 1))
+		if (cmd_t->arg_v[i][0] != '-' || \
+		(ft_strncmp(cmd_t->binary, "echo", 6) == 0 && i > 1))
 			cmd_t->input_v[idx++] = cmd_t->arg_v[i];
 		i++;
 	}

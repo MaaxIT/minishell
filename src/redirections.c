@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 15:40:36 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 21:26:21 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/29 17:11:43 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	rd_output(char *path)
 	int	fd;
 
 	if (access(path, F_OK) == 0 && unlink(path) == -1)
-		return(-1);
+		return (-1);
 	if (!path)
 		fd = dup(STDOUT_FILENO);
 	else

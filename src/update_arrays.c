@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:13:16 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/27 18:48:13 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:10:01 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	**ft_pop_null(char **tab, int *tabsize)
 int	update_inputv_optionsv_after_redir(t_cmd_lst *cmd_t)
 {
 	int	parsing_c;
-	
+
 	parsing_c = cmd_t->arg_c;
 	if (cmd_t->input_v)
 	{

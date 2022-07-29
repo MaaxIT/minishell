@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:24:22 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/24 21:48:17 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:08:02 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_print_invalid(int ret, char *arg)
 
 static int	ft_isvalid(t_cmd_lst *cmd)
 {
-	int	i;
+	int		i;
 	char	*str;
 
 	if (!cmd->input_v || !cmd->input_v[0])

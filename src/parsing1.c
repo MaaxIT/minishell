@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 16:12:25 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:17:33 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static int	parse_order(t_cmd_lst *cmd_t, t_list *env)
 		if (parse_input(cmd_t) == -1)
 			return (-1);
 	}
-	print_structure(cmd_t);
 	if (parse_quotes(cmd_t, env) == -1)
 		return (-1);
 	if (parse_redirections(cmd_t) == -1)
@@ -37,8 +36,8 @@ returns:
 */
 static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 {
-	char	**split;
-	int		idx;
+	char		**split;
+	int			idx;
 	t_cmd_lst	*cmd_t;
 
 	cmd_t = malloc(sizeof(t_cmd_lst));
@@ -71,11 +70,9 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	// pipe_split = ft_split_out_quotes(line, '|');
 	// if (!pipe_split)
 		// return (NULL);
-	
 	pipe_split = malloc(sizeof(char *) * 2);
 	pipe_split[0] = ft_strdup(line);
 	pipe_split[1] = NULL;
-
 	i = 0;
 	while (pipe_split[i])
 	{

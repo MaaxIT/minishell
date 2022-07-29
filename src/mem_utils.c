@@ -6,13 +6,13 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/28 00:26:29 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:45:06 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
+int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 {
 	char	*found;
 	char	*new;
@@ -36,7 +36,8 @@ int	replace_sub_in_str(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	if (cmd_t)
 	{
 		rtrn = (ft_strlen(new) == 0);
-		sync_arg(cmd_t, *str, new);
+		if (sync_arg(cmd_t, *str, new) == -1)
+			return (-1);
 	}
 	else
 	{
@@ -61,7 +62,8 @@ int	remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx)
 	if (cmd_t)
 	{	
 		rtrn = (ft_strlen(cpy) == 0);
-		sync_arg(cmd_t, *str, cpy);
+		if (sync_arg(cmd_t, *str, cpy) == -1)
+			return (-1);
 	}
 	else
 	{

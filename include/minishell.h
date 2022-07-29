@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/28 16:17:19 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:44:34 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_cmd_lst {
 int			print_structure(t_cmd_lst *cmd_t);
 
 /* Signals prototype */
-int		signals_init(void);
+int			signals_init(void);
 
 /* Pipe prototype */
 int			ft_pipe(t_list **env, t_cmd_lst *cmd);
@@ -105,7 +105,7 @@ char		*ft_strdup(const char *str);
 char		*ft_strndup(const char *str, size_t n);
 int			ft_is_a_whitespace_or_empty_string(const char *str);
 int			ft_isalnum(char c);
-int			is_env_char(int ch, int is_first);
+int			is_envchar(int ch, int is_first);
 
 /* Split prototype */
 char		**split_cmd_lst(char *cmd);
@@ -123,13 +123,13 @@ int			parse_options(t_cmd_lst *cmd_t);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 int			parse_redirections(t_cmd_lst *cmd_t);
 int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
-void		sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input);
+int			sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input);
 int			parse_input_quotes(char *input, char *parse);
 
 /* Memory utils prototypes */
 char		*insert_str_at_index(char *str, char *to_insert, int idx);
 char		*ft_strdup_char(char c, size_t repeats);
-int			replace_sub_in_str(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
+int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
 int			remove_char_from_str(t_cmd_lst *cmd_t, char **s, int idx);
 int			remove_quotes_from_bin(t_cmd_lst *cmd_t, int i);
 void		initialize_structure(t_cmd_lst *cmd_t);
