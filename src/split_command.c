@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 20:13:05 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/30 00:48:18 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ char	**split_cmd_lst(char *cmd)
 	parsing = ft_strdup_char('M', ft_strlen(cmd));
 	if (!parsing)
 		return (NULL);
+	if (parse_input_quotes(cmd, parsing) == -1)
+	{
+		free(parsing);
+		return (NULL);
+	};
 	splitc = count_splits(cmd, parsing);
 	if (splitc <= 0)
 	{

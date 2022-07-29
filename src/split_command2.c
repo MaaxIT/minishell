@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:17:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/29 20:27:16 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/30 00:28:40 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	count_splits_loop(char *cmd, char *parsing, size_t i[2], int *capt)
 	while (cmd[i[0]] && cmd[i[0]] == ' ' && !*capt)
 		i[0]++;
 	if (cmd[i[0]] && parsing[i[0]] != 'E' && \
-			(cmd[i[0]] == '\'' || cmd[i[0]] == '\"') && cmd[i[0] + 1])
+	(cmd[i[0]] == '\'' || cmd[i[0]] == '\"') && cmd[i[0] + 1])
 	{
 		if (!*capt)
 			i[1]++;
@@ -57,8 +57,6 @@ int	count_splits(char *cmd, char *parsing)
 	i[0] = 0;
 	i[1] = 0;
 	while (cmd[i[0]])
-	{
 		count_splits_loop(cmd, parsing, i, &capt);
-	}
 	return (i[1]);
 }
