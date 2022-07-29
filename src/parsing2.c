@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 13:40:07 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 16:26:40 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,6 @@ int	parse_input_quotes(char *input, char *parse)
 	size_t	i;
 	size_t	idx;
 
-	printf("1: %s %s %p\n", input, parse, parse);
 	i = 0;
 	while (input[i])
 	{
@@ -320,12 +319,8 @@ int	parse_input_quotes(char *input, char *parse)
 			idx = i + 1;
 			while (input[idx] && input[idx] != '\"' && parse[idx] != 'S')
 				idx++;
-			if (idx == ft_strlen(input))
-				printf("Unclosed quote\n");
-			else
-				printf("Closed quotes\n");
-			printf("1: %zu\n", i);
-			parse[i] = 'E';
+			if (idx != ft_strlen(input))
+				parse[i] = 'E';
 			idx = i + 1;
 			while (input[idx] && input[idx] != '\"')
 			{
@@ -333,18 +328,20 @@ int	parse_input_quotes(char *input, char *parse)
 					parse[idx] = 'D';
 				idx++;
 			}
-			printf("2: %zu\n", idx);
-			parse[idx] = 'E';
+			if (idx < ft_strlen(input))
+				parse[idx] = 'E';
 			i = idx;
 		}
 		else if (input[i] == '\'' && parse[i] != 'D')
 		{
-			printf("3: %zu\n", i);
-			parse[i] = 'E';
+			idx = i + 1;
+			while (input[idx] && input[idx] != '\'' && parse[idx] != 'S')
+				idx++;
+			if (idx != ft_strlen(input))
+				parse[i] = 'E';
 			idx = i + 1;
 			while (input[idx] && input[idx] != '\'')
 				parse[idx++] = 'S';
-			printf("4: %zu\n", idx);
 			if (idx < ft_strlen(input))
 				parse[idx] = 'E';
 			i = idx;
@@ -353,7 +350,6 @@ int	parse_input_quotes(char *input, char *parse)
 		if (i > ft_strlen(input))
 			i = ft_strlen(input);
 	}
-	printf("2: %s %s %p\n", input, parse, parse);
 	return (0);
 }
 
@@ -374,7 +370,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	while (i < cmd_t->arg_c)
 	{
 		cmd_t->parsing_v[i] = ft_strdup_char('M', ft_strlen(cmd_t->arg_v[i]));
-		printf("%d %p\n", i, cmd_t->parsing_v[i]);
 		if (!cmd_t->parsing_v[i])
 			return (-1); // Memory error
 		i++;

@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/28 20:53:50 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 16:12:25 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 	split = split_cmd_lst(pipes[i]);
 	if (!split)
 		return (NULL); // NOT ENOUGH, NEED TO FREE PIPESPLT
-	for (int j = 1; split[j]; j++)
-		printf("%d: |%s|\n", j, split[j]);
 	idx = 0;
 	while (split[idx])
 		idx++;
