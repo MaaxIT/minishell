@@ -6,13 +6,13 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/28 16:40:00 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/28 20:53:50 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	parse_order(t_cmd_lst *cmd_t, t_list *env, int i)
+static int	parse_order(t_cmd_lst *cmd_t, t_list *env)
 {
 	parse_counts(cmd_t);
 	if (cmd_t->options_c > 0)
@@ -22,12 +22,11 @@ static int	parse_order(t_cmd_lst *cmd_t, t_list *env, int i)
 		if (parse_input(cmd_t) == -1)
 			return (-1);
 	}
+	print_structure(cmd_t);
 	if (parse_quotes(cmd_t, env) == -1)
 		return (-1);
-	i = (int)i;
 	if (parse_redirections(cmd_t) == -1)
 		return (-1);
-	print_structure(cmd_t);
 	return (0);
 }
 
@@ -50,7 +49,7 @@ static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 	if (!split)
 		return (NULL); // NOT ENOUGH, NEED TO FREE PIPESPLT
 	for (int j = 1; split[j]; j++)
-		printf("|%s|\n", split[j]);
+		printf("%d: |%s|\n", j, split[j]);
 	idx = 0;
 	while (split[idx])
 		idx++;
@@ -58,7 +57,7 @@ static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 	cmd_t->arg_c = idx;
 	cmd_t->arg_v = split;
 	cmd_t->binary = cmd_t->arg_v[0];
-	if (parse_order(cmd_t, env, i) == -1)
+	if (parse_order(cmd_t, env) == -1)
 		return (NULL);
 	else
 		return (cmd_t);
