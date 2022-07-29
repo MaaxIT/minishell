@@ -51,7 +51,6 @@ static void	count_splits_loop(char *cmd, char *parsing, size_t i[2], int *capt)
 int	count_splits(char *cmd, char *parsing)
 {
 	size_t	i[2];
-	int		idx;
 	int		capt;
 
 	capt = 0;
@@ -61,5 +60,5 @@ int	count_splits(char *cmd, char *parsing)
 	{
 		count_splits_loop(cmd, parsing, i, &capt);
 	}
-	return (idx);
+	return (i[1]);
 }
