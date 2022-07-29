@@ -70,9 +70,6 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	pipe_split = ft_split_out_quotes(line, '|');
 	if (!pipe_split)
 		return (NULL);
-	// pipe_split = malloc(sizeof(char *) * 2);
-	// pipe_split[0] = ft_strdup(line);
-	// pipe_split[1] = NULL;
 	i = 0;
 	while (pipe_split[i])
 	{
