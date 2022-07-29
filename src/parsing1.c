@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 17:17:33 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 17:53:16 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 
 	cmd_t = malloc(sizeof(t_cmd_lst));
 	if (!cmd_t)
-		return (NULL); // NOT ENOUGH, FREE PIPESPLT FST
+		return (NULL);
 	initialize_structure(cmd_t);
 	split = split_cmd_lst(pipes[i]);
 	if (!split)
-		return (NULL); // NOT ENOUGH, NEED TO FREE PIPESPLT
+		return (NULL);
 	idx = 0;
 	while (split[idx])
 		idx++;
@@ -67,9 +67,9 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	char		**pipe_split;
 	int			i;
 
-	// pipe_split = ft_split_out_quotes(line, '|');
-	// if (!pipe_split)
-		// return (NULL);
+	/*pipe_split = ft_split_out_quotes(line, '|');
+	if (!pipe_split)
+		return (NULL); Fix this with quotes*/
 	pipe_split = malloc(sizeof(char *) * 2);
 	pipe_split[0] = ft_strdup(line);
 	pipe_split[1] = NULL;
@@ -78,7 +78,10 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	{
 		cmd_t = loop_new_command(env, i, pipe_split);
 		if (!cmd_t)
-			return (NULL); // NOT ENOUG, FREE PIPE SPLT FIRST
+		{
+			head_bckp = NULL;
+			break ;
+		}
 		if (!i)
 			head_bckp = cmd_t;
 		else

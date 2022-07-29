@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:47:05 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 21:12:16 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/29 17:47:40 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	sigint_handler(int signo)
 
 static void	sigquit_handler(int signo)
 {
-	(void)signo;
 	if (g_pid)
 	{
 		kill(g_pid, signo); // PROTECT

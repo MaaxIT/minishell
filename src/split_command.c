@@ -6,34 +6,11 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 17:12:44 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:02:50 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Make sure that there is an even amount of single & doubles quotes in
-the command line - this way, we can make sure all quotes are closing and
-we don't have any unclosed quote as specified in the subject */
-static int	quotes_even(char *cmd)
-{
-	int	i;
-	int	simples;
-	int	doubles;
-
-	simples = 0;
-	doubles = 0;
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == '\'')
-			simples++;
-		else if (cmd[i] == '\"')
-			doubles++;
-		i++;
-	}
-	return (simples % 2 == 0 && doubles % 2 == 0);
-}
 
 static int	alloc_last_split(char **arritem, char *cmd, int i, int last)
 {
@@ -41,7 +18,7 @@ static int	alloc_last_split(char **arritem, char *cmd, int i, int last)
 	{
 		*arritem = ft_substr(cmd, last, i - last);
 		if (!*arritem)
-			return (-1); // Memory error
+			return (-1);
 	}
 	return (0);
 }
@@ -74,7 +51,7 @@ static int	split_with_quotes(char *cmd, char **arr, char *parsing)
 		{
 			arr[idx] = ft_substr(cmd, last, i - last);
 			if (!arr[idx])
-				return (-1); // Memory error
+				return (-1);
 			idx++;
 			while (cmd[i + 1] && cmd[i + 1] == ' ')
 				i++;
@@ -94,16 +71,22 @@ char	**split_cmd_lst(char *cmd)
 	char	*parsing;
 
 	if (!cmd)
-		return (NULL); // In case cmd is invalid
+		return (NULL);
 	parsing = ft_strdup_char('M', ft_strlen(cmd));
-	if (!quotes_even(cmd))
-		return (NULL); // In case quotes are not closed, SHOULD STILL WORK
+	if (!parsing)
+		return (NULL);
 	splitc = count_splits(cmd, parsing);
 	if (splitc <= 0)
-		return (NULL); // In case cmd is empty
+	{
+		free(parsing);
+		return (NULL);
+	}
 	splitv = malloc(sizeof(char *) * (splitc + 1));
 	if (!splitv)
-		return (NULL); // In case of memory error
+	{
+		free(parsing);
+		return (NULL);
+	}
 	idx = 0;
 	while (idx <= splitc)
 		splitv[idx++] = NULL;
