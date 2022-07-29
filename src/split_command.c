@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 18:02:50 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 20:13:05 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,27 @@ static int	split_with_quotes(char *cmd, char **arr, char *parsing)
 	return (alloc_last_split(&arr[idx], cmd, i, last));
 }
 
+static char	**split_cmd_lst_fill(char *cmd, char **splitv, \
+		char *parsing, int splitc)
+{
+	int	idx;
+
+	idx = 0;
+	while (idx <= splitc)
+		splitv[idx++] = NULL;
+	if (split_with_quotes(cmd, splitv, parsing) == -1)
+	{
+		free(parsing);
+		return (free_split(splitv));
+	}
+	return (splitv);
+}
+
 /* Splitting the command line and return a 2D array */
 char	**split_cmd_lst(char *cmd)
 {
 	int		splitc;
 	char	**splitv;
-	int		idx;
 	char	*parsing;
 
 	if (!cmd)
@@ -87,14 +102,8 @@ char	**split_cmd_lst(char *cmd)
 		free(parsing);
 		return (NULL);
 	}
-	idx = 0;
-	while (idx <= splitc)
-		splitv[idx++] = NULL;
-	if (split_with_quotes(cmd, splitv, parsing) == -1)
-	{
-		free(parsing);
-		return (free_split(splitv));
-	}
+	if (!split_cmd_lst_fill(cmd, splitv, parsing, splitc))
+		return (NULL);
 	free(parsing);
 	return (splitv);
 }

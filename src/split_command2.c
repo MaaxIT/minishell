@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:17:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/29 18:57:46 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 20:27:16 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,42 @@ char	**free_split(char **arr)
 	return (NULL);
 }
 
+static void	count_splits_loop(char *cmd, char *parsing, size_t i[2], int *capt)
+{
+	while (cmd[i[0]] && cmd[i[0]] == ' ' && !*capt)
+		i[0]++;
+	if (cmd[i[0]] && parsing[i[0]] != 'E' && \
+			(cmd[i[0]] == '\'' || cmd[i[0]] == '\"') && cmd[i[0] + 1])
+	{
+		if (!*capt)
+			i[1]++;
+		*capt = !*capt;
+	}
+	else if (cmd[i[0]] && cmd[i[0]] != ' ' && !*capt)
+		i[1]++;
+	i[0]++;
+	if (i[0] < ft_strlen(cmd))
+	{
+		while (cmd[i[0]] && cmd[i[0]] != ' ' && !capt)
+			i[0]++;
+	}
+	else
+		i[0] = ft_strlen(cmd);
+}
+
 /* Count the amount of splits we will have in order to pre-allocate */
 int	count_splits(char *cmd, char *parsing)
 {
-	size_t	i;
+	size_t	i[2];
 	int		idx;
 	int		capt;
 
-	idx = 0;
 	capt = 0;
-	i = 0;
-	while (cmd[i])
+	i[0] = 0;
+	i[1] = 0;
+	while (cmd[i[0]])
 	{
-		while (cmd[i] && cmd[i] == ' ' && !capt)
-			i++;
-		if (cmd[i] && parsing[i] != 'E' && \
-		(cmd[i] == '\'' || cmd[i] == '\"') && cmd[i + 1])
-		{
-			if (!capt)
-				idx++;
-			capt = !capt;
-		}
-		else if (cmd[i] && cmd[i] != ' ' && !capt)
-			idx++;
-		i++;
-		if (i < ft_strlen(cmd)) {
-			while (cmd[i] && cmd[i] != ' ' && !capt)
-				i++;
-		}
-		else
-			i = ft_strlen(cmd);
+		count_splits_loop(cmd, parsing, i, &capt);
 	}
 	return (idx);
 }

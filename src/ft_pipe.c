@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:58:36 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 19:58:55 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/29 19:57:51 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 	while (cmd)
 	{
 		if (!ft_pipe_loop(env, top_cmd, cmd, pipefd))
-			break;
+			break ;
 		if (waitpid(g_pid, NULL, 0) == -1)
-			break;
+			break ;
 		cmd = cmd->next;
 	}
 	close(pipefd[0]);

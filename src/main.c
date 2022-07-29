@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/29 17:38:22 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 19:59:31 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ static int	trim_whitespaces(char **str)
 	int		end;
 
 	start = 0;
-	while ((*str)[start] && ((*str)[start] == 32 || ((*str)[start] >= 9 && (*str)[start] <= 13)))
+	while ((*str)[start] && ((*str)[start] == 32 || \
+				((*str)[start] >= 9 && (*str)[start] <= 13)))
 		start++;
 	end = ft_strlen(*str) - 1;
-	while ((*str)[end] && ((*str)[end] == 32 || ((*str)[end] >= 9 && (*str)[end] <= 13)))
+	while ((*str)[end] && ((*str)[end] == 32 || \
+				((*str)[end] >= 9 && (*str)[end] <= 13)))
 		end--;
 	cpy = ft_strndup(*str + start, (end - start + 1));
 	if (!cpy)

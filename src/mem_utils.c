@@ -6,11 +6,30 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 17:45:06 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 20:40:36 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new)
+{
+	int	ret;
+
+	ret = 0;
+	if (cmd_t)
+	{
+		ret = (ft_strlen(new) == 0);
+		if (sync_arg(cmd_t, *str, new) == -1)
+			return (-1);
+	}
+	else
+	{
+		free(*str);
+		*str = new;
+	}
+	return (ret);
+}
 
 int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 {
@@ -18,9 +37,7 @@ int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	char	*new;
 	size_t	sep_idx;
 	size_t	len;
-	int		rtrn;
 
-	rtrn = 0;
 	found = ft_strnstr(*str, old, -1);
 	if (!found)
 		return (-2);
@@ -33,18 +50,7 @@ int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	ft_strlcpy(new, *str, sep_idx + 1);
 	ft_strlcat(new, newsub, -1);
 	ft_strlcat(new, *str + sep_idx + ft_strlen(old), -1);
-	if (cmd_t)
-	{
-		rtrn = (ft_strlen(new) == 0);
-		if (sync_arg(cmd_t, *str, new) == -1)
-			return (-1);
-	}
-	else
-	{
-		free(*str);
-		*str = new;
-	}
-	return (rtrn);
+	return (replace_sub_end(cmd_t, str, new));
 }
 
 /* Remove a character from a string */
