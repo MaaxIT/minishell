@@ -72,9 +72,6 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		return (NULL);
 	i = 0;
 	while (pipe_split[i])
-		printf("$>%s_\n", pipe_split[i++]);
-	i = 0;
-	while (pipe_split[i])
 	{
 		cmd_t = loop_new_command(env, i, pipe_split);
 		if (!cmd_t)
