@@ -12,10 +12,12 @@
 
 #include "minishell.h"
 
-static int	find_closing_quote_idx(const char *str, int i, char quote)
+static int	closing_idx(const char *str, int i, char quote)
 {
 	while (str[i] && str[i] != quote)
 		i++;
+	if (!str[i])
+		return (-1);
 	return (i);
 }
 
@@ -36,10 +38,10 @@ static char	**malloc_words(const char *str, char sep)
 			i++;
 		if (i && str[i - 1] == sep && str[i] != sep)
 			nbr_words++;
-		if (str[i] == '\'')
-			i = find_closing_quote_idx(str, i + 1, '\'');
-		else if (str[i] == '\"')
-			i = find_closing_quote_idx(str, i + 1, '\"');
+		if (str[i] == '\'' && closing_idx(str, i + 1, '\'') != -1)
+			i = closing_idx(str, i + 1, '\'');
+		else if (str[i] == '\"' && closing_idx(str, i + 1, '\"') != -1)
+			i = closing_idx(str, i + 1, '\"');
 	}
 	ret = malloc(sizeof(char *) * (nbr_words + 1));
 	if (!ret)
@@ -57,12 +59,11 @@ static int	find_next_sep_out_quotes_idx(const char *str, int i, char sep)
 	capt_double = 0;
 	while (str[i])
 	{
-		if (str[i] && str[i] == '\'')
+		if (str[i] == '\'' && closing_idx(str, i + 1, '\'') != -1)
 			capt_single = !capt_single;
-		else if (str[i] && str[i] == '\"')
+		else if (str[i] == '\"' && closing_idx(str, i + 1, '\"') != -1)
 			capt_double = !capt_double;
-		else if (str[i] && str[i] == sep && \
-			!capt_single && !capt_double)
+		else if (str[i] == sep && !capt_single && !capt_double)
 			return (i);
 		i++;
 	}
