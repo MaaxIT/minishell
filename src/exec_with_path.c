@@ -27,13 +27,16 @@ static int	exec(const char *path, char **argv, char **envp)
 	int	execve_ret;
 	int	err;
 
-	g_pid = fork(); // NOT SURE OF THIS TRICK AND NEEDA PROTECT
+	g_pid = fork();
+	if (g_pid == -1)
+		return (0);
 	execve_ret = 0;
 	if (g_pid == 0)
-		execve_ret = execve(path, argv, envp); // PROTECT FROM EXECVE ERRORS
+		execve_ret = execve(path, argv, envp);
 	else
 	{
-		waitpid(g_pid, &err, 0); // PROTECT FROM WAITPID ERRORS
+		if (waitpid(g_pid, &err, 0) == -1)
+			return (0);
 		if (errno != 128 + SIGQUIT && errno != 128 + SIGINT)
 			errno = err / 256;
 	}
@@ -63,7 +66,7 @@ static int	relative_path(t_list **env, const char *cmd, char **argv)
 	if (!paths)
 	{
 		ft_not_found(cmd);
-		return (0); //ENOUGH? Not in fd?
+		return (0);
 	}
 	envp = NULL;
 	i = get_the_right_path_index(paths);

@@ -60,9 +60,13 @@ int	bi_pwd(int fd)
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
-		return (0); //IS THAT ENOUGH? PRINTING THE ERR IN TREAT CMD FUNCTION
+	{
+		print_error(0);
+		return (0);
+	}
 	ft_putstr_fd(fd, cwd);
 	write(fd, "\n", 1);
+	free(cwd);
 	return (9);
 }
 

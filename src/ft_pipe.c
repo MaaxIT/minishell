@@ -53,11 +53,25 @@ static int	adjust_fd(t_cmd_lst *cmd, int pipefd[2], int *readfd)
 			pipefd[1] = rd_output_append(cmd->output_path);
 		if (pipefd[1] == -1)
 		{
-			close(*readfd); // PROTECT?
+			close(*readfd);
 			return (0);
 		}
 	}
 	return (9);
+}
+
+static int	close_fd(int ret, int fd1, int fd2, int fd3)
+{
+	if (fd1 != -1 && fd1 != STDIN_FILENO && fd1 != STDOUT_FILENO && \
+		fd1 != STDERR_FILENO)
+		close(fd1);
+	if (fd2 != -1 && fd2 != STDIN_FILENO && fd2 != STDOUT_FILENO && \
+		fd2 != STDERR_FILENO)
+		close(fd2);
+	if (fd3 != -1 && fd3 != STDIN_FILENO && fd3 != STDOUT_FILENO && \
+		fd3 != STDERR_FILENO)
+		close(fd3);
+	return (ret);
 }
 
 int	ft_pipe(t_list **env, t_cmd_lst *cmd)
@@ -67,20 +81,20 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 	t_cmd_lst	*top_cmd;
 
 	top_cmd = cmd;
-	readfd = dup(STDIN_FILENO);
+	pipefd[0] = STDIN_FILENO;
 	while (cmd)
 	{
-		if (pipe(pipefd) == -1)
-			return (0); // ENOUGH?
+		readfd = dup(pipefd[0]);
+		if (readfd == -1 || pipe(pipefd) == -1)
+			return (close_fd(0, readfd, pipefd[0], pipefd[1]));
 		if (!adjust_fd(cmd, pipefd, &readfd))
-			return (0); // NEED TO CLOSE PIPEFDS BEFORE RETURNING, NOT YET READY
+			return (close_fd(0, readfd, pipefd[0], pipefd[1]));
 		g_pid = fork();
 		if (!g_pid)
 			run_cmd_pipe(env, pipefd, readfd, cmd, top_cmd);
-		close(readfd);
-		readfd = dup(pipefd[0]);
-		close(pipefd[0]);
-		close(pipefd[1]); //PROTECT
+		if (close(readfd) == -1 || close(pipefd[0]) == -1 || \
+			close(pipefd[1]))
+			return (close_fd(0, readfd, pipefd[0], pipefd[1]));
 		waitpid(g_pid, NULL, 0);
 		cmd = cmd->next;
 	}

@@ -58,7 +58,7 @@ typedef struct s_cmd_lst {
 int			print_structure(t_cmd_lst *cmd_t);
 
 /* Signals prototype */
-void		signals_init(void);
+int		signals_init(void);
 
 /* Pipe prototype */
 int			ft_pipe(t_list **env, t_cmd_lst *cmd);

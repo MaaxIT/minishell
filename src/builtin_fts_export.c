@@ -35,7 +35,7 @@ static int	ft_export(t_list **env_address, t_list *env, char *id, char *value)
 	t_list	*new;
 
 	if (!id)
-		return (9); // RETURN TRE RIGHT CODE HERE!!
+		return (0);
 	while (env)
 	{
 		if (!ft_strncmp(id, env->id, -1))
@@ -51,7 +51,7 @@ static int	ft_export(t_list **env_address, t_list *env, char *id, char *value)
 	if (!new)
 		return (0);
 	ft_lstadd_back(env_address, new);
-	return (9); //RETURN RIGHT CODE
+	return (9);
 }
 
 static void	ft_export_no_arg(t_list *env)
@@ -85,17 +85,21 @@ int	bi_export(t_list **env_address, t_cmd_lst *cmd)
 	if (!cmd->input_v)
 	{
 		ft_export_no_arg((*env_address)->next);
-		return (9); //OK?
+		return (9);
 	}
 	if (!ft_isvalid(cmd))
-		return (9); // RETURN THE RIGHT CODE HERE!!
+		return (0);
 	split = ft_split(cmd->input_v[0], '=');
 	if (!split)
-		return (9); //RETURN RIGHT CODE!!
-	if (!split[0])
+		return (0);
+	if (!split[1] && ft_strlensep(cmd->input_v[0], '=') != \
+		ft_strlen(cmd->input_v[0]))
+		split[1] = ft_strdup("");
+	if (!split[0] || (!split[1] && ft_strlensep(cmd->input_v[0], '=') \
+		!= ft_strlen(cmd->input_v[0])))
 	{
 		ft_free_2d_table(split);
-		return (9); //RETURN RIGHT CODE!!
+		return (0);
 	}
 	ret = ft_export(env_address, (*env_address)->next, split[0], split[1]);
 	free(split);
