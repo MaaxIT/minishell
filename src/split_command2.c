@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:17:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/29 17:09:07 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:57:46 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	**free_split(char **arr)
 /* Count the amount of splits we will have in order to pre-allocate */
 int	count_splits(char *cmd, char *parsing)
 {
-	int	i;
-	int	idx;
-	int	capt;
+	size_t	i;
+	int		idx;
+	int		capt;
 
 	idx = 0;
 	capt = 0;
@@ -47,9 +47,13 @@ int	count_splits(char *cmd, char *parsing)
 		}
 		else if (cmd[i] && cmd[i] != ' ' && !capt)
 			idx++;
-		while (cmd[i + 1] && cmd[i + 1] != ' ' && !capt)
-			i++;
 		i++;
+		if (i < ft_strlen(cmd)) {
+			while (cmd[i] && cmd[i] != ' ' && !capt)
+				i++;
+		}
+		else
+			i = ft_strlen(cmd);
 	}
 	return (idx);
 }

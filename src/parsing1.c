@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 17:53:16 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/29 18:27:56 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	char		**pipe_split;
 	int			i;
 
-	/*pipe_split = ft_split_out_quotes(line, '|');
+	pipe_split = ft_split_out_quotes(line, '|');
 	if (!pipe_split)
-		return (NULL); Fix this with quotes*/
-	pipe_split = malloc(sizeof(char *) * 2);
-	pipe_split[0] = ft_strdup(line);
-	pipe_split[1] = NULL;
+		return (NULL);
+	// pipe_split = malloc(sizeof(char *) * 2);
+	// pipe_split[0] = ft_strdup(line);
+	// pipe_split[1] = NULL;
 	i = 0;
 	while (pipe_split[i])
 	{
