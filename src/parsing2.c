@@ -6,61 +6,13 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/29 17:44:19 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/30 13:33:50 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	print_structure(t_cmd_lst *cmd_t)
-{
-	int	idx;
-
-	printf("\n-===- Debugging structure -===-\n");
-	printf("- original: |%s|\n", cmd_t->original);
-	printf("- binary: |%s|\n", cmd_t->binary);
-	printf("- options_c: %d\n", cmd_t->options_c);
-	printf("- options_v:\n");
-	idx = 0;
-	while (idx < cmd_t->options_c)
-	{
-		printf("        %d:  |%s|\n", idx, cmd_t->options_v[idx]);
-		idx++;
-	}
-	printf("- input_c: %d\n", cmd_t->input_c);
-	printf("- input_v:\n");
-	idx = 0;
-	while (idx < cmd_t->input_c)
-	{
-		printf("        %d:  |%s|\n", idx, cmd_t->input_v[idx]);
-		idx++;
-	}
-	printf("- arg_c: %d\n", cmd_t->arg_c);
-	printf("- arg_v:\n");
-	idx = 0;
-	while (idx < cmd_t->arg_c)
-	{
-		printf("        %d:  |%s|\n", idx, cmd_t->arg_v[idx]);
-		idx++;
-	}
-	if (cmd_t->parsing_v)
-	{
-		printf("- parsing_v:\n");
-		idx = 0;
-		while (idx < cmd_t->arg_c)
-		{
-			printf("        %d:  |%s|\n", idx, cmd_t->parsing_v[idx]);
-			idx++;
-		}
-	}
-	printf("- output_type: %c\n", cmd_t->output_type);
-	printf("- output_path: %s\n", cmd_t->output_path);
-	printf("- input_path: %s\n", cmd_t->input_path);
-	printf("- next: %p\n", cmd_t->next);
-	printf("-===- End of debugging structure -===-\n\n");
-	return (0);
-}
-
+/* Get the input_v index of a string value */
 int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 {
 	int	idx;
@@ -75,6 +27,7 @@ int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 	return (-1);
 }
 
+/* Remove a value from input_v and options_v */
 int	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
 {
 	int	i;
@@ -110,6 +63,7 @@ int	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
 	return (0);
 }
 
+/* Synchronize arguments between each array of the structure */
 int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 {
 	int	idx;
@@ -163,6 +117,7 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 	return (0);
 }
 
+/* Parse redirections */
 int	parse_redirections(t_cmd_lst *cmd_t)
 {
 	int		i;
@@ -302,11 +257,14 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 }
 
 /*
-	By default, all chars have meaning (= M)
+Parse quotes of a line (custom algorithm made by mpeharpr, have fun trying to understand it)
+	
+parsing_v[x] does contains:
 	D = Escaped by double quotes (no meaning except on env vars)
 	S = Escaped by simple quotes (no meaning)
 	M = Meaning
 	E = This quote has been managed, remove it from the string
+By default, all chars have meaning (= M)
 */
 int	parse_input_quotes(char *input, char *parse)
 {
@@ -355,6 +313,7 @@ int	parse_input_quotes(char *input, char *parse)
 	return (0);
 }
 
+/* Parse quote for every argument */
 int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 {
 	int		i;
@@ -472,6 +431,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	return (0);
 }
 
+/* Put options into the options_v array */
 int	parse_options(t_cmd_lst *cmd_t)
 {
 	int	i;
@@ -496,6 +456,7 @@ int	parse_options(t_cmd_lst *cmd_t)
 	return (0);
 }
 
+/* Put inputs into the input_v array */
 int	parse_input(t_cmd_lst *cmd_t)
 {
 	int	i;
@@ -517,6 +478,7 @@ int	parse_input(t_cmd_lst *cmd_t)
 	return (0);
 }
 
+/* Calculate size of each array of the structure before allocating them */
 void	parse_counts(t_cmd_lst *cmd_t)
 {
 	int	idx;

@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/30 13:21:06 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/31 00:54:40 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char		**ft_split(const char *str, char sep);
 char		**ft_split_out_quotes(const char *str, char sep);
 char		**free_split(char **arr);
 int			count_splits(char *cmd, char *parsing);
-char		*free_and_return_split(char *parsing);
+char		**free_and_return_split(char *parsing);
 
 /* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line, t_list *env);
@@ -132,7 +132,6 @@ char		*insert_str_at_index(char *str, char *to_insert, int idx);
 char		*ft_strdup_char(char c, size_t repeats);
 int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
 int			remove_char_from_str(t_cmd_lst *cmd_t, char **s, int idx);
-int			remove_quotes_from_bin(t_cmd_lst *cmd_t, int i);
 void		initialize_structure(t_cmd_lst *cmd_t);
 
 /* Errors prototypes */
