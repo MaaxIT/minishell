@@ -6,11 +6,17 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:17:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/30 00:28:40 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/30 13:20:55 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*free_and_return_split(char *parsing)
+{
+	free(parsing);
+	return (NULL);
+}
 
 /* Free the split and return NULL in case of an error */
 char	**free_split(char **arr)

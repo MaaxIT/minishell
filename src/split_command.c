@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/30 00:48:18 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/30 13:21:54 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,13 @@ char	**split_cmd_lst(char *cmd)
 	if (!parsing)
 		return (NULL);
 	if (parse_input_quotes(cmd, parsing) == -1)
-	{
-		free(parsing);
-		return (NULL);
-	};
+		return (free_and_return_split(parsing));
 	splitc = count_splits(cmd, parsing);
 	if (splitc <= 0)
-	{
-		free(parsing);
-		return (NULL);
-	}
+		return (free_and_return_split(parsing));
 	splitv = malloc(sizeof(char *) * (splitc + 1));
 	if (!splitv)
-	{
-		free(parsing);
-		return (NULL);
-	}
+		return (free_and_return_split(parsing));
 	if (!split_cmd_lst_fill(cmd, splitv, parsing, splitc))
 		return (NULL);
 	free(parsing);
