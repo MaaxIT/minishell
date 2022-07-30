@@ -91,13 +91,13 @@ char	**split_cmd_lst(char *cmd)
 	if (!parsing)
 		return (NULL);
 	if (parse_input_quotes(cmd, parsing) == -1)
-		return (free_and_return_split(parsing));
+		return ((char **)free_and_return_split(parsing));
 	splitc = count_splits(cmd, parsing);
 	if (splitc <= 0)
-		return (free_and_return_split(parsing));
+		return ((char **)free_and_return_split(parsing));
 	splitv = malloc(sizeof(char *) * (splitc + 1));
 	if (!splitv)
-		return (free_and_return_split(parsing));
+		return ((char **)free_and_return_split(parsing));
 	if (!split_cmd_lst_fill(cmd, splitv, parsing, splitc))
 		return (NULL);
 	free(parsing);

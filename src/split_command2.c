@@ -14,7 +14,8 @@
 
 char	**free_and_return_split(char *parsing)
 {
-	free(parsing);
+	if (parsing)
+		free(parsing);
 	return (NULL);
 }
 
