@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/31 00:59:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/31 18:16:30 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,50 @@ int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 	return (-1);
 }
 
-/* Remove a value from input_v and options_v */
-int	remove_from_input_and_options(t_cmd_lst *cmd_t, char *addr)
+/* Remove a value from the options_v */
+void	remove_from_options(t_cmd_lst *cmd_t, char *addr, int *cnt)
 {
 	int	i;
-	int	options_new_c;
-	int	input_new_c;
 
-	options_new_c = cmd_t->options_c;
-	input_new_c = cmd_t->input_c;
 	i = 0;
 	while (i < cmd_t->options_c)
 	{
 		if (cmd_t->options_v[i] == addr)
 		{
 			cmd_t->options_v[i] = NULL;
-			options_new_c--;
+			(*cnt)--;
 		}
 		i++;
 	}
+}
+
+/* Remove a value from the input_v */
+void	remove_from_inputs(t_cmd_lst *cmd_t, char *addr, int *cnt)
+{
+	int	i;
+
 	i = 0;
 	while (i < cmd_t->input_c)
 	{
 		if (cmd_t->input_v[i] == addr)
 		{
 			cmd_t->input_v[i] = NULL;
-			input_new_c--;
+			(*cnt)--;
 		}
 		i++;
 	}
+}
+
+/* Remove a value from input_v and options_v */
+int	rem_from_both(t_cmd_lst *cmd_t, char *addr)
+{
+	int		options_new_c;
+	int		input_new_c;
+
+	options_new_c = cmd_t->options_c;
+	input_new_c = cmd_t->input_c;
+	remove_from_options(cmd_t, addr, &options_new_c);
+	remove_from_inputs(cmd_t, addr, &input_new_c);
 	if (update_inputv_optionsv_after_redir(cmd_t) == -1)
 		return (-1);
 	cmd_t->options_c = options_new_c;
@@ -101,7 +116,7 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 					if (cmd_t->arg_c > 0)
 					{
 						cmd_t->binary = cmd_t->arg_v[0];
-						if (remove_from_input_and_options(cmd_t, cmd_t->arg_v[0]) == -1)
+						if (rem_from_both(cmd_t, cmd_t->arg_v[0]) == -1)
 							return (-1);
 					}
 					else
@@ -380,17 +395,24 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 		while (cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
 		{
 			if (cmd_t->arg_v[i][idx] == '$' && (is_envchar(cmd_t->arg_v[i][idx + 1], 1) ||
-			!ft_strncmp(cmd_t->arg_v[i], "$?", -1)) && cmd_t->parsing_v[i][idx] == 'M')
+			cmd_t->arg_v[i][idx + 1] == '?') && cmd_t->parsing_v[i][idx] == 'M')
 			{
 				len = 0;
 				idx++;
-				while (cmd_t->parsing_v[i][idx] && \
-					(cmd_t->parsing_v[i][idx] == 'D' || cmd_t->parsing_v[i][idx] == 'M') && \
-					cmd_t->arg_v[i][idx] != '$' && cmd_t->arg_v[i][idx] != '\'' && \
-					cmd_t->arg_v[i][idx] != '\"' && (is_envchar(cmd_t->arg_v[i][idx], (len == 0)) || \
-					!ft_strncmp(cmd_t->arg_v[i], "$?", -1)))
+				if (cmd_t->arg_v[i][idx] != '?')
 				{
-					len++;
+					while (cmd_t->parsing_v[i][idx] && \
+						(cmd_t->parsing_v[i][idx] == 'D' || cmd_t->parsing_v[i][idx] == 'M') && \
+						cmd_t->arg_v[i][idx] != '$' && cmd_t->arg_v[i][idx] != '\'' && \
+						cmd_t->arg_v[i][idx] != '\"' && is_envchar(cmd_t->arg_v[i][idx], (len == 0)))
+					{
+						len++;
+						idx++;
+					}
+				}
+				else
+				{
+					len = 1;
 					idx++;
 				}
 				sub = ft_substr(cmd_t->arg_v[i], idx - len - 1, len + 1);
@@ -408,7 +430,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 					sub = ft_strdup_char('M', ft_strlen(val->value));
 					if (!sub)
 						return (-1); // memory error
-					if (replace_sub(NULL, &cmd_t->parsing_v[i], subparse, sub) == -1)
+					if (replace_sub(cmd_t, &cmd_t->parsing_v[i], subparse, sub) == -1)
 						return (-1); // memory error
 					free(sub);
 					free(subparse);
@@ -419,7 +441,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 					if (replace_sub(cmd_t, &cmd_t->arg_v[i], sub, "") == -1)
 						return (-1);
 					free(sub);
-					if (replace_sub(NULL, &cmd_t->parsing_v[i], subparse, "") == -1)
+					if (replace_sub(cmd_t, &cmd_t->parsing_v[i], subparse, "") == -1)
 						return (-1); // memory error
 					free(subparse);
 					idx -= (len + 2);

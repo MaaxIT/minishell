@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/31 16:11:34 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/31 17:43:22 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int	trim_whitespaces(char **str)
 	int		start;
 	int		end;
 
+	if (!(*str) || ft_strlen(*str) == 0)
+		return (0);
 	start = 0;
 	while ((*str)[start] && ((*str)[start] == 32 || \
 				((*str)[start] >= 9 && (*str)[start] <= 13)))
