@@ -25,7 +25,7 @@
 # include <readline/history.h>
 
 /* Prefix constants */
-# define SHELL_PREFIX	"Supershell:>"
+# define SHELL_PREFIX	"Supershell:> "
 
 /* Global variable */
 pid_t	g_pid;
