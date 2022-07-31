@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:55:04 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/24 21:36:58 by maxime           ###   ########.fr       */
+/*   Updated: 2022/07/31 16:10:14 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ int	init_env_list(t_list **head, char **envp)
 		return (-1);
 	id = malloc(2 * sizeof(char));
 	if (!id)
-		return (0);//PROTECT
+		return (-1);
 	ft_strlcpy(id, "?", 2);
 	value = malloc(2 * sizeof(char));
 	if (!value)
-		return (0);//PROTECT
+		return (-1);
 	ft_strlcpy(value, "0", 2);
 	new = ft_lstnew(id, value);
 	ft_lstadd_back(head, new);
