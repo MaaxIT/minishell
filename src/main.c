@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/29 19:59:31 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/07/31 16:11:34 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	main(int argc, char *argv[], char *envp[])
 	argc = (int)argc;
 	argv = (char **)argv;
 	env = NULL;
-	init_env_list(&env, envp); // Still need to manage errors
+	if (init_env_list(&env, envp) == -1)
+		return (-1);
 	if (!signals_init())
 	{
 		print_error(0);
