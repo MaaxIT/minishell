@@ -72,6 +72,10 @@ int			bi_env(int fd, t_list *env);
 int			bi_export(t_list **env, t_cmd_lst *cmd);
 int			bi_unset(t_list **env, t_cmd_lst *cmd);
 
+/* Builtins	utils prototypes */
+int	ft_print_invalid_export(int ret, char *arg);
+int	ft_isvalid_export(t_cmd_lst *cmd, int idx);
+
 /* exec_with_path and its utils */
 int			exec_with_path(t_list **env, const char *cmd, char **argv);
 char		**create_envp(t_list *env);

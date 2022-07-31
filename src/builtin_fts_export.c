@@ -12,36 +12,6 @@
 
 #include "minishell.h"
 
-static int	ft_print_invalid(int ret, char *arg)
-{
-	ft_putstr_fd(STDERR_FILENO, "Supershell: export: `");
-	ft_putstr_fd(STDERR_FILENO, arg);
-	ft_putstr_fd(STDERR_FILENO, "' not a valid identifier\n");
-	return (ret);
-}
-
-static int	ft_isvalid(t_cmd_lst *cmd)
-{
-	int		i;
-	char	*str;
-
-	if (!cmd->input_v || !cmd->input_v[0])
-		return (0);
-	str = cmd->input_v[0];
-	i = 0;
-	if (str[0] && str[0] >= '0' && str[0] <= '9')
-		return (ft_print_invalid(0, str));
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (ft_print_invalid(0, str));
-		i++;
-	}
-	if (str[i] && str[i] != '=')
-		return (0);
-	return (9);
-}
-
 static int	ft_export(t_list **env_address, t_list *env, char *id, char *value)
 {
 	t_list	*new;
@@ -89,26 +59,21 @@ static void	ft_export_no_arg(t_list *env)
 	}
 }
 
-int	bi_export(t_list **env_address, t_cmd_lst *cmd)
+int	bi_export_loop(t_list **env_address, t_cmd_lst *cmd, int i)
 {
-	int		ret;
+	int	ret;
 	char	**split;
 
-	if (!cmd->input_v)
-	{
-		ft_export_no_arg((*env_address)->next);
-		return (9);
-	}
-	if (!ft_isvalid(cmd))
+	if (!ft_isvalid_export(cmd, i))
 		return (0);
-	split = ft_split(cmd->input_v[0], '=');
+	split = ft_split(cmd->input_v[i], '=');
 	if (!split)
 		return (0);
-	if (!split[1] && ft_strlensep(cmd->input_v[0], '=') != \
-		ft_strlen(cmd->input_v[0]))
+	if (!split[1] && ft_strlensep(cmd->input_v[i], '=') != \
+		ft_strlen(cmd->input_v[i]))
 		split[1] = ft_strdup("");
-	if (!split[0] || (!split[1] && ft_strlensep(cmd->input_v[0], '=') \
-		!= ft_strlen(cmd->input_v[0])))
+	if (!split[0] || (!split[1] && ft_strlensep(cmd->input_v[i], '=') \
+		!= ft_strlen(cmd->input_v[i])))
 	{
 		ft_free_2d_table(split);
 		return (0);
@@ -116,4 +81,22 @@ int	bi_export(t_list **env_address, t_cmd_lst *cmd)
 	ret = ft_export(env_address, (*env_address)->next, split[0], split[1]);
 	free(split);
 	return (ret);
+}
+
+int	bi_export(t_list **env_address, t_cmd_lst *cmd)
+{
+	int	i;
+
+	if (!cmd->input_v)
+	{
+		ft_export_no_arg((*env_address)->next);
+		return (9);
+	}
+	i = 0;
+	while (cmd->input_v[i])
+	{
+		bi_export_loop(env_address, cmd, i);
+		i++;
+	}
+	return (9);
 }
