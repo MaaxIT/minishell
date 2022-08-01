@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 03:39:15 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 04:04:06 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	split_with_quotes(char *cmd, char **arr, char *parsing)
 	int	capt;
 	int	last;
 
+	parsing = (char *)parsing;
 	init_split(cmd, &idx, &capt, &i);
 	last = i;
 	while (cmd[i])
