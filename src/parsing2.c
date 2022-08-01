@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 04:55:14 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 04:58:47 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 	}
 	return (-1);
 }
-
-
-
-
-
-
-
-
-
 
 /* Remove a value from the options_v */
 void	remove_from_options(t_cmd_lst *cmd_t, char *addr, int *cnt)
@@ -86,16 +77,6 @@ int	rem_from_both(t_cmd_lst *cmd_t, char *addr)
 	cmd_t->input_c = input_new_c;
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
 
 /* Remove an empty argument from arrays while synchronizing */
 int	sync_arg_empty(t_cmd_lst *cmd_t, int idx, int input_idx, int is_bin)
@@ -157,20 +138,12 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 	return (0);
 }
 
-
-
-
-
-
-
-
-
 /* Parse redirection that are next to the redirection character 
 returns:
 	- 0 = continue
 	- -1 = memory error
 */
-int	parse_redirections_concatenated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
+int	parse_redirections_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
 	int		k;
 	int		fd;
@@ -290,7 +263,7 @@ int	parse_redirections_loop(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i
 		good = 1;
 		if (cmd_t->arg_v[*i][*idx + 1])
 		{
-			if (parse_redirections_concatenated(cmd_t, path_type, idx, i) == -1)
+			if (parse_redirections_concat(cmd_t, path_type, idx, i) == -1)
 				return (-1);
 		}
 		else if (cmd_t->arg_v[*i + 1])
@@ -344,14 +317,6 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	}
 	return (0);
 }
-
-
-
-
-
-
-
-
 
 /* Parse double quotes, called from parse_input_quotes */
 void	parse_double_quotes(char *input, char *parse, size_t *idx, size_t *i)
@@ -418,8 +383,6 @@ int	parse_input_quotes(char *input, char *parse)
 	return (0);
 }
 
-
-
 /* Initialize the quotes parsing */
 int	parse_quotes_init(t_cmd_lst *cmd_t, int *i)
 {
@@ -449,7 +412,7 @@ int	parse_quotes_init(t_cmd_lst *cmd_t, int *i)
 int	parse_quotes_delete(t_cmd_lst *cmd_t, int *i, int *idx)
 {
 	int	rtrn;
-	
+
 	while (*i < cmd_t->arg_c)
 	{
 		*idx = 0;
@@ -499,7 +462,7 @@ int	parse_quotes_found_value(t_cmd_lst *cmd_t, char **sub, char *subparse, char 
 	return (0);
 }
 
-int parse_quotes_not_found(t_cmd_lst *cmd_t, char **sub, char *subparse, int i)
+int	parse_quotes_not_found(t_cmd_lst *cmd_t, char **sub, char *subparse, int i)
 {
 	int	backup;
 
@@ -565,7 +528,7 @@ int	parse_quotes_loop(t_cmd_lst *cmd_t, t_list *env, int *idx, int i)
 			return (-1); // Memory error
 		*idx -= (len + 2);
 	}
-	free(subparse);	
+	free(subparse);
 	return (0);
 }
 
@@ -596,11 +559,6 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	}
 	return (0);
 }
-
-
-
-
-
 
 /* Put options into the options_v array */
 int	parse_options(t_cmd_lst *cmd_t)
