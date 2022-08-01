@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 02:39:43 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 03:39:15 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	alloc_last_split(char **arritem, char *cmd, int i, int last)
 	if (i > last)
 	{
 		*arritem = ft_substr(cmd, last, i - last);
-		printf("- lasts arg: |%s|\n-----\n\n", *arritem);
 		if (!*arritem)
 			return (-1);
 	}
@@ -42,24 +41,15 @@ static int	split_with_quotes(char *cmd, char **arr, char *parsing)
 	int	last;
 
 	init_split(cmd, &idx, &capt, &i);
-	printf("command: |%s|\n", cmd);
-	printf("parsing: |%s|\n", parsing);
 	last = i;
 	while (cmd[i])
 	{
 		if (cmd[i] && (cmd[i] == '\'' || cmd[i] == '\"') \
 		&& cmd[i + 1])
-		{
 			capt = !capt;
-			if (capt)
-				printf("Enabled capture at idx=%i / char=_%c_\n", i, cmd[i]);
-			else
-				printf("Disabled capture at idx=%i / char=_%c_\n", i, cmd[i]);
-		}
 		else if (cmd[i] && cmd[i] == ' ' && !capt)
 		{
 			arr[idx] = ft_substr(cmd, last, i - last);
-			printf("- new %i arg: |%s|\n", idx, arr[idx]);
 			if (!arr[idx])
 				return (-1);
 			idx++;
