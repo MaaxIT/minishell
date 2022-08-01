@@ -91,6 +91,10 @@ static int	free_command(t_cmd_lst *cmd_t)
 			free(cmd_t->parsing_v[idx++]);
 		free(cmd_t->parsing_v);
 	}
+	if (cmd_t->input_path)
+		free(cmd_t->input_path);
+	if (cmd_t->output_path)
+		free(cmd_t->output_path);
 	free(cmd_t);
 	return (0);
 }
