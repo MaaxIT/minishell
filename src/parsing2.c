@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 13:58:46 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 18:10:09 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,29 @@ int	sync_arg_empty(t_cmd_lst *cmd_t, int idx, int input_idx, int is_bin)
 }
 
 /* Synchronize arguments between each array of the structure */
-int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
+int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input, int after_parsing)
 {
 	int	idx;
 	int	is_bin;
 	int	input_idx;
+	int	next;
 
 	idx = 0;
 	while (idx < cmd_t->arg_c)
 	{
-		if (ft_strncmp(cmd_t->arg_v[idx], old_input, -1) == 0)
+		if (!ft_strncmp(cmd_t->arg_v[idx], old_input, -1))
 		{
+			if (after_parsing == 1)
+			{
+				printf("%s\n", old_input);
+				next = get_next_id(cmd_t, cmd_t->arg_c, cmd_t->arg_v, old_input);
+				printf("|%d| =?= |%d|\n", idx, next);
+				if (next != idx)
+				{
+					idx++;
+					continue ;
+				}
+			}
 			is_bin = (cmd_t->arg_v[idx] == cmd_t->binary);
 			input_idx = get_input_idx(cmd_t, old_input);
 			free(cmd_t->arg_v[idx]);
@@ -61,10 +73,16 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input)
 			if (is_bin)
 				cmd_t->binary = cmd_t->arg_v[idx];
 			else if (input_idx >= 0)
+			{
 				cmd_t->input_v[input_idx] = cmd_t->arg_v[idx];
-			if (ft_strlen(new_input) == 0 && \
-			sync_arg_empty(cmd_t, idx, input_idx, is_bin) == -1)
-				return (-1);
+				printf("%d %d\n", input_idx, idx);
+			}
+			if (ft_strlen(new_input) == 0)
+			{
+				if (sync_arg_empty(cmd_t, idx, input_idx, is_bin) == -1)
+					return (-1);
+				idx--;
+			}
 			break ;
 		}
 		idx++;

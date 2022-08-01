@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:08:26 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 14:27:17 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 17:03:58 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, char *val, int i)
 		*sub = ft_strdup_char('M', ft_strlen(val));
 		if (!*sub)
 			return (-1);
-		if (replace_sub(NULL, &cmd_t->parsing_v[i], parse, *sub) != 0)
+		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, *sub) != 0)
 			return (-1);
 		free(*sub);
 		*sub = NULL;
@@ -72,7 +72,7 @@ int	invalid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, int i)
 	*sub = NULL;
 	if (backup == cmd_t->arg_c)
 	{
-		if (replace_sub(NULL, &cmd_t->parsing_v[i], parse, "") != 0)
+		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, "") != 0)
 			return (-1);
 	}
 	return (0);

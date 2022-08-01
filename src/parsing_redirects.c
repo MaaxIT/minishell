@@ -6,30 +6,36 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 14:34:15 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 14:56:10 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Parse redirection that are next to the redirection character 
-returns:
-	- 0 = continue
-	- -1 = memory error
-*/
-static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
+static void	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i)
 {
-	int		k;
-	int		fd;
-	int		len;
+	int	k;
+	int	offset;
 
-	len = *idx + 1;
-	while (cmd_t->arg_v[*i][len] && cmd_t->arg_v[*i][len] != '>' && \
-	cmd_t->arg_v[*i][len] != '<')
-		len++;
-	*path_type = ft_strndup(cmd_t->arg_v[*i] + *idx + 1, len - (*idx + 1));
-	if (!*path_type)
-		return (-1);
+	offset = 0;
+	if (cmd_t->output_type == 'A')
+		offset = -1;
+	k = *idx - offset;
+	while (k < len)
+	{
+		if (rem_char(cmd_t, &cmd_t->arg_v[*i], *idx - offset) == 1)
+		{
+			(*i)--;
+			break ;
+		}
+		k++;
+	}
+}
+
+static void	gen_path(t_cmd_lst *cmd_t, char **path_type)
+{
+	int	fd;
+
 	if (cmd_t->output_type == 'A' && cmd_t->input_path)
 	{
 		rd_delimiter(cmd_t->input_path);
@@ -43,32 +49,26 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 		if (fd >= 0)
 			close(fd);
 	}
-	if (cmd_t->output_type == 'A')
-	{
-		k = *idx - 1;
-		while (k < len)
-		{
-			if (rem_char(cmd_t, &cmd_t->arg_v[*i], *idx - 1) == 1)
-			{
-				(*i)--;
-				break ;
-			}
-			k++;
-		}
-	}
-	else
-	{
-		k = *idx;
-		while (k < len)
-		{
-			if (rem_char(cmd_t, &cmd_t->arg_v[*i], *idx) == 1)
-			{
-				(*i)--;
-				break ;
-			}
-			k++;
-		}
-	}
+}
+
+/* Parse redirection that are next to the redirection character 
+returns:
+	- 0 = continue
+	- -1 = memory error
+*/
+static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
+{
+	int		len;
+
+	len = *idx + 1;
+	while (cmd_t->arg_v[*i][len] && cmd_t->arg_v[*i][len] != '>' && \
+	cmd_t->arg_v[*i][len] != '<')
+		len++;
+	*path_type = ft_strndup(cmd_t->arg_v[*i] + *idx + 1, len - (*idx + 1));
+	if (!*path_type)
+		return (-1);
+	gen_path(cmd_t, path_type);
+	concat_callback(cmd_t, idx, len, i);
 	*idx = 0;
 	return (0);
 }
