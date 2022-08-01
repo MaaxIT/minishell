@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/31 00:54:40 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 03:34:01 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int			bi_export(t_list **env, t_cmd_lst *cmd);
 int			bi_unset(t_list **env, t_cmd_lst *cmd);
 
 /* Builtins	utils prototypes */
-int	ft_print_invalid_export(int ret, char *arg);
-int	ft_isvalid_export(t_cmd_lst *cmd, int idx);
+int			ft_print_invalid_export(int ret, char *arg);
+int			ft_isvalid_export(t_cmd_lst *cmd, int idx);
 
 /* exec_with_path and its utils */
 int			exec_with_path(t_list **env, const char *cmd, char **argv);

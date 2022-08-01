@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:10:29 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/29 17:20:50 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 03:33:49 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	ft_export_no_arg(t_list *env)
 
 int	bi_export_loop(t_list **env_address, t_cmd_lst *cmd, int i)
 {
-	int	ret;
+	int		ret;
 	char	**split;
 
 	if (!ft_isvalid_export(cmd, i))
