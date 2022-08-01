@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 14:56:10 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 20:07:41 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i)
 	}
 }
 
-static void	gen_path(t_cmd_lst *cmd_t, char **path_type)
+static int	gen_path_concat(t_cmd_lst *cmd_t, char **path_type)
 {
 	int	fd;
 
@@ -45,10 +45,47 @@ static void	gen_path(t_cmd_lst *cmd_t, char **path_type)
 	}
 	else
 	{
-		fd = open(*path_type, O_CREAT, 0644);
+		if (cmd_t->input_path)
+			fd = open(*path_type, O_RDONLY, 0644);
+		else
+			fd = open(*path_type, O_CREAT, 0644);
 		if (fd >= 0)
 			close(fd);
+		else if (cmd_t->input_path)
+			return (-1);
 	}
+	return (0);
+}
+
+static void	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i)
+{
+	replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
+	if (cmd_t->output_type == 'A' && cmd_t->input_path)
+	{
+		free(*path_type);
+		*path_type = NULL;
+		cmd_t->input_path = NULL;
+	}
+}
+
+static int	gen_path_separated(t_cmd_lst *cmd_t, char **path_type)
+{
+	int	fd;
+	
+	if (cmd_t->output_type == 'A' && cmd_t->input_path)
+		rd_delimiter(cmd_t->input_path);
+	else
+	{
+		if (cmd_t->input_path)
+			fd = open(*path_type, O_RDONLY, 0644);
+		else
+			fd = open(*path_type, O_CREAT, 0644);
+		if (fd >= 0)
+			close(fd);
+		else if (cmd_t->input_path)
+			return (-1);
+	}
+	return (0);
 }
 
 /* Parse redirection that are next to the redirection character 
@@ -67,7 +104,8 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	*path_type = ft_strndup(cmd_t->arg_v[*i] + *idx + 1, len - (*idx + 1));
 	if (!*path_type)
 		return (-1);
-	gen_path(cmd_t, path_type);
+	if (gen_path_concat(cmd_t, path_type) == -1)
+		return (-1); // karibou
 	concat_callback(cmd_t, idx, len, i);
 	*idx = 0;
 	return (0);
@@ -75,7 +113,6 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 
 static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *i)
 {
-	int	fd;
 	int	input_idx;
 
 	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
@@ -92,21 +129,9 @@ static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *i)
 	*path_type = ft_strndup(cmd_t->arg_v[*i + 1], input_idx);
 	if (!*path_type)
 		return (-1);
-	if (cmd_t->output_type == 'A' && cmd_t->input_path)
-		rd_delimiter(cmd_t->input_path);
-	else
-	{
-		fd = open(*path_type, O_CREAT, 0644);
-		if (fd >= 0)
-			close(fd);
-	}
-	replace_sub(cmd_t, &cmd_t->arg_v[*i + 1], *path_type, "");
-	if (cmd_t->output_type == 'A' && cmd_t->input_path)
-	{
-		free(*path_type);
-		*path_type = NULL;
-		cmd_t->input_path = NULL;
-	}
+	if (gen_path_separated(cmd_t, path_type) == -1)
+		return (-1); // karibou
+	separated_callback(cmd_t, path_type, *i);
 	return (0);
 }
 
