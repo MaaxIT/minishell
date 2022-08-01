@@ -6,16 +6,17 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 20:07:41 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 21:04:34 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i)
+static int	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i)
 {
 	int	k;
 	int	offset;
+	int	rtrn;
 
 	offset = 0;
 	if (cmd_t->output_type == 'A')
@@ -23,13 +24,17 @@ static void	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i)
 	k = *idx - offset;
 	while (k < len)
 	{
-		if (rem_char(cmd_t, &cmd_t->arg_v[*i], *idx - offset) == 1)
+		rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx - offset);
+		if (rtrn == -1)
+			return (-1);
+		else if (rtrn == 1)
 		{
 			(*i)--;
 			break ;
 		}
 		k++;
 	}
+	return (0);
 }
 
 static int	gen_path_concat(t_cmd_lst *cmd_t, char **path_type)
@@ -45,27 +50,34 @@ static int	gen_path_concat(t_cmd_lst *cmd_t, char **path_type)
 	}
 	else
 	{
-		if (cmd_t->input_path)
+		if (path_type == &cmd_t->input_path)
 			fd = open(*path_type, O_RDONLY, 0644);
 		else
 			fd = open(*path_type, O_CREAT, 0644);
 		if (fd >= 0)
 			close(fd);
-		else if (cmd_t->input_path)
+		else if (path_type == &cmd_t->input_path)
 			return (-1);
 	}
 	return (0);
 }
 
-static void	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i)
+static int	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx)
 {
-	replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
+	int	res;
+	
+	res = replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
+	if (res < 0)
+		return (-1);
 	if (cmd_t->output_type == 'A' && cmd_t->input_path)
 	{
-		free(*path_type);
+		if (res == 0)
+			free(*path_type);
 		*path_type = NULL;
 		cmd_t->input_path = NULL;
 	}
+	*idx = 0;
+	return (0);
 }
 
 static int	gen_path_separated(t_cmd_lst *cmd_t, char **path_type)
@@ -76,13 +88,13 @@ static int	gen_path_separated(t_cmd_lst *cmd_t, char **path_type)
 		rd_delimiter(cmd_t->input_path);
 	else
 	{
-		if (cmd_t->input_path)
+		if (path_type == &cmd_t->input_path)
 			fd = open(*path_type, O_RDONLY, 0644);
 		else
 			fd = open(*path_type, O_CREAT, 0644);
 		if (fd >= 0)
 			close(fd);
-		else if (cmd_t->input_path)
+		else if (path_type == &cmd_t->input_path)
 			return (-1);
 	}
 	return (0);
@@ -106,12 +118,13 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 		return (-1);
 	if (gen_path_concat(cmd_t, path_type) == -1)
 		return (-1); // karibou
-	concat_callback(cmd_t, idx, len, i);
+	if (concat_callback(cmd_t, idx, len, i) == -1)
+		return (-1);
 	*idx = 0;
 	return (0);
 }
 
-static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *i)
+static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
 	int	input_idx;
 
@@ -131,7 +144,8 @@ static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *i)
 		return (-1);
 	if (gen_path_separated(cmd_t, path_type) == -1)
 		return (-1); // karibou
-	separated_callback(cmd_t, path_type, *i);
+	if (separated_callback(cmd_t, path_type, *i, idx) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -171,7 +185,7 @@ static int	loop(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 		}
 		else if (cmd_t->arg_v[*i + 1])
 		{
-			if (is_separated(cmd_t, path_type, i) == -1)
+			if (is_separated(cmd_t, path_type, idx, i) == -1)
 				return (-1);
 		}
 		else
@@ -195,12 +209,12 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	int		rtrn;
 	char	**path_type;
 
-	path_type = &cmd_t->output_path;
+	path_type = &cmd_t->input_path;
 	j = 0;
 	while (j < 2)
 	{
 		if (j == 1)
-			path_type = &cmd_t->input_path;
+			path_type = &cmd_t->output_path;
 		i = 0;
 		while (i < cmd_t->arg_c)
 		{
