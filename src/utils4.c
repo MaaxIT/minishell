@@ -69,7 +69,7 @@ int	ft_is_a_whitespace_or_empty_string(const char *str)
 	return (9);
 }
 
-static int	free_command(t_cmd_lst *cmd_t)
+static void	free_command(t_cmd_lst *cmd_t)
 {
 	int	idx;
 
@@ -96,7 +96,6 @@ static int	free_command(t_cmd_lst *cmd_t)
 	if (cmd_t->output_path)
 		free(cmd_t->output_path);
 	free(cmd_t);
-	return (0);
 }
 
 int	free_command_lst(t_cmd_lst *cmd_t)
