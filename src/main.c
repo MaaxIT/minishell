@@ -12,17 +12,19 @@
 
 #include "minishell.h"
 
-static void	parse_and_run(t_list **env, char *cmd_str)
+static void	parse_and_run(t_list **env, char **cmd_str)
 {
 	t_cmd_lst	*cmd_t;
 
-	add_history(cmd_str);
-	cmd_t = initialize_command(cmd_str, *env);
+	add_history(*cmd_str);
+	cmd_t = initialize_command(*cmd_str, *env);
 	if (!cmd_t)
 	{
 		print_error(0);
 		return ;
 	}
+	free(*cmd_str);
+	*cmd_str = NULL;
 	if (!cmd_t->binary || ft_is_a_whitespace_or_empty_string(cmd_t->binary))
 	{
 		errno = 0;
@@ -55,9 +57,9 @@ static int	trim_whitespaces(char **str)
 				((*str)[end] >= 9 && (*str)[end] <= 13)))
 		end--;
 	cpy = ft_strndup(*str + start, (end - start + 1));
+	free(*str);
 	if (!cpy)
 		return (-1);
-	free(*str);
 	*str = cpy;
 	return (0);
 }
@@ -73,7 +75,7 @@ static int	new_cmd(t_list **env)
 	if (trim_whitespaces(&cmd_str) == -1)
 		bi_exit(1, env, NULL);
 	if (!ft_is_a_whitespace_or_empty_string(cmd_str))
-		parse_and_run(env, cmd_str);
+		parse_and_run(env, &cmd_str);
 	if (cmd_str)
 		free(cmd_str);
 	if (env)
