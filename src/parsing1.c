@@ -29,6 +29,12 @@ static int	parse_order(t_cmd_lst *cmd_t, t_list *env)
 	return (0);
 }
 
+static t_cmd_lst	*free_cmd_lst_and_ret_null(t_cmd_lst *cmd)
+{
+	free_command_lst(cmd);
+	return (NULL);
+}
+
 /*
 returns:
 	-1 = NULL
@@ -46,7 +52,7 @@ static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 	initialize_structure(cmd_t);
 	split = split_cmd_lst(pipes[i]);
 	if (!split)
-		return (NULL);
+		return (free_cmd_lst_and_ret_null(cmd_t));
 	idx = 0;
 	while (split[idx])
 		idx++;
@@ -55,7 +61,7 @@ static t_cmd_lst	*loop_new_command(t_list *env, int i, char **pipes)
 	cmd_t->arg_v = split;
 	cmd_t->binary = cmd_t->arg_v[0];
 	if (parse_order(cmd_t, env) == -1)
-		return (NULL);
+		return (free_cmd_lst_and_ret_null(cmd_t));
 	else
 		return (cmd_t);
 }
@@ -71,14 +77,14 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 	if (!pipe_split)
 		return (NULL);
 	i = 0;
+	head_bckp = NULL;
 	while (pipe_split[i])
 	{
 		cmd_t = loop_new_command(env, i, pipe_split);
+		if (!cmd_t && !i)
+			free_command_lst(head_bckp);
 		if (!cmd_t)
-		{
-			head_bckp = NULL;
-			break ;
-		}
+			break;
 		if (!i)
 			head_bckp = cmd_t;
 		else
