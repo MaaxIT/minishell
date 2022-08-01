@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 18:08:41 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 18:13:35 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	int		idx;
 
 	idx = get_next_id(cmd_t, cmd_t->arg_c, cmd_t->arg_v, old);
-	printf("- (%d) |%s| |%s| |%s|\n", idx, cmd_t->arg_v[idx], old, newsub);
 	if (idx != -1)
 		str = &cmd_t->arg_v[idx];
 	found = ft_strnstr(*str, old, -1);
@@ -92,7 +91,6 @@ int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	int		idx;
 
 	idx = get_next_id(cmd_t, cmd_t->arg_c, cmd_t->parsing_v, old);
-	printf("= (%d) |%s| |%s| |%s|\n", idx, cmd_t->parsing_v[idx], old, newsub);
 	if (idx != -1)
 		str = &cmd_t->parsing_v[idx];
 	found = ft_strnstr(*str, old, -1);
