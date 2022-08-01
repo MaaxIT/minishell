@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/31 18:16:30 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 03:09:48 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,6 +334,7 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 	int		i;
 	int		idx;
 	int		rtrn;
+	int		backup;
 	size_t	len;
 	t_list	*val;
 	char	*sub;
@@ -424,28 +425,35 @@ int	parse_quotes(t_cmd_lst *cmd_t, t_list *env)
 				val = get_env_by_id(env, sub + 1);
 				if (val)
 				{
-					if (replace_sub(cmd_t, &cmd_t->arg_v[i], sub, val->value) == -1)
+					backup = cmd_t->arg_c;
+					if (replace_sub(cmd_t, &cmd_t->arg_v[i], sub, val->value) != 0)
 						return (-1); // memory error
 					free(sub);
-					sub = ft_strdup_char('M', ft_strlen(val->value));
-					if (!sub)
-						return (-1); // memory error
-					if (replace_sub(cmd_t, &cmd_t->parsing_v[i], subparse, sub) == -1)
-						return (-1); // memory error
-					free(sub);
-					free(subparse);
+					if (backup == cmd_t->arg_c)
+					{
+						sub = ft_strdup_char('M', ft_strlen(val->value));
+						if (!sub)
+							return (-1); // memory error
+						if (replace_sub(NULL, &cmd_t->parsing_v[i], subparse, sub) != 0)
+							return (-1); // memory error
+						free(sub);
+					}
 					idx += (ft_strlen(val->value) - (len + 2));
 				}
 				else
 				{
-					if (replace_sub(cmd_t, &cmd_t->arg_v[i], sub, "") == -1)
+					backup = cmd_t->arg_c;
+					if (replace_sub(cmd_t, &cmd_t->arg_v[i], sub, "") != 0)
 						return (-1);
 					free(sub);
-					if (replace_sub(cmd_t, &cmd_t->parsing_v[i], subparse, "") == -1)
-						return (-1); // memory error
-					free(subparse);
+					if (backup == cmd_t->arg_c)
+					{
+						if (replace_sub(NULL, &cmd_t->parsing_v[i], subparse, "") != 0)
+							return (-1); // memory error
+					}
 					idx -= (len + 2);
 				}
+				free(subparse);
 			}
 			idx++;
 		}
