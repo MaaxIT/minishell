@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/01 03:34:01 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 14:28:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@ typedef struct s_list {
 
 /* Example: echo -n Hello world */
 typedef struct s_cmd_lst {
-	char				*original;		// "echo -n Hello World"
-	char				*binary;		// "echo"
-	int					options_c;		// 1
-	char				**options_v;	// ["-n"]
-	int					input_c;		// 2
-	char				**input_v;		// ["Hello", "World"]
-	int					arg_c;			// 4
-	char				**arg_v;		// ["echo", "-n", "Hello", "World"]
-	char				**parsing_v;	// [[MMMM], [MMMM]]
+	char				*original;
+	char				*binary;
+	int					options_c;
+	char				**options_v;
+	int					input_c;
+	char				**input_v;
+	int					arg_c;
+	char				**arg_v;
+	char				**parsing_v;
 	char				*input_path;
 	char				*output_path;
-	char				output_type;	// R = replace (>), A = APPEND (>>)
+	char				output_type;
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
@@ -130,12 +130,17 @@ int			parse_redirections(t_cmd_lst *cmd_t);
 int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
 int			sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input);
 int			parse_input_quotes(char *input, char *parse);
+int			get_input_idx(t_cmd_lst *cmd_t, char *str);
+int			rem_from_both(t_cmd_lst *cmd_t, char *addr);
+int			parse_quotes_init(t_cmd_lst *cmd_t, int *i);
+int			invalid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, int i);
+int			valid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, char *val, int i);
 
 /* Memory utils prototypes */
 char		*insert_str_at_index(char *str, char *to_insert, int idx);
 char		*ft_strdup_char(char c, size_t repeats);
 int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
-int			remove_char_from_str(t_cmd_lst *cmd_t, char **s, int idx);
+int			rem_char(t_cmd_lst *cmd_t, char **s, int idx);
 void		initialize_structure(t_cmd_lst *cmd_t);
 
 /* Errors prototypes */

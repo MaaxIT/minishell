@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:55:04 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/31 16:10:14 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:26:58 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	init_env_list_loop(char **envp, t_list **head, char *id, char *val)
 		offset = env_value_offset(*envp);
 		if (offset == -1)
 			return (-1);
-		if (offset > 0) // otherwise the line has no = (what we do so?)
+		if (offset > 0)
 		{
 			id = ft_substr(*envp, 0, offset);
 			if (!id)

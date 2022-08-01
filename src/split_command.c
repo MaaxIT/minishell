@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 04:04:06 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 14:24:40 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,13 @@ static void	init_split(char *cmd, int *idx, int *capt, int *i)
 }
 
 /* Split the str with spaces + simple & double quotes */
-static int	split_with_quotes(char *cmd, char **arr, char *parsing)
+static int	split_with_quotes(char *cmd, char **arr)
 {
 	int	i;
 	int	idx;
 	int	capt;
 	int	last;
 
-	parsing = (char *)parsing;
 	init_split(cmd, &idx, &capt, &i);
 	last = i;
 	while (cmd[i])
@@ -71,7 +70,7 @@ static char	**split_cmd_lst_fill(char *cmd, char **splitv, \
 	idx = 0;
 	while (idx <= splitc)
 		splitv[idx++] = NULL;
-	if (split_with_quotes(cmd, splitv, parsing) == -1)
+	if (split_with_quotes(cmd, splitv) == -1)
 	{
 		free(parsing);
 		return (free_split(splitv));

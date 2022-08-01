@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 03:05:59 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/01 14:28:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 }
 
 /* Remove a character from a string */
-int	remove_char_from_str(t_cmd_lst *cmd_t, char **str, int idx)
+int	rem_char(t_cmd_lst *cmd_t, char **str, int idx)
 {
 	char	*cpy;
 	int		rtrn;
