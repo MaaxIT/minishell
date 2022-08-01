@@ -19,10 +19,7 @@ static void	parse_and_run(t_list **env, char **cmd_str)
 	add_history(*cmd_str);
 	cmd_t = initialize_command(*cmd_str, *env);
 	if (!cmd_t)
-	{
-		print_error(0);
 		return ;
-	}
 	free(*cmd_str);
 	*cmd_str = NULL;
 	if (!cmd_t->binary || ft_is_a_whitespace_or_empty_string(cmd_t->binary))
