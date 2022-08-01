@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/02 00:01:14 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 01:22:32 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void		rd_delimiter(char *delimiter);
 
 /* Redirections parsing prototypes */
 int			input_not_existing(int x, char *input_path);
-int			concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i);
+int			concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i, char **path_type);
 int			gen_path_concat(t_cmd_lst *cmd_t, char **path_type);
 int			separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx);
 int			gen_path_separated(t_cmd_lst *cmd_t, char **path_type);

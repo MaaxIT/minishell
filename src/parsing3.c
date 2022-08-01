@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:47:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 14:19:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 01:26:50 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->input_path = NULL;
 	cmd_t->output_path = NULL;
 	cmd_t->output_type = 0;
+	cmd_t->delimiter = NULL;
 	cmd_t->next = NULL;
 }
 

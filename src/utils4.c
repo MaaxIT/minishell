@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 01:10:42 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/27 18:47:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 01:30:25 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ static void	free_command(t_cmd_lst *cmd_t)
 		free(cmd_t->input_path);
 	if (cmd_t->output_path)
 		free(cmd_t->output_path);
+	if (cmd_t->delimiter)
+		free(cmd_t->delimiter);
 	free(cmd_t);
 }
 

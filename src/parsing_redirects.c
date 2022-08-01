@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 21:04:34 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 01:19:23 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 		return (-1);
 	if (gen_path_concat(cmd_t, path_type) == -1)
 		return (input_not_existing(-1, cmd_t->input_path)); // karibou
-	if (concat_callback(cmd_t, idx, len, i) == -1)
+	if (concat_callback(cmd_t, idx, len, i, path_type) == -1)
 		return (-1);
 	*idx = 0;
 	return (0);
@@ -43,7 +43,7 @@ static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
 	== 1)
 		(*i)--;
-	if (cmd_t->output_type == 'A' && \
+	if ((cmd_t->output_type == 'A' || path_type == &cmd_t->delimiter) && \
 	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) == 1)
 		(*i)--;
 	input_idx = 0;
@@ -84,10 +84,13 @@ static int	loop(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	{
 		if (cmd_t->arg_v[*i][*idx + 1] == c)
 		{
-			cmd_t->output_type = 'A';
+			if (c == '<')
+				path_type = &cmd_t->delimiter;
+			else
+				cmd_t->output_type = 'A';
 			(*idx)++;
 		}
-		else
+		else if (c == '>')
 			cmd_t->output_type = 'R';
 		good = 1;
 		if (cmd_t->arg_v[*i][*idx + 1])
@@ -121,18 +124,19 @@ int	parse_redirections(t_cmd_lst *cmd_t)
 	int		rtrn;
 	char	**path_type;
 
-	path_type = &cmd_t->input_path;
 	j = 0;
 	while (j < 2)
 	{
-		if (j == 1)
-			path_type = &cmd_t->output_path;
 		i = 0;
 		while (i < cmd_t->arg_c)
 		{
 			idx = 0;
 			while (cmd_t->arg_v && cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
 			{
+				if (j == 0)
+					path_type = &cmd_t->input_path;
+				else
+					path_type = &cmd_t->output_path;
 				rtrn = loop(cmd_t, path_type, &idx, &i);
 				if (rtrn == -1)
 					return (-1);
