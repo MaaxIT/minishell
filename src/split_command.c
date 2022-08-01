@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/01 14:24:40 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 00:49:14 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,22 @@ static void	init_split(char *cmd, int *idx, int *capt, int *i)
 		(*i)++;
 }
 
+int	contains_mean_char(char *str, char *parse, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && parse[i])
+	{
+		if (str[i] == c && parse[i] == 'M')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 /* Split the str with spaces + simple & double quotes */
-static int	split_with_quotes(char *cmd, char **arr)
+static int	split_with_quotes(char *cmd, char **arr, char *parse)
 {
 	int	i;
 	int	idx;
@@ -47,7 +61,7 @@ static int	split_with_quotes(char *cmd, char **arr)
 		if (cmd[i] && (cmd[i] == '\'' || cmd[i] == '\"') \
 		&& cmd[i + 1])
 			capt = !capt;
-		else if (cmd[i] && cmd[i] == ' ' && !capt)
+		else if (cmd[i] && cmd[i] == ' ' && parse[i] == 'M' && !capt)
 		{
 			arr[idx] = ft_substr(cmd, last, i - last);
 			if (!arr[idx])
@@ -70,7 +84,7 @@ static char	**split_cmd_lst_fill(char *cmd, char **splitv, \
 	idx = 0;
 	while (idx <= splitc)
 		splitv[idx++] = NULL;
-	if (split_with_quotes(cmd, splitv) == -1)
+	if (split_with_quotes(cmd, splitv, parsing) == -1)
 	{
 		free(parsing);
 		return (free_split(splitv));
