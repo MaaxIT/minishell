@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/01 18:08:02 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 00:01:14 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ char		**ft_split_out_quotes(const char *str, char sep);
 char		**free_split(char **arr);
 int			count_splits(char *cmd, char *parsing);
 char		**free_and_return_split(char *parsing);
+int			contains_mean_char(char *str, char *parse, char c);
 
 /* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line, t_list *env);
