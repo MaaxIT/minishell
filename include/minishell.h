@@ -50,7 +50,10 @@ typedef struct s_cmd_lst {
 	char	**parsing_v;
 	char	*delimiter;
 	char	*input_path;
+	int		input_fd;
+	char	input_type;
 	char	*output_path;
+	int		output_fd;
 	char	output_type;
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
@@ -88,6 +91,7 @@ int			rd_input(char *path);
 int			rd_output(char *path);
 int			rd_output_append(char *path);
 int			rd_delimiter(char *delimiter);
+int			open_redirections(t_cmd_lst *cmd);
 
 /* Redirections parsing prototypes */
 int			input_not_existing(int x, char *input_path);

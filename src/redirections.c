@@ -67,16 +67,21 @@ void	rd_delimiter_child(int fd, char *delimiter)
 
 int	rd_delimiter(char *delimiter)
 {
-	int	fd;
+	int	fd[2];
 
-	fd = open("./delim", O_CREAT | O_WRONLY, 0644); 
-	if (fd == -1)
+	if (pipe(fd) == -1)
 		return (-1);
 	g_pid = fork();
 	if (g_pid == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
 		return (-1);
+	}
 	if (!g_pid)
-		rd_delimiter_child(fd, delimiter);
-	waitpid(g_pid, NULL, 0); // PROTECT + SHOULD GET THE VALUE FOR ERRNO?
-	return (fd);
+		rd_delimiter_child(fd[1], delimiter);
+	if (waitpid(g_pid, NULL, 0) == -1)
+		return (-1); // PROTECT + SHOULD GET THE VALUE FOR ERRNO?
+	close(fd[1]);
+	return (fd[0]);
 }

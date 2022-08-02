@@ -35,22 +35,19 @@ static int	run_cmd_pipe(t_list **env, int pipefd[3], \
 
 static int	adjust_fd(t_cmd_lst *cmd, int pipefd[3])
 {
-	if (cmd->input_path)
+	if (cmd->input_fd != -1)
 	{
 		if (close(pipefd[2]) == -1)
 			return (0);
-		pipefd[2] = rd_input(cmd->input_path);
+		pipefd[2] = cmd->input_fd;
 		if (pipefd[2] == -1)
 			return (0);
 	}
-	if (cmd->output_path)
+	if (cmd->output_fd != -1)
 	{
 		if (close(pipefd[1]) == -1)
 			return (0);
-		if (cmd->output_type == 'R')
-			pipefd[1] = rd_output(cmd->output_path);
-		else if (cmd->output_type == 'A')
-			pipefd[1] = rd_output_append(cmd->output_path);
+		pipefd[1] = cmd->output_fd;
 		if (pipefd[1] == -1)
 		{
 			close(pipefd[2]);

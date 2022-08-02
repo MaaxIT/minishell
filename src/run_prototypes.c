@@ -43,6 +43,8 @@ int	run(t_list **env, t_cmd_lst *cmd)
 
 	if (!cmd)
 		return (0);
+	if (!open_redirections(cmd))
+		return (0);
 	if (!cmd->next)
 		ret = no_pipe(env, cmd);
 	else
