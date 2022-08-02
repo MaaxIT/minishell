@@ -72,7 +72,7 @@ int	rd_delimiter(char *delimiter)
 	if (!g_pid)
 		rd_delimiter_child(fd[1], delimiter);
 	if (waitpid(g_pid, NULL, 0) == -1)
-		return (-1); // PROTECT + SHOULD GET THE VALUE FOR ERRNO?
+		return (-1);
 	close(fd[1]);
 	return (fd[0]);
 }
