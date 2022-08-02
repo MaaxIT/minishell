@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:58:54 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/02 01:26:16 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 23:59:35 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,55 +97,6 @@ static int	parse_quotes_loop(t_cmd_lst *cmd_t, t_list *env, int *idx, int i)
 	}
 	free(subparse);
 	return (0);
-}
-
-int    print_structure(t_cmd_lst *cmd_t)
-{
-    int    idx;
-
-    printf("\n-===- Debugging structure -===-\n");
-    printf("- original: |%s|\n", cmd_t->original);
-    printf("- binary: |%s|\n", cmd_t->binary);
-    printf("- options_c: %d\n", cmd_t->options_c);
-    printf("- options_v:\n");
-    idx = 0;
-    while (idx < cmd_t->options_c)
-    {
-        printf("        %d:  |%s|\n", idx, cmd_t->options_v[idx]);
-        idx++;
-    }
-    printf("- input_c: %d\n", cmd_t->input_c);
-    printf("- input_v:\n");
-    idx = 0;
-    while (idx < cmd_t->input_c)
-    {
-        printf("        %d:  |%s|\n", idx, cmd_t->input_v[idx]);
-        idx++;
-    }
-    printf("- arg_c: %d\n", cmd_t->arg_c);
-    printf("- arg_v:\n");
-    idx = 0;
-    while (idx < cmd_t->arg_c)
-    {
-        printf("        %d:  |%s|\n", idx, cmd_t->arg_v[idx]);
-        idx++;
-    }
-    if (cmd_t->parsing_v)
-    {
-        printf("- parsing_v:\n");
-        idx = 0;
-        while (idx < cmd_t->arg_c)
-        {
-            printf("        %d:  |%s|\n", idx, cmd_t->parsing_v[idx]);
-            idx++;
-        }
-    }
-    printf("- output_type: %c\n", cmd_t->output_type);
-    printf("- output_path: %s\n", cmd_t->output_path);
-    printf("- input_path: %s\n", cmd_t->input_path);
-    printf("- next: %p\n", cmd_t->next);
-    printf("-===- End of debugging structure -===-\n\n");
-    return (0);
 }
 
 /* Parse quote for every argument */

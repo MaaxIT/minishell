@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:00:08 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/02 00:49:17 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 00:01:00 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	parse_input_quotes(char *input, char *parse)
 	i = 0;
 	while (input[i])
 	{
-		if (!input[i + 1] || contains_mean_char(input + i + 1, parse + i + 1, input[i]))
+		if (!input[i + 1] || \
+		contains_mean_char(input + i + 1, parse + i + 1, input[i]))
 		{
 			if (input[i] == '\"' && parse[i] != 'S')
 				doubles_quotes(input, parse, &idx, &i);

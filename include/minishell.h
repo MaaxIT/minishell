@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/02 01:22:32 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 23:59:44 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,23 @@ typedef struct s_list {
 
 /* Example: echo -n Hello world */
 typedef struct s_cmd_lst {
-	char	*original;
-	char	*binary;
-	int		options_c;
-	char	**options_v;
-	int		input_c;
-	char	**input_v;
-	int		arg_c;
-	char	**arg_v;
-	char	**parsing_v;
-	char	*input_path;
-	int		input_fd;
-	char	input_type;
-	char	*output_path;
-	int		output_fd;
-	char	output_type;
+	char				*original;
+	char				*binary;
+	int					options_c;
+	char				**options_v;
+	int					input_c;
+	char				**input_v;
+	int					arg_c;
+	char				**arg_v;
+	char				**parsing_v;
+	char				*input_path;
+	int					input_fd;
+	char				input_type;
+	char				*output_path;
+	int					output_fd;
+	char				output_type;
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
-
-// REMOVE THAT (main.c)
-int			print_structure(t_cmd_lst *cmd_t);
 
 /* Signals prototype */
 int			signals_init(void);
@@ -95,7 +92,7 @@ int			rd_delimiter(char *delimiter);
 int			input_not_existing(int x, char *input_path);
 int			concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i);
 int			gen_path_concat(t_cmd_lst *cmd_t, char **path_type);
-int			separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx);
+int			separated_callback(t_cmd_lst *cmd_t, char **type, int i, int *idx);
 int			gen_path_separated(t_cmd_lst *cmd_t, char **path_type);
 
 /* Utils prototypes */
@@ -140,20 +137,20 @@ int			parse_options(t_cmd_lst *cmd_t);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 int			parse_redirections(t_cmd_lst *cmd_t);
 int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
-int			sync_arg(t_cmd_lst *cmd_t, char *old_input, char *new_input, int after_parsing);
+int			sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after);
 int			parse_input_quotes(char *input, char *parse);
 int			get_input_idx(t_cmd_lst *cmd_t, char *str);
 int			rem_from_both(t_cmd_lst *cmd_t, char *addr);
 int			parse_quotes_init(t_cmd_lst *cmd_t, int *i);
 int			invalid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, int i);
-int			valid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, char *val, int i);
+int			valid_envvar(t_cmd_lst *cmd_t, char **sub, char *p, char *v, int i);
 int			get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input);
 
 /* Memory utils prototypes */
 char		*insert_str_at_index(char *str, char *to_insert, int idx);
 char		*ft_strdup_char(char c, size_t repeats);
 int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
-int			replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub);
+int			replace_sub_parse(t_cmd_lst *cmd_t, char **s, char *old, char *new);
 int			rem_char(t_cmd_lst *cmd_t, char **s, int idx);
 void		initialize_structure(t_cmd_lst *cmd_t);
 

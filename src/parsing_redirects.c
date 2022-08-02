@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/02 01:19:23 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 23:58:21 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if (res == -1)
 		return (-1);
 	else if (res == 1)
-		(*i)--;	
+		(*i)--;
 	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
 		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
 	{

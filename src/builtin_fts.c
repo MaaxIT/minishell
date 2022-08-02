@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/29 17:42:21 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 00:00:12 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	bi_pwd(int fd)
 
 int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 {
-	long int 	ex;
+	long int	ex;
 	t_cmd_lst	*cmd;
 
 	(void)fd;

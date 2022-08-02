@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/02 01:25:02 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 00:01:08 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_cmd_lst	*initialize_command(char *line, t_list *env)
 		if (!cmd_t && !i)
 			free_command_lst(head_bckp);
 		if (!cmd_t)
-			break;
+			break ;
 		if (!i)
 			head_bckp = cmd_t;
 		else
