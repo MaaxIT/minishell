@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:17:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/07/31 00:54:44 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 00:43:27 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,18 @@ int	count_splits(char *cmd, char *parsing)
 	while (cmd[i[0]])
 		count_splits_loop(cmd, parsing, i, &capt);
 	return (i[1]);
+}
+
+int	contains_mean_char(char *str, char *parse, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && parse[i])
+	{
+		if (str[i] == c && parse[i] == 'M')
+			return (1);
+		i++;
+	}
+	return (0);
 }

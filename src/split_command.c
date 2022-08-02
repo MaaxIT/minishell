@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:11:22 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/02 00:49:14 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 00:43:09 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,6 @@ static void	init_split(char *cmd, int *idx, int *capt, int *i)
 	*i = 0;
 	while (cmd[*i] && cmd[*i] == ' ')
 		(*i)++;
-}
-
-int	contains_mean_char(char *str, char *parse, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && parse[i])
-	{
-		if (str[i] == c && parse[i] == 'M')
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 /* Split the str with spaces + simple & double quotes */
