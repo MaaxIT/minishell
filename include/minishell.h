@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/02 23:59:44 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 01:17:58 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ int			concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i);
 int			gen_path_concat(t_cmd_lst *cmd_t, char **path_type);
 int			separated_callback(t_cmd_lst *cmd_t, char **type, int i, int *idx);
 int			gen_path_separated(t_cmd_lst *cmd_t, char **path_type);
+int			is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i);
+int			is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i);
+int			is_concat2(t_cmd_lst *cmd_t, char **path_type, int *i, int *idx);
+int			loop_parsing_3(t_cmd_lst *cmd_t, int *i, int *idx, char **type);
+void		loop_parsing_2(t_cmd_lst *cmd_t, int *i, int *idx, char c);
 
 /* Utils prototypes */
 size_t		ft_strlen(const char *str);

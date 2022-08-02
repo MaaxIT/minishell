@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/02 23:58:21 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 01:17:30 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ returns:
 	- 0 = continue
 	- -1 = memory error
 */
-static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
+int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
-	int	len;
 	int	res;
 
 	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
@@ -39,22 +38,12 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 		else if (res == 1)
 			(*i)--;
 	}
-	len = *idx;
-	while (cmd_t->arg_v[*i][len] && cmd_t->arg_v[*i][len] != '>' && \
-	cmd_t->arg_v[*i][len] != '<')
-		len++;
-	*path_type = ft_strndup(cmd_t->arg_v[*i] + *idx, len - *idx);
-	if (!*path_type)
+	if (is_concat2(cmd_t, path_type, i, idx) == -1)
 		return (-1);
-	if (gen_path_concat(cmd_t, path_type) == -1)
-		return (input_not_existing(-1, cmd_t->input_path));
-	if (concat_callback(cmd_t, idx, len, i) == -1)
-		return (-1);
-	*idx = 0;
 	return (0);
 }
 
-static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
+int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
 	int	input_idx;
 
@@ -87,7 +76,7 @@ returns:
 */
 static int	loop(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
-	int		good;
+	int		res;
 	char	c;
 
 	c = '>';
@@ -100,37 +89,10 @@ static int	loop(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	}
 	if (cmd_t->arg_v[*i][*idx] == c)
 	{
-		if (cmd_t->arg_v[*i][*idx + 1] == c)
-		{
-			if (c == '<')
-				cmd_t->input_type = 'D';
-			else
-				cmd_t->output_type = 'A';
-			(*idx)++;
-		}
-		else if (c == '>')
-			cmd_t->output_type = 'R';
-		else if (c == '<')
-			cmd_t->input_type = 'C';
-		good = 1;
-		if (cmd_t->arg_v[*i][*idx + 1])
-		{
-			if (is_concat(cmd_t, path_type, idx, i) == -1)
-				return (-1);
-		}
-		else if (cmd_t->arg_v[*i + 1])
-		{
-			if (is_separated(cmd_t, path_type, idx, i) == -1)
-				return (-1);
-		}
-		else
-			good = 0;
-		if (good == 1)
-		{
-			if (*i < 0)
-				*i = 0;
-			return (1);
-		}
+		loop_parsing_2(cmd_t, i, idx, c);
+		res = loop_parsing_3(cmd_t, i, idx, path_type);
+		if (res != 0)
+			return (res);
 	}
 	return (0);
 }
