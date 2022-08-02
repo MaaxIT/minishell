@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections_delimiter.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/03 00:20:49 by maxime            #+#    #+#             */
+/*   Updated: 2022/08/03 00:20:55 by maxime           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	eof_not_delim(char *delimiter, int i)
@@ -22,7 +34,7 @@ static void	eof_not_delim(char *delimiter, int i)
 static void	rd_delimiter_child(int fd, char *delimiter)
 {
 	char	*line;
-	int	i;
+	int		i;
 
 	i = 0;
 	line = readline("> ");
