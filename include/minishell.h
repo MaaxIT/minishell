@@ -87,7 +87,7 @@ int			ewp_clear(int ret, char **paths, char **env);
 int			rd_input(char *path);
 int			rd_output(char *path);
 int			rd_output_append(char *path);
-void		rd_delimiter(char *delimiter);
+int			rd_delimiter(char *delimiter);
 
 /* Redirections parsing prototypes */
 int			input_not_existing(int x, char *input_path);

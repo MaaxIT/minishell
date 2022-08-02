@@ -47,14 +47,36 @@ int	rd_output_append(char *path)
 	return (fd);
 }
 
-void	rd_delimiter(char *delimiter)
+void	rd_delimiter_child(int fd, char *delimiter)
 {
 	char	*line;
-	int		cmp;
 
 	line = readline("> ");
-	cmp = ft_strncmp(delimiter, line, -1);
-	free(line);
-	if (cmp)
-		rd_delimiter(delimiter);
+	while (ft_strncmp(delimiter, line, -1))
+	{
+		ft_putstr_fd(fd, line);
+		write(fd, "\n", 1);
+		if (line)
+			free(line);
+		line = readline("> ");
+	}
+	if (line)
+		free(line);
+	exit(0);
+}
+
+int	rd_delimiter(char *delimiter)
+{
+	int	fd;
+
+	fd = open("./delim", O_CREAT | O_WRONLY, 0644); 
+	if (fd == -1)
+		return (-1);
+	g_pid = fork();
+	if (g_pid == -1)
+		return (-1);
+	if (!g_pid)
+		rd_delimiter_child(fd, delimiter);
+	waitpid(g_pid, NULL, 0); // PROTECT + SHOULD GET THE VALUE FOR ERRNO?
+	return (fd);
 }
