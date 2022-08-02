@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/31 18:20:00 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/02 01:25:02 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	parse_order(t_cmd_lst *cmd_t, t_list *env)
 		return (-1);
 	if (parse_redirections(cmd_t) == -1)
 		return (-1);
+	print_structure(cmd_t);
 	return (0);
 }
 
