@@ -62,9 +62,52 @@ int	ft_is_a_whitespace_or_empty_string(const char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (-1);
 	while (str[i] && (str[i] == 32 || (str[i] >= 9 && str[i] <= 13)))
 		i++;
 	if (str[i])
 		return (0);
 	return (9);
+}
+
+int	ft_atoi_isvalid(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (ft_is_a_whitespace_or_empty_string(str) == 9)
+		return (0);
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (9);
+}
+
+long int	ft_atol(const char *str)
+{
+	long int	val;
+	size_t		i;
+
+	i = 0;
+	val = 0;
+	if (!ft_atoi_isvalid(str))
+		return (-1);
+	else if (str[i] == 43)
+		i++;
+	while (str[i] >= '0' && str[i] < '9')
+	{
+		val += str[i] - '0';
+		if (str[i + 1] > 47 && str[i + 1] < 58)
+			val *= 10;
+		i++;
+	}
+	return (val);
 }

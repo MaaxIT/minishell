@@ -143,7 +143,6 @@ int    print_structure(t_cmd_lst *cmd_t)
     printf("- output_type: %c\n", cmd_t->output_type);
     printf("- output_path: %s\n", cmd_t->output_path);
     printf("- input_path: %s\n", cmd_t->input_path);
-    printf("- delimiter: %s\n", cmd_t->delimiter);
     printf("- next: %p\n", cmd_t->next);
     printf("-===- End of debugging structure -===-\n\n");
     return (0);

@@ -30,7 +30,6 @@ void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->output_path = NULL;
 	cmd_t->output_fd = -1;
 	cmd_t->output_type = 0;
-	cmd_t->delimiter = NULL;
 	cmd_t->next = NULL;
 }
 

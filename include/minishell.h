@@ -48,7 +48,6 @@ typedef struct s_cmd_lst {
 	int		arg_c;
 	char	**arg_v;
 	char	**parsing_v;
-	char	*delimiter;
 	char	*input_path;
 	int		input_fd;
 	char	input_type;
@@ -91,7 +90,6 @@ int			rd_input(char *path);
 int			rd_output(char *path);
 int			rd_output_append(char *path);
 int			rd_delimiter(char *delimiter);
-int			open_redirections(t_cmd_lst *cmd);
 
 /* Redirections parsing prototypes */
 int			input_not_existing(int x, char *input_path);
@@ -122,6 +120,7 @@ char		*ft_strndup(const char *str, size_t n);
 int			ft_is_a_whitespace_or_empty_string(const char *str);
 int			ft_isalnum(char c);
 int			is_envchar(int ch, int is_first);
+long int	ft_atol(const char *str);
 
 /* Split prototype */
 char		**split_cmd_lst(char *cmd);

@@ -29,7 +29,7 @@ static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if (!*path_type)
 		return (-1);
 	if (gen_path_concat(cmd_t, path_type) == -1)
-		return (input_not_existing(-1, cmd_t->input_path)); // karibou
+		return (input_not_existing(-1, cmd_t->input_path));
 	if (concat_callback(cmd_t, idx, len, i, path_type) == -1)
 		return (-1);
 	*idx = 0;
@@ -43,7 +43,7 @@ static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
 	== 1)
 		(*i)--;
-	if ((cmd_t->output_type == 'A' || path_type == &cmd_t->delimiter) && \
+	if ((cmd_t->output_type == 'A' || cmd_t->input_type == 'D') && \
 	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) == 1)
 		(*i)--;
 	input_idx = 0;
@@ -55,7 +55,7 @@ static int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if (!*path_type)
 		return (-1);
 	if (gen_path_separated(cmd_t, path_type) == -1)
-		return (input_not_existing(-1, cmd_t->input_path)); // karibou
+		return (input_not_existing(-1, cmd_t->input_path));
 	if (separated_callback(cmd_t, path_type, *i, idx) == -1)
 		return (-1);
 	return (0);
@@ -85,13 +85,15 @@ static int	loop(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 		if (cmd_t->arg_v[*i][*idx + 1] == c)
 		{
 			if (c == '<')
-				path_type = &cmd_t->delimiter;
+				cmd_t->input_type = 'D';
 			else
 				cmd_t->output_type = 'A';
 			(*idx)++;
 		}
 		else if (c == '>')
 			cmd_t->output_type = 'R';
+		else if (c == '<')
+			cmd_t->input_type = 'C';
 		good = 1;
 		if (cmd_t->arg_v[*i][*idx + 1])
 		{
@@ -115,38 +117,34 @@ static int	loop(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	return (0);
 }
 
+static int	first_loop(t_cmd_lst *cmd_t, char **path_type)
+{
+	int	i;
+	int	idx;
+	int	rtrn;
+
+	i = 0;
+	while (i < cmd_t->arg_c)
+	{
+		idx = 0;
+		while (cmd_t->arg_v && cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
+		{
+			rtrn = loop(cmd_t, path_type, &idx, &i);
+			if (rtrn == -1)
+				return (-1);
+			else if (rtrn == 1)
+				continue ;
+			idx++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 /* Parse redirections */
 int	parse_redirections(t_cmd_lst *cmd_t)
 {
-	int		i;
-	int		j;
-	int		idx;
-	int		rtrn;
-	char	**path_type;
-
-	j = 0;
-	while (j < 2)
-	{
-		i = 0;
-		while (i < cmd_t->arg_c)
-		{
-			idx = 0;
-			while (cmd_t->arg_v && cmd_t->arg_v[i] && cmd_t->arg_v[i][idx])
-			{
-				if (j == 0)
-					path_type = &cmd_t->input_path;
-				else
-					path_type = &cmd_t->output_path;
-				rtrn = loop(cmd_t, path_type, &idx, &i);
-				if (rtrn == -1)
-					return (-1);
-				else if (rtrn == 1)
-					continue ;
-				idx++;
-			}
-			i++;
-		}
-		j++;
-	}
+	first_loop(cmd_t, &cmd_t->input_path);
+	first_loop(cmd_t, &cmd_t->output_path);
 	return (0);
 }

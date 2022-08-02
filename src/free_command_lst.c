@@ -2,8 +2,6 @@
 
 static void	free_command2(t_cmd_lst *cmd_t)
 {
-	if (cmd_t->delimiter)
-		free(cmd_t->delimiter);
 	if (cmd_t->input_path)
 		free(cmd_t->input_path);
 	if (cmd_t->output_path)

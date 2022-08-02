@@ -17,7 +17,8 @@ int	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i, char **path_typ
 	int	rtrn;
 
 	offset = 0;
-	if (cmd_t->output_type == 'A' || path_type == &cmd_t->delimiter)
+	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
+		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
 		offset = -1;
 	k = *idx - offset;
 	while (k < len)
@@ -37,24 +38,27 @@ int	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i, char **path_typ
 
 int	gen_path_concat(t_cmd_lst *cmd_t, char **path_type)
 {
-	int	fd;
-
-	if (path_type == &cmd_t->delimiter)
+	if (path_type == &cmd_t->input_path)
 	{
-		rd_delimiter(*path_type);
-		free(*path_type);
-		*path_type = NULL;
-	}
-	else
-	{
-		if (path_type == &cmd_t->input_path)
-			fd = open(*path_type, O_RDONLY, 0644);
-		else
-			fd = open(*path_type, O_CREAT, 0644);
-		if (fd >= 0)
-			close(fd);
-		else if (path_type == &cmd_t->input_path)
+		if (cmd_t->input_fd != -1)
+			close(cmd_t->input_fd);
+		if (cmd_t->input_type == 'D')
+			cmd_t->input_fd = rd_delimiter(*path_type);
+		else if (cmd_t->input_type == 'C')
+			cmd_t->input_fd = rd_input(*path_type);
+		if (cmd_t->input_fd == -1)
 			return (-1);
+//		free(*path_type);
+//		*path_type = NULL;
+	}
+	else if (path_type == &cmd_t->output_path)
+	{
+		if (cmd_t->output_fd != -1)
+			close(cmd_t->output_fd);
+		if (cmd_t->output_type == 'R')
+			cmd_t->output_fd = rd_output(*path_type);
+		else if (cmd_t->output_type == 'A')
+			cmd_t->output_fd = rd_output_append(*path_type);
 	}
 	return (0);
 }
@@ -66,7 +70,7 @@ int	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx)
 	res = replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 	if (res < 0)
 		return (-1);
-	if (path_type == &cmd_t->delimiter)
+	if (path_type == &cmd_t->input_path && cmd_t->input_type == 'D')
 	{
 		if (res == 0)
 			free(*path_type);
@@ -78,20 +82,27 @@ int	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx)
 
 int	gen_path_separated(t_cmd_lst *cmd_t, char **path_type)
 {
-	int	fd;
-	
-	if (path_type == &cmd_t->delimiter)
-		rd_delimiter(*path_type);
-	else
+	if (path_type == &cmd_t->input_path)
 	{
-		if (path_type == &cmd_t->input_path)
-			fd = open(*path_type, O_RDONLY, 0644);
-		else
-			fd = open(*path_type, O_CREAT, 0644);
-		if (fd >= 0)
-			close(fd);
-		else if (path_type == &cmd_t->input_path)
+		if (cmd_t->input_fd != -1)
+			close(cmd_t->input_fd);
+		if (cmd_t->input_type == 'D')
+			cmd_t->input_fd = rd_delimiter(*path_type);
+		else if (cmd_t->input_type == 'C')
+			cmd_t->input_fd = rd_input(*path_type);
+		if (cmd_t->input_fd == -1)
 			return (-1);
+//		free(*path_type);
+//		*path_type = NULL;
+	}
+	else if (path_type == &cmd_t->output_path)
+	{
+		if (cmd_t->output_fd != -1)
+			close(cmd_t->output_fd);
+		if (cmd_t->output_type == 'R')
+			cmd_t->output_fd = rd_output(*path_type);
+		else if (cmd_t->output_type == 'A')
+			cmd_t->output_fd = rd_output_append(*path_type);
 	}
 	return (0);
 }
