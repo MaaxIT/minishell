@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/03 01:17:58 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 01:39:20 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,10 @@ int			parse_quotes_init(t_cmd_lst *cmd_t, int *i);
 int			invalid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, int i);
 int			valid_envvar(t_cmd_lst *cmd_t, char **sub, char *p, char *v, int i);
 int			get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input);
+void		sync_arg2(t_cmd_lst *cmd_t, int idx, int *is_bin, char *new);
+void		sync_arg3(t_cmd_lst *cmd_t, int idx, int is_bin, int input_idx);
+int			sync_arg4(t_cmd_lst *cmd_t, int *idx, int is_bin, int input_idx);
+int			sync_arg_diff(t_cmd_lst *cmd_t, char *old, int *idx);
 
 /* Memory utils prototypes */
 char		*insert_str_at_index(char *str, char *to_insert, int idx);

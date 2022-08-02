@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/03 00:21:50 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 01:38:00 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing)
 	int	idx;
 	int	is_bin;
 	int	input_idx;
-	int	next;
 
 	idx = 0;
 	while (idx < cmd_t->arg_c)
@@ -57,27 +56,14 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing)
 		{
 			if (after_parsing == 1)
 			{
-				next = get_next_id(cmd_t, cmd_t->arg_c, cmd_t->arg_v, old);
-				if (next != idx)
-				{
-					idx++;
+				if (sync_arg_diff(cmd_t, old, &idx))
 					continue ;
-				}
 			}
-			is_bin = (cmd_t->arg_v[idx] == cmd_t->binary);
 			input_idx = get_input_idx(cmd_t, old);
-			free(cmd_t->arg_v[idx]);
-			cmd_t->arg_v[idx] = new;
-			if (is_bin)
-				cmd_t->binary = cmd_t->arg_v[idx];
-			else if (input_idx >= 0)
-				cmd_t->input_v[input_idx] = cmd_t->arg_v[idx];
-			if (ft_strlen(new) == 0)
-			{
-				if (sync_arg_empty(cmd_t, idx, input_idx, is_bin) == -1)
-					return (-1);
-				idx--;
-			}
+			sync_arg2(cmd_t, idx, &is_bin, new);
+			sync_arg3(cmd_t, idx, is_bin, input_idx);
+			if (!ft_strlen(new) && sync_arg4(cmd_t, &idx, is_bin, input_idx))
+				return (-1);
 			break ;
 		}
 		idx++;
