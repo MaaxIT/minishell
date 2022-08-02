@@ -6,6 +6,7 @@ int	input_not_existing(int x, char *input_path)
 	ft_putstr_fd(STDOUT_FILENO, input_path);
 	ft_putstr_fd(STDOUT_FILENO, ": ");
 	print_error(0);
+	errno = 1;
 	return (x);
 }
 
