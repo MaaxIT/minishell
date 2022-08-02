@@ -19,18 +19,36 @@ returns:
 */
 static int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
-	int		len;
+	int	len;
+	int	res;
 
-	len = *idx + 1;
+	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
+		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
+		(*idx)--;
+	res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
+	if (res == -1)
+		return (-1);
+	else if (res == 1)
+		(*i)--;	
+	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
+		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
+	{
+		res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
+		if (res == -1)
+			return (-1);
+		else if (res == 1)
+			(*i)--;
+	}
+	len = *idx;
 	while (cmd_t->arg_v[*i][len] && cmd_t->arg_v[*i][len] != '>' && \
 	cmd_t->arg_v[*i][len] != '<')
 		len++;
-	*path_type = ft_strndup(cmd_t->arg_v[*i] + *idx + 1, len - (*idx + 1));
+	*path_type = ft_strndup(cmd_t->arg_v[*i] + *idx, len - *idx);
 	if (!*path_type)
 		return (-1);
 	if (gen_path_concat(cmd_t, path_type) == -1)
 		return (input_not_existing(-1, cmd_t->input_path));
-	if (concat_callback(cmd_t, idx, len, i, path_type) == -1)
+	if (concat_callback(cmd_t, idx, len, i) == -1)
 		return (-1);
 	*idx = 0;
 	return (0);

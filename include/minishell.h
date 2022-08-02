@@ -93,7 +93,7 @@ int			rd_delimiter(char *delimiter);
 
 /* Redirections parsing prototypes */
 int			input_not_existing(int x, char *input_path);
-int			concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i, char **path_type);
+int			concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i);
 int			gen_path_concat(t_cmd_lst *cmd_t, char **path_type);
 int			separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx);
 int			gen_path_separated(t_cmd_lst *cmd_t, char **path_type);
