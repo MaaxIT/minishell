@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:00:22 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 00:01:20 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 00:05:11 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	gen_path_concat(t_cmd_lst *cmd_t, char **path_type)
 			cmd_t->input_fd = rd_input(*path_type);
 		if (cmd_t->input_fd == -1)
 			return (-1);
-//		free(*path_type);
-//		*path_type = NULL;
 	}
 	else if (path_type == &cmd_t->output_path)
 	{
@@ -99,8 +97,6 @@ int	gen_path_separated(t_cmd_lst *cmd_t, char **path_type)
 			cmd_t->input_fd = rd_input(*path_type);
 		if (cmd_t->input_fd == -1)
 			return (-1);
-//		free(*path_type);
-//		*path_type = NULL;
 	}
 	else if (path_type == &cmd_t->output_path)
 	{
