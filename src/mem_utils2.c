@@ -16,11 +16,13 @@ int	get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input)
 {
 	int	i;
 	int	j;
+	char	*diff;
 
 	i = 0;
 	while (i < size)
 	{
-		if (!ft_strncmp(arr[i], input, -1))
+		diff = ft_strnstr(arr[i], input, -1);
+		if (diff)
 		{
 			j = 0;
 			while (cmd_t->parsing_v[i][j])
