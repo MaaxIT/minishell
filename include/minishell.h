@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/03 13:27:29 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 13:43:34 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t nbr);
 char		*ft_itoa(int nbr);
 char		*ft_strjoin(const char *s1, const char *s2);
-void		ft_free_2d_table(char **to_free);
+int			ft_free_2d_table(char **to_free);
 int			ft_strincludes(const char *str, char c);
 size_t		ft_strlcat(char *dst, const char *src, size_t nbr);
 char		*ft_arrjoin(char **split, size_t len, char sep);
@@ -166,6 +166,7 @@ int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
 int			replace_sub_parse(t_cmd_lst *cmd_t, char **s, char *old, char *new);
 int			rem_char(t_cmd_lst *cmd_t, char **s, int idx);
 void		initialize_structure(t_cmd_lst *cmd_t);
+int			free_and_return(char *str);
 
 /* Errors prototypes */
 int			print_error(int ret);

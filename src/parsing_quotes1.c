@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:58:54 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 13:27:44 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 13:29:24 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static int	parse_quotes_loop(t_cmd_lst *cmd_t, t_list *env, int *idx, int i)
 	subparse_and_val[0] = ft_substr(cmd_t->parsing_v[i], *idx - len - 1, len + 1);
 	if (!subparse_and_val[0])
 		return (-1);
-	}
 	val = get_env_by_id(env, sub + 1);
 	if (val)
 	{

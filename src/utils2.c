@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 02:50:08 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/07/16 19:13:07 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:41:37 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (ret);
 }
 
-void	ft_free_2d_table(char **to_free)
+int	ft_free_2d_table(char **to_free)
 {
 	int	i;
 
@@ -48,6 +48,7 @@ void	ft_free_2d_table(char **to_free)
 	while (to_free[i])
 		free(to_free[i++]);
 	free(to_free);
+	return (-1);
 }
 
 /* Checks if the string contains a character */

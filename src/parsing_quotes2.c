@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:08:26 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 12:58:34 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:44:02 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	parse_quotes_init(t_cmd_lst *cmd_t, int *i)
 	{
 		cmd_t->parsing_v[*i] = ft_strdup_char('M', ft_strlen(cmd_t->arg_v[*i]));
 		if (!cmd_t->parsing_v[*i])
-			return (-1);
+			return (ft_free_2d_table(cmd_t->parsing_v));
 		(*i)++;
 	}
 	cmd_t->parsing_v[*i] = NULL;
@@ -57,7 +57,7 @@ int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *subparse_and_val[2], int i)
 		if (!*sub)
 			return (-1);
 		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, *sub) != 0)
-			return (-1);
+			return (free_and_return(*sub));
 		free(*sub);
 		*sub = NULL;
 	}

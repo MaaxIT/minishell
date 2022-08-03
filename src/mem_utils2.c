@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:37:40 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 12:56:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 13:43:20 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,11 @@ int	get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input)
 		}
 		i++;
 	}
+	return (-1);
+}
+
+int	free_and_return(char *str)
+{
+	free(str);
 	return (-1);
 }
