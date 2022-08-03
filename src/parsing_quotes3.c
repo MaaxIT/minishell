@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:00:08 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/04 00:55:04 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:03:53 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,7 @@ int	parse_quotes_delete2(t_cmd_lst *cmd_t, int *idx, int *i)
 {
 	int	rtrn;
 
-	printf("- Before: |%s|\n", cmd_t->arg_v[*i]);
 	rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
-	printf("- After: |%s|\n", cmd_t->arg_v[*i]);
 	if (rtrn == -1)
 		return (-1);
 	if (rtrn == 1)
@@ -102,10 +100,8 @@ int	parse_quotes_delete2(t_cmd_lst *cmd_t, int *idx, int *i)
 		(*i)--;
 		return (1);
 	}
-	printf("- Before: |%s|\n", cmd_t->parsing_v[*i]);
 	if (rem_char(NULL, &cmd_t->parsing_v[*i], *idx) == -1)
 		return (-1);
-	printf("- After: |%s|\n\n", cmd_t->parsing_v[*i]);
 	return (0);
 }
 

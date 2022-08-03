@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/04 00:47:26 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:03:49 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing, int do_p
 	int	is_bin;
 	int	input_idx;
 
-	printf("old: |%s|\n", old);
 	idx = 0;
 	while (idx < cmd_t->arg_c)
 	{
