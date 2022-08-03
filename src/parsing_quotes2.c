@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:08:26 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 17:03:58 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 12:58:34 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ int	parse_quotes_init(t_cmd_lst *cmd_t, int *i)
 }
 
 /* Called by parse_quotes when a env value has been found */
-int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, char *val, int i)
+int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *subparse_and_val[2], int i)
 {
-	int	backup;
+	int		backup;
+	char	*parse;
+	char	*val;
 
+	parse = subparse_and_val[0];
+	val = subparse_and_val[1];
 	backup = cmd_t->arg_c;
 	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, val) < 0)
 		return (-1);

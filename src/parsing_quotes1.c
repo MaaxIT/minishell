@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:58:54 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 13:26:23 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 13:27:44 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,33 +65,34 @@ static void	calculate_quote(t_cmd_lst *cmd_t, size_t *len, int *idx, int i)
 
 static int	parse_quotes_loop(t_cmd_lst *cmd_t, t_list *env, int *idx, int i)
 {
-	char	*subparse;
+	char	*subparse_and_val[2];
 	size_t	len;
 	t_list	*val;
 	char	*sub;
 
 	calculate_quote(cmd_t, &len, idx, i);
-	if (!parse_loopalloc(&sub, cmd_t->arg_v[i], *idx - len - 1, len + 1) || \
-	!parse_loopalloc(&subparse, cmd_t->parsing_v[i], *idx - len - 1, len + 1))
-	{
-		if (sub)
-			free(sub);
+	sub = ft_substr(cmd_t->arg_v[i], *idx - len - 1, len + 1);
+	if (!sub)
+		return (-1);
+	subparse_and_val[0] = ft_substr(cmd_t->parsing_v[i], *idx - len - 1, len + 1);
+	if (!subparse_and_val[0])
 		return (-1);
 	}
 	val = get_env_by_id(env, sub + 1);
 	if (val)
 	{
-		if (valid_envvar(cmd_t, &sub, subparse, val->value, i) == -1)
+		subparse_and_val[1] = val->value;
+		if (valid_envvar(cmd_t, &sub, subparse_and_val, i) == -1)
 			return (-1);
 		*idx += (ft_strlen(val->value) - (len + 2));
 	}
 	else
 	{
-		if (invalid_envvar(cmd_t, &sub, subparse, i) == -1)
+		if (invalid_envvar(cmd_t, &sub, subparse_and_val[0], i) == -1)
 			return (-1);
 		*idx -= (len + 2);
 	}
-	free(subparse);
+	free(subparse_and_val[0]);
 	return (0);
 }
 
