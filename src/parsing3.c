@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:47:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/02 01:26:50 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 00:46:47 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	get_input_idx(t_cmd_lst *cmd_t, char *str)
 	idx = 0;
 	while (idx < cmd_t->input_c)
 	{
+		printf("|%s| == |%s|\n%p == %p\n", str, cmd_t->input_v[idx], str, cmd_t->input_v[idx]);
 		if (str == cmd_t->input_v[idx])
 			return (idx);
 		idx++;

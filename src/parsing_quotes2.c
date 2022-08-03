@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:08:26 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 16:21:00 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 00:33:47 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *subparse_and_val[2], int i)
 
 	parse = subparse_and_val[0];
 	val = subparse_and_val[1];
-	rtrn = replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, val);
+	rtrn = replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, val, 0);
 	if (rtrn < 0)
 		return (-1);
 	free(*sub);
@@ -56,7 +56,7 @@ int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *subparse_and_val[2], int i)
 		*sub = ft_strdup_char('M', ft_strlen(val));
 		if (!*sub)
 			return (-1);
-		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, *sub) != 0)
+		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, *sub, 0) != 0)
 			return (free_and_return(*sub, -1));
 		free(*sub);
 		*sub = NULL;
@@ -70,13 +70,13 @@ int	invalid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, int i)
 	int	backup;
 
 	backup = cmd_t->arg_c;
-	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, "") < 0)
+	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, "", 1) < 0)
 		return (-1);
 	free(*sub);
 	*sub = NULL;
 	if (backup == cmd_t->arg_c)
 	{
-		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, "") != 0)
+		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, "", 1) != 0)
 			return (-1);
 	}
 	return (0);

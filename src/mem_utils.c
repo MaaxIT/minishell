@@ -6,13 +6,13 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/03 16:33:34 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 00:59:28 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new)
+static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new, int do_pop)
 {
 	int	ret;
 
@@ -20,7 +20,7 @@ static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new)
 	if (cmd_t)
 	{
 		ret = (ft_strlen(new) == 0);
-		if (sync_arg(cmd_t, *str, new, 1) == -1)
+		if (sync_arg(cmd_t, *str, new, 1, do_pop) == -1)
 			return (-1);
 	}
 	else
@@ -31,7 +31,7 @@ static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new)
 	return (ret);
 }
 
-int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
+int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub, int do_pop)
 {
 	char	*found;
 	char	*new;
@@ -54,10 +54,10 @@ int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	ft_strlcpy(new, *str, sep_idx + 1);
 	ft_strlcat(new, newsub, -1);
 	ft_strlcat(new, *str + sep_idx + ft_strlen(old), -1);
-	return (replace_sub_end(cmd_t, str, new));
+	return (replace_sub_end(cmd_t, str, new, do_pop));
 }
 
-int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
+int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub, int do_pop)
 {
 	char	*found;
 	char	*new;
@@ -80,7 +80,7 @@ int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	ft_strlcpy(new, *str, sep_idx + 1);
 	ft_strlcat(new, newsub, -1);
 	ft_strlcat(new, *str + sep_idx + ft_strlen(old), -1);
-	return (replace_sub_end(NULL, str, new));
+	return (replace_sub_end(NULL, str, new, do_pop));
 }
 
 /* Remove a character from a string */
@@ -96,9 +96,9 @@ int	rem_char(t_cmd_lst *cmd_t, char **str, int idx)
 	ft_strlcpy(cpy, *str, idx + 1);
 	ft_strlcat(cpy, *str + idx + 1, -1);
 	if (cmd_t)
-	{	
+	{
 		rtrn = (ft_strlen(cpy) == 0);
-		if (sync_arg(cmd_t, *str, cpy, 0) == -1)
+		if (sync_arg(cmd_t, *str, cpy, 0, 0) == -1)
 			return (-1);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:00:22 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 00:05:11 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 00:34:24 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx)
 {
 	int	res;
 
-	res = replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
+	res = replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "", 1);
 	if (res < 0)
 		return (-1);
 	if (path_type == &cmd_t->input_path && cmd_t->input_type == 'D')

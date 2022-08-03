@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/03 16:33:51 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:00:34 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int			parse_options(t_cmd_lst *cmd_t);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 int			parse_redirections(t_cmd_lst *cmd_t);
 int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
-int			sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after);
+int			sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after, int do_pop);
 int			parse_input_quotes(char *input, char *parse);
 int			get_input_idx(t_cmd_lst *cmd_t, char *str);
 int			rem_from_both(t_cmd_lst *cmd_t, char *addr);
@@ -162,8 +162,8 @@ int			parse_loopalloc(char **to, char *cpy, int from, int len);
 /* Memory utils prototypes */
 char		*insert_str_at_index(char *str, char *to_insert, int idx);
 char		*ft_strdup_char(char c, size_t repeats);
-int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
-int			replace_sub_parse(t_cmd_lst *cmd_t, char **s, char *old, char *new);
+int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw, int do_pop);
+int			replace_sub_parse(t_cmd_lst *cmd_t, char **s, char *old, char *new, int do_pop);
 int			rem_char(t_cmd_lst *cmd_t, char **s, int idx);
 void		initialize_structure(t_cmd_lst *cmd_t);
 int			free_and_return(char *str, int rtrn);
