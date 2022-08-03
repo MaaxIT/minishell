@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/03 13:43:34 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 16:05:51 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,8 @@ int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw);
 int			replace_sub_parse(t_cmd_lst *cmd_t, char **s, char *old, char *new);
 int			rem_char(t_cmd_lst *cmd_t, char **s, int idx);
 void		initialize_structure(t_cmd_lst *cmd_t);
-int			free_and_return(char *str);
+int			free_and_return(char *str, int rtrn);
+int			free_both_and_return(char *str1, char *str2, int rtrn);
 
 /* Errors prototypes */
 int			print_error(int ret);

@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:37:40 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 14:06:41 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 16:05:13 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ int	get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input)
 	int		i;
 	int		j;
 	char	*diff;
-
-	printf("Searching the right id for |%s| in the array:\n", input);
-	for (int c = 0; arr[c]; c++)
-		printf("	%d: |%s|\n", c, arr[c]);
 
 	i = 0;
 	while (i < size)
@@ -36,18 +32,25 @@ int	get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input)
 				j++;
 			}
 			if ((size_t)j == ft_strlen(cmd_t->parsing_v[i]))
-			{
-				printf("Found id %d: |%s|\n\n", i, arr[i]);
 				return (i);
-			}
 		}
 		i++;
 	}
 	return (-1);
 }
 
-int	free_and_return(char *str)
+int	free_both_and_return(char *str1, char *str2, int rtrn)
 {
-	free(str);
-	return (-1);
+	if (str1)
+		free(str1);
+	if (str2)
+		free(str2);
+	return (rtrn);
+}
+
+int	free_and_return(char *str, int rtrn)
+{
+	if (str)
+		free(str);
+	return (rtrn);
 }

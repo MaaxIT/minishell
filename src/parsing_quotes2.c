@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:08:26 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 13:44:02 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 16:06:06 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *subparse_and_val[2], int i)
 		if (!*sub)
 			return (-1);
 		if (replace_sub_parse(cmd_t, &cmd_t->parsing_v[i], parse, *sub) != 0)
-			return (free_and_return(*sub));
+			return (free_and_return(*sub, -1));
 		free(*sub);
 		*sub = NULL;
 	}
