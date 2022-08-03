@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 01:17:30 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:11:54 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
 		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
 		(*idx)--;
-	res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
+	res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx, 1);
 	if (res == -1)
 		return (-1);
 	else if (res == 1)
@@ -32,7 +32,7 @@ int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
 		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
 	{
-		res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
+		res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx, 1);
 		if (res == -1)
 			return (-1);
 		else if (res == 1)
@@ -47,12 +47,12 @@ int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
 	int	input_idx;
 
-	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
+	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1, 1) \
 	== 1)
 		(*i)--;
 	if (((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') \
 	|| (path_type == &cmd_t->input_path && cmd_t->input_type == 'D')) && \
-	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
+	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1, 1) \
 	== 1)
 		(*i)--;
 	input_idx = 0;

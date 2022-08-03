@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/04 00:59:28 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:10:58 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub, int
 }
 
 /* Remove a character from a string */
-int	rem_char(t_cmd_lst *cmd_t, char **str, int idx)
+int	rem_char(t_cmd_lst *cmd_t, char **str, int idx, int do_pop)
 {
 	char	*cpy;
 	int		rtrn;
@@ -98,7 +98,7 @@ int	rem_char(t_cmd_lst *cmd_t, char **str, int idx)
 	if (cmd_t)
 	{
 		rtrn = (ft_strlen(cpy) == 0);
-		if (sync_arg(cmd_t, *str, cpy, 0, 0) == -1)
+		if (sync_arg(cmd_t, *str, cpy, 0, do_pop) == -1)
 			return (-1);
 	}
 	else

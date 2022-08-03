@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:00:22 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/04 00:34:24 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:12:03 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i)
 	k = *idx;
 	while (k < len)
 	{
-		rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
+		rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx, 1);
 		if (rtrn == -1)
 			return (-1);
 		else if (rtrn == 1)

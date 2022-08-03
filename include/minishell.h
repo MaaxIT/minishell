@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 01:00:34 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:11:09 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ char		*insert_str_at_index(char *str, char *to_insert, int idx);
 char		*ft_strdup_char(char c, size_t repeats);
 int			replace_sub(t_cmd_lst *cmd_t, char **s, char *old, char *nw, int do_pop);
 int			replace_sub_parse(t_cmd_lst *cmd_t, char **s, char *old, char *new, int do_pop);
-int			rem_char(t_cmd_lst *cmd_t, char **s, int idx);
+int			rem_char(t_cmd_lst *cmd_t, char **s, int idx, int do_pop);
 void		initialize_structure(t_cmd_lst *cmd_t);
 int			free_and_return(char *str, int rtrn);
 int			free_both_and_return(char *str1, char *str2, int rtrn);
