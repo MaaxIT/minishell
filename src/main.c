@@ -87,6 +87,14 @@ int	main(int argc, char *argv[], char *envp[])
 	argc = (int)argc;
 	argv = (char **)argv;
 	env = NULL;
+	if (argc != 1 && argv && argv[1])
+	{
+		ft_putstr_fd(STDOUT_FILENO, "Supershell: ");
+		ft_putstr_fd(STDOUT_FILENO, "Can't open ");
+		ft_putstr_fd(STDOUT_FILENO, argv[1]);
+		ft_putstr_fd(STDOUT_FILENO, "\n");
+		exit(127);
+	}
 	if (init_env_list(&env, envp) == -1)
 		return (-1);
 	if (!signals_init())
