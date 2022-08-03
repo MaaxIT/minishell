@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/03 01:39:20 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 02:03:42 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void		sync_arg2(t_cmd_lst *cmd_t, int idx, int *is_bin, char *new);
 void		sync_arg3(t_cmd_lst *cmd_t, int idx, int is_bin, int input_idx);
 int			sync_arg4(t_cmd_lst *cmd_t, int *idx, int is_bin, int input_idx);
 int			sync_arg_diff(t_cmd_lst *cmd_t, char *old, int *idx);
+int			sync_arg_empty(t_cmd_lst *cmd_t, int idx, int inp_idx, int bin);
 
 /* Memory utils prototypes */
 char		*insert_str_at_index(char *str, char *to_insert, int idx);
