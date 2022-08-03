@@ -14,13 +14,14 @@
 
 static void	sigint_handler(int signo)
 {
-	(void)signo;
-	if (g_pid)
+	if (!g_pid)
+		return ;
+	if (g_pid > 0)
 		kill(g_pid, SIGTERM);
 	write(STDERR_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	if (!g_pid)
+	if (g_pid == -2)
 		rl_redisplay();
 	else
 		errno = 128 + signo;
@@ -28,14 +29,16 @@ static void	sigint_handler(int signo)
 
 static void	sigquit_handler(int signo)
 {
-	if (g_pid)
+	if (!g_pid || g_pid == -2 || errno == -8)
+		return ;
+	if (g_pid > 0)
 	{
 		kill(g_pid, SIGTERM);
 		ft_putstr_fd(STDERR_FILENO, "Quit: 3\n");
 	}
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	if (g_pid)
+	if (g_pid > 0)
 		errno = 128 + signo;
 }
 

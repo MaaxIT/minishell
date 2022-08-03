@@ -39,13 +39,18 @@ int	run_command(t_list **env, t_cmd_lst *cmd, t_cmd_lst *top_cmd)
 
 int	run(t_list **env, t_cmd_lst *cmd)
 {
-	int			ret;
+	int	ret;
 
 	if (!cmd)
 		return (0);
-	if (!cmd->next)
-		ret = no_pipe(env, cmd);
+	if (errno != 130)
+	{
+		if (!cmd->next)
+			ret = no_pipe(env, cmd);
+		else
+			ret = ft_pipe(env, cmd);
+	}
 	else
-		ret = ft_pipe(env, cmd);
+		ret = 9;
 	return (ret);
 }

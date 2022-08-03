@@ -65,7 +65,7 @@ static int	new_cmd(t_list **env)
 {
 	char	*cmd_str;
 
-	g_pid = 0;
+	g_pid = -2;
 	cmd_str = readline(SHELL_PREFIX);
 	if (!cmd_str)
 		bi_exit(1, env, NULL);

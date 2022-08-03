@@ -59,9 +59,12 @@ static void	rd_delimiter_child(int fd, char *delimiter)
 int	rd_delimiter(char *delimiter)
 {
 	int	fd[2];
+	int	tmp_errno;
 
 	if (pipe(fd) == -1)
 		return (-1);
+	tmp_errno = errno;
+	errno = -8;
 	g_pid = fork();
 	if (g_pid == -1)
 	{
@@ -73,6 +76,9 @@ int	rd_delimiter(char *delimiter)
 		rd_delimiter_child(fd[1], delimiter);
 	if (waitpid(g_pid, NULL, 0) == -1)
 		return (-1);
+	if (errno == -8)
+		errno = tmp_errno;
+	g_pid = -2;
 	close(fd[1]);
 	return (fd[0]);
 }
