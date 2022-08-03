@@ -18,6 +18,10 @@ static void	free_command2(t_cmd_lst *cmd_t)
 		free(cmd_t->input_path);
 	if (cmd_t->output_path)
 		free(cmd_t->output_path);
+	if (cmd_t->input_fd > 2)
+		close(cmd_t->input_fd);
+	if (cmd_t->output_fd > 2)
+		close(cmd_t->output_fd);
 	free(cmd_t);
 }
 

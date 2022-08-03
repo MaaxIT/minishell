@@ -50,8 +50,10 @@ int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
 	== 1)
 		(*i)--;
-	if ((cmd_t->output_type == 'A' || cmd_t->input_type == 'D') && \
-	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) == 1)
+	if (((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') \
+	|| (path_type == &cmd_t->input_path && cmd_t->input_type == 'D')) && \
+	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
+	== 1)
 		(*i)--;
 	input_idx = 0;
 	while (cmd_t->arg_v[*i + 1][input_idx] && \
