@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:37:40 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 16:05:13 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 16:37:35 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,29 @@
 
 int	get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input)
 {
-	int		i;
-	int		j;
-	char	*diff;
+	int		values[3];
 
-	i = 0;
-	while (i < size)
+	values[0] = 0;
+	while (values[0] < size)
 	{
-		diff = ft_strnstr(arr[i], input, -1);
-		if (diff)
+		values[2] = 0;
+		if (arr == cmd_t->parsing_v)
+			values[2] = (ft_strncmp(arr[values[0]], input, -1) == 0);
+		else
+			values[2] = (ft_strnstr(arr[values[0]], input, -1) != NULL);
+		if (values[2])
 		{
-			j = 0;
-			while (cmd_t->parsing_v[i][j])
+			values[1] = 0;
+			while (cmd_t->parsing_v[values[0]][values[1]])
 			{
-				if (cmd_t->parsing_v[i][j] == 'S')
+				if (cmd_t->parsing_v[values[0]][values[1]] == 'S')
 					break ;
-				j++;
+				values[1]++;
 			}
-			if ((size_t)j == ft_strlen(cmd_t->parsing_v[i]))
-				return (i);
+			if ((size_t)values[1] == ft_strlen(cmd_t->parsing_v[values[0]]))
+				return (values[0]);
 		}
-		i++;
+		values[0]++;
 	}
 	return (-1);
 }

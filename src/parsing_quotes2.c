@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:08:26 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 16:06:06 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 16:21:00 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ int	parse_quotes_init(t_cmd_lst *cmd_t, int *i)
 /* Called by parse_quotes when a env value has been found */
 int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *subparse_and_val[2], int i)
 {
-	int		backup;
+	int		rtrn;
 	char	*parse;
 	char	*val;
 
 	parse = subparse_and_val[0];
 	val = subparse_and_val[1];
-	backup = cmd_t->arg_c;
-	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, val) < 0)
+	rtrn = replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, val);
+	if (rtrn < 0)
 		return (-1);
 	free(*sub);
 	*sub = NULL;
-	if (backup == cmd_t->arg_c)
+	if (rtrn == 0)
 	{
 		*sub = ft_strdup_char('M', ft_strlen(val));
 		if (!*sub)
