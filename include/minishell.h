@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/03 02:03:42 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 12:56:56 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int			get_input_idx(t_cmd_lst *cmd_t, char *str);
 int			rem_from_both(t_cmd_lst *cmd_t, char *addr);
 int			parse_quotes_init(t_cmd_lst *cmd_t, int *i);
 int			invalid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, int i);
-int			valid_envvar(t_cmd_lst *cmd_t, char **sub, char *p, char *v, int i);
+int			valid_envvar(t_cmd_lst *cmd_t, char **sub, char *subparse_and_val[2], int i);
 int			get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input);
 void		sync_arg2(t_cmd_lst *cmd_t, int idx, int *is_bin, char *new);
 void		sync_arg3(t_cmd_lst *cmd_t, int idx, int is_bin, int input_idx);
