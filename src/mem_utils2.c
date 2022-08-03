@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:37:40 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 00:43:41 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 12:56:35 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*diff;
 
 	i = 0;
