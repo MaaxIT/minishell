@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:57:25 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/04 01:11:54 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 01:26:44 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,9 @@ static int	first_loop(t_cmd_lst *cmd_t, char **path_type)
 /* Parse redirections */
 int	parse_redirections(t_cmd_lst *cmd_t)
 {
-	first_loop(cmd_t, &cmd_t->input_path);
-	first_loop(cmd_t, &cmd_t->output_path);
+	if (first_loop(cmd_t, &cmd_t->input_path) == -1)
+		return (-1);
+	if (first_loop(cmd_t, &cmd_t->output_path) == -1)
+		return (-1);
 	return (0);
 }
