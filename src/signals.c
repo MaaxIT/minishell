@@ -35,7 +35,6 @@ static void	sigquit_handler(int signo)
 	}
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_redisplay();
 	if (g_pid)
 		errno = 128 + signo;
 }
