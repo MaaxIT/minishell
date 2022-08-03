@@ -6,7 +6,7 @@
 #    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/07/27 15:21:13 by maxime           ###   ########.fr        #
+#    Updated: 2022/08/03 18:28:51 by maxime           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,7 @@ CC				= gcc
 COMP_FLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
-
-ifeq ($(shell uname), Darwin)
-	READLINE_PATH	= /usr/local/Cellar/readline/8.1.2
-else
-	READLINE_PATH	= ~/.brew/opt/readline
-endif
+READLINE_PATH	= ~/.brew/opt/readline
 
 # Bash commands
 RM				= rm -rf
