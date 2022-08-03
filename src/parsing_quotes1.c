@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 13:58:54 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/02 23:59:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 13:26:23 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,11 @@ static int	parse_quotes_delete(t_cmd_lst *cmd_t, int *i, int *idx)
 		{
 			if (cmd_t->parsing_v[*i][*idx] == 'E')
 			{
-				rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
+				rtrn = parse_quotes_delete2(cmd_t, idx, i);
 				if (rtrn == -1)
 					return (-1);
 				if (rtrn == 1)
-				{
-					(*i)--;
 					break ;
-				}
-				if (rem_char(NULL, &cmd_t->parsing_v[*i], *idx) == -1)
-					return (-1);
 			}
 			else
 				(*idx)++;
@@ -76,12 +71,13 @@ static int	parse_quotes_loop(t_cmd_lst *cmd_t, t_list *env, int *idx, int i)
 	char	*sub;
 
 	calculate_quote(cmd_t, &len, idx, i);
-	sub = ft_substr(cmd_t->arg_v[i], *idx - len - 1, len + 1);
-	if (!sub)
+	if (!parse_loopalloc(&sub, cmd_t->arg_v[i], *idx - len - 1, len + 1) || \
+	!parse_loopalloc(&subparse, cmd_t->parsing_v[i], *idx - len - 1, len + 1))
+	{
+		if (sub)
+			free(sub);
 		return (-1);
-	subparse = ft_substr(cmd_t->parsing_v[i], *idx - len - 1, len + 1);
-	if (!subparse)
-		return (-1);
+	}
 	val = get_env_by_id(env, sub + 1);
 	if (val)
 	{

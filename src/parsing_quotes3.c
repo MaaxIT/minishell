@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:00:08 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 00:01:00 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/03 13:26:08 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,44 @@ int	parse_input_quotes(char *input, char *parse)
 			i = ft_strlen(input);
 	}
 	return (0);
+}
+
+/*
+return values:
+	- -1 = invalid
+	- 1 = break
+	- 0 = do nothing
+*/
+int	parse_quotes_delete2(t_cmd_lst *cmd_t, int *idx, int *i)
+{
+	int	rtrn;
+
+	rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
+	if (rtrn == -1)
+		return (-1);
+	if (rtrn == 1)
+	{
+		(*i)--;
+		return (1);
+	}
+	if (rem_char(NULL, &cmd_t->parsing_v[*i], *idx) == -1)
+		return (-1);
+	return (0);
+}
+
+/* 
+returns:
+	0 = not good
+	1 = good
+*/
+int	parse_loopalloc(char **to, char *cpy, int from, int len)
+{
+	char	*sub;
+
+	*to = NULL;
+	sub = ft_substr(cpy, from, len);
+	if (!sub)
+		return (0);
+	*to = sub;
+	return (1);
 }
