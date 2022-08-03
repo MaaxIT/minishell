@@ -43,7 +43,7 @@ int	valid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, char *val, int i)
 	int	backup;
 
 	backup = cmd_t->arg_c;
-	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, val) != 0)
+	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, val) < 0)
 		return (-1);
 	free(*sub);
 	*sub = NULL;
@@ -66,7 +66,7 @@ int	invalid_envvar(t_cmd_lst *cmd_t, char **sub, char *parse, int i)
 	int	backup;
 
 	backup = cmd_t->arg_c;
-	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, "") != 0)
+	if (replace_sub(cmd_t, &cmd_t->arg_v[i], *sub, "") < 0)
 		return (-1);
 	free(*sub);
 	*sub = NULL;
