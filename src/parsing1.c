@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:01:52 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/04 02:12:20 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 14:38:21 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	parse_order(t_cmd_lst *cmd_t, t_list *env)
 {
+	if (parse_quotes(cmd_t, env) == -1)
+		return (-1);
 	parse_counts(cmd_t);
 	if (cmd_t->options_c > 0)
 		parse_options(cmd_t);
@@ -22,8 +24,6 @@ static int	parse_order(t_cmd_lst *cmd_t, t_list *env)
 		if (parse_input(cmd_t) == -1)
 			return (-1);
 	}
-	if (parse_quotes(cmd_t, env) == -1)
-		return (-1);
 	if (parse_redirections(cmd_t) == -1)
 		return (-1);
 	return (0);
