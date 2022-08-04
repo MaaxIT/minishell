@@ -64,12 +64,15 @@ static int	find_next_sep_out_quotes_idx(const char *str, int i, char sep)
 	capt_double = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && closing_idx(str, i + 1, '\'') != -1)
+		if (str[i] == '\'' && !capt_double && \
+		(capt_single || closing_idx(str, i + 1, '\'') != -1))
 			capt_single = !capt_single;
-		else if (str[i] == '\"' && closing_idx(str, i + 1, '\"') != -1)
+		else if (str[i] == '\"' && !capt_single && \
+		(capt_double || closing_idx(str, i + 1, '\"') != -1))
 			capt_double = !capt_double;
 		else if (str[i] == sep && !capt_single && !capt_double)
 			return (i);
+		printf("_%d_\n", capt_double);
 		i++;
 	}
 	return (i);
