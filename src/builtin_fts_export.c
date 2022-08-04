@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:10:29 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/01 03:33:49 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 13:46:28 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	ft_export_no_arg(t_list *env)
 			env = env->next;
 			continue ;
 		}
-		ft_putstr_fd(STDOUT_FILENO, "declare -x ");
 		if (env->id)
 			ft_putstr_fd(STDOUT_FILENO, env->id);
 		if (env->value)

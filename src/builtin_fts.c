@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 12:47:59 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 13:59:01 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 
 	i = 0;
 	newline = 1;
-	if (cmd->options_v && cmd->options_v[i] && \
+	if (cmd->options_v && i < cmd->options_c && cmd->options_v[i] && \
 		!ft_strncmp(cmd->options_v[i], "-n", -1))
 		newline = 0;
 	while (i < cmd->input_c)
@@ -27,7 +27,7 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 		ft_putstr_fd(fd, cmd->input_v[i]);
 		if (cmd->input_v[i + 1])
 			write(fd, " ", 1);
-		if (cmd->options_v && cmd->options_v[i] && \
+		if (cmd->options_v && i < cmd->options_c && cmd->options_v[i] && \
 			!ft_strncmp(cmd->options_v[i], "-n", -1))
 			newline = 0;
 		i++;
