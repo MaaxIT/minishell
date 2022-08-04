@@ -54,7 +54,7 @@ int	gen_path_concat(t_cmd_lst *cmd_t, char **path_type)
 		else if (cmd_t->input_type == 'C')
 			cmd_t->input_fd = rd_input(*path_type);
 		if (cmd_t->input_fd == -1)
-			return (-1);
+			return (input_not_existing(-1, cmd_t->input_path));
 	}
 	else if (path_type == &cmd_t->output_path)
 	{
@@ -64,6 +64,8 @@ int	gen_path_concat(t_cmd_lst *cmd_t, char **path_type)
 			cmd_t->output_fd = rd_output(*path_type);
 		else if (cmd_t->output_type == 'A')
 			cmd_t->output_fd = rd_output_append(*path_type);
+		if (cmd_t->output_fd == -1)
+			return (input_not_existing(-1, cmd_t->output_path));
 	}
 	return (0);
 }
@@ -96,7 +98,7 @@ int	gen_path_separated(t_cmd_lst *cmd_t, char **path_type)
 		else if (cmd_t->input_type == 'C')
 			cmd_t->input_fd = rd_input(*path_type);
 		if (cmd_t->input_fd == -1)
-			return (-1);
+			return (input_not_existing(-1, cmd_t->input_path));
 	}
 	else if (path_type == &cmd_t->output_path)
 	{
@@ -106,6 +108,8 @@ int	gen_path_separated(t_cmd_lst *cmd_t, char **path_type)
 			cmd_t->output_fd = rd_output(*path_type);
 		else if (cmd_t->output_type == 'A')
 			cmd_t->output_fd = rd_output_append(*path_type);
+		if (cmd_t->output_fd == -1)
+			return (input_not_existing(-1, cmd_t->output_path));
 	}
 	return (0);
 }

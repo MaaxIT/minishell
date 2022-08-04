@@ -43,6 +43,13 @@ int	run(t_list **env, t_cmd_lst *cmd)
 
 	if (!cmd)
 		return (0);
+	if ((cmd->input_type && !cmd->input_path) || \
+	(cmd->output_type && !cmd->output_path))
+	{
+		ft_putstr_fd(STDERR_FILENO, \
+		"Supershell: syntax error near unexpected token `newline'\n");
+		return (9);
+	}
 	if (errno != 130)
 	{
 		if (!cmd->next)

@@ -43,6 +43,6 @@ int	rd_output_append(char *path)
 	if (!path)
 		fd = dup(STDOUT_FILENO);
 	else
-			fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	return (fd);
 }

@@ -24,7 +24,7 @@ int	is_concat2(t_cmd_lst *cmd_t, char **path_type, int *i, int *idx)
 	if (!*path_type)
 		return (-1);
 	if (gen_path_concat(cmd_t, path_type) == -1)
-		return (input_not_existing(-1, cmd_t->input_path));
+		return (-1);
 	if (concat_callback(cmd_t, idx, len, i) == -1)
 		return (-1);
 	*idx = 0;

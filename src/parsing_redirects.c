@@ -64,7 +64,7 @@ int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if (!*path_type)
 		return (-1);
 	if (gen_path_separated(cmd_t, path_type) == -1)
-		return (input_not_existing(-1, cmd_t->input_path));
+		return (-1);
 	if (separated_callback(cmd_t, path_type, *i, idx) == -1)
 		return (-1);
 	return (0);
