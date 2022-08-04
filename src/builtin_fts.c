@@ -68,7 +68,7 @@ int	bi_pwd(int fd, t_cmd_lst *cmd)
 {
 	char	*cwd;
 
-	if (cmd->input_v)
+	if (cmd->input_v && cmd->input_v[0])
 	{
 		ft_putstr_fd(STDERR_FILENO, "pwd: too many arguments\n");
 		return (9);
