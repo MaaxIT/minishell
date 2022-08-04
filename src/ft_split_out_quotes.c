@@ -12,18 +12,32 @@
 
 #include "minishell.h"
 
-static int	closing_idx(const char *str, int i, char quote)
+static void	count_words(const char *str, char sep, int *nbr_words)
 {
-	while (str[i] && str[i] != quote)
-		i++;
-	if (!str[i])
-		return (-1);
-	return (i);
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		while (str[i] && str[i] == sep)
+			i++;
+		if (!str[i])
+		{
+			print_err_unclosed_pipe();
+			*nbr_words = -1;
+			return ;
+		}
+		if (i && str[i - 1] == sep && str[i] != sep)
+			(*nbr_words)++;
+		if (str[i] == '\'' && closing_idx(str, i + 1, '\'') != -1)
+			i = closing_idx(str, i + 1, '\'');
+		else if (str[i] == '\"' && closing_idx(str, i + 1, '\"') != -1)
+			i = closing_idx(str, i + 1, '\"');
+	}
 }
 
 static char	**malloc_words(const char *str, char sep)
 {
-	int		i;
 	int		nbr_words;
 	char	**ret;
 
@@ -31,18 +45,9 @@ static char	**malloc_words(const char *str, char sep)
 		nbr_words = 1;
 	else
 		nbr_words = 0;
-	i = -1;
-	while (str[++i])
-	{
-		while (str[i] && str[i] == sep)
-			i++;
-		if (i && str[i - 1] == sep && str[i] != sep)
-			nbr_words++;
-		if (str[i] == '\'' && closing_idx(str, i + 1, '\'') != -1)
-			i = closing_idx(str, i + 1, '\'');
-		else if (str[i] == '\"' && closing_idx(str, i + 1, '\"') != -1)
-			i = closing_idx(str, i + 1, '\"');
-	}
+	count_words(str, sep, &nbr_words);
+	if (nbr_words == -1)
+		return (NULL);
 	ret = malloc(sizeof(char *) * (nbr_words + 1));
 	if (!ret)
 		return (NULL);

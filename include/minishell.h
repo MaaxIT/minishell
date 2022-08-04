@@ -135,6 +135,8 @@ char		**free_split(char **arr);
 int			count_splits(char *cmd, char *parsing);
 char		**free_and_return_split(char *parsing);
 int			contains_mean_char(char *str, char *parse, char c);
+int			closing_idx(const char *str, int i, char quote);
+void		print_err_unclosed_pipe(void);
 
 /* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line, t_list *env);
