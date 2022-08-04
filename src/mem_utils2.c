@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem_utils2.C                                       :+:      :+:    :+:   */
+/*   mem_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 00:37:40 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/03 16:37:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 02:06:29 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_next_id(t_cmd_lst *cmd_t, int size, char **arr, char *input)
 	while (values[0] < size)
 	{
 		values[2] = 0;
-		if (arr == cmd_t->parsing_v)
+		if (arr == cmd_t->parsing_v || ft_strlen(input) == 0)
 			values[2] = (ft_strncmp(arr[values[0]], input, -1) == 0);
 		else
 			values[2] = (ft_strnstr(arr[values[0]], input, -1) != NULL);
