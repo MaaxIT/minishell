@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 12:19:52 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:28:16 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int			ft_pipe(t_list **env, t_cmd_lst *cmd);
 /* Builtins	prototypes */
 int			bi_echo(int fd, t_cmd_lst *cmd);
 int			bi_cd(int fd, t_cmd_lst *cmd);
-int			bi_pwd(int fd);
+int			bi_pwd(int fd, t_cmd_lst *cmd);
 int			bi_exit(int fd, t_list **env, t_cmd_lst *cmd);
 int			bi_env(int fd, t_list *env);
 int			bi_export(t_list **env, t_cmd_lst *cmd);

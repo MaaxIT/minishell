@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/03 00:00:12 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 12:47:59 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 
 	i = 0;
 	newline = 1;
+	if (cmd->options_v && cmd->options_v[i] && \
+		!ft_strncmp(cmd->options_v[i], "-n", -1))
+		newline = 0;
 	while (i < cmd->input_c)
 	{
 		ft_putstr_fd(fd, cmd->input_v[i]);
@@ -54,10 +57,15 @@ int	bi_cd(int fd, t_cmd_lst *cmd)
 	return (9);
 }
 
-int	bi_pwd(int fd)
+int	bi_pwd(int fd, t_cmd_lst *cmd)
 {
 	char	*cwd;
 
+	if (cmd->input_v)
+	{
+		ft_putstr_fd(STDERR_FILENO, "pwd: too many arguments\n");
+		return (9);
+	}
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 	{
@@ -78,11 +86,16 @@ int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 	(void)fd;
 	cmd = top_cmd;
 	ex = 0;
+	if (cmd->input_v && cmd->input_v[0] && cmd->input_v[1])
+	{
+		ft_putstr_fd(STDERR_FILENO, "exit: too many arguments\n");
+		return (9);
+	}
 	while (cmd && cmd->binary && ft_strncmp(cmd->binary, "exit", -1))
 		cmd = cmd->next;
 	if (cmd && cmd->binary && !ft_strncmp(cmd->binary, "exit", -1) && \
 		cmd->input_v && cmd->input_v[0])
-		ex = ft_atol(cmd->input_v[0]);
+		ex = ft_atoll(cmd->input_v[0]);
 	if (ex < 0 || ex > 2147483647)
 	{
 		ft_putstr_fd(STDERR_FILENO, \

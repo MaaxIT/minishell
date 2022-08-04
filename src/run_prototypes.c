@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:14:44 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 21:25:54 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:27:59 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	run_command(t_list **env, t_cmd_lst *cmd, t_cmd_lst *top_cmd)
 	else if (!ft_strncmp(cmd->binary, "cd", -1))
 		err = bi_cd(fd, cmd);
 	else if (!ft_strncmp(cmd->binary, "pwd", -1))
-		err = bi_pwd(fd);
+		err = bi_pwd(fd, cmd);
 	else if (!ft_strncmp(cmd->binary, "exit", -1))
 		err = bi_exit(fd, env, top_cmd);
 	else if (!ft_strncmp(cmd->binary, "env", -1))

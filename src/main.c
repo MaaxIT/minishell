@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/31 17:43:22 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 12:24:16 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,12 @@ static int	new_cmd(t_list **env)
 	cmd_str = readline(SHELL_PREFIX);
 	if (!cmd_str)
 		bi_exit(1, env, NULL);
-	if (trim_whitespaces(&cmd_str) == -1)
-		bi_exit(1, env, NULL);
 	if (!ft_is_a_whitespace_or_empty_string(cmd_str))
+	{
+		if (trim_whitespaces(&cmd_str) == -1)
+			bi_exit(1, env, NULL);
 		parse_and_run(env, &cmd_str);
+	}
 	if (cmd_str)
 		free(cmd_str);
 	if (env)
