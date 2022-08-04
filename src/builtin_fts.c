@@ -78,39 +78,6 @@ int	bi_pwd(int fd, t_cmd_lst *cmd)
 	return (9);
 }
 
-int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
-{
-	long int	ex;
-	t_cmd_lst	*cmd;
-
-	(void)fd;
-	cmd = top_cmd;
-	ex = 0;
-	if (cmd->input_v && cmd->input_v[0] && cmd->input_v[1])
-	{
-		ft_putstr_fd(STDERR_FILENO, "exit: too many arguments\n");
-		return (9);
-	}
-	while (cmd && cmd->binary && ft_strncmp(cmd->binary, "exit", -1))
-		cmd = cmd->next;
-	if (cmd && cmd->binary && !ft_strncmp(cmd->binary, "exit", -1) && \
-		cmd->input_v && cmd->input_v[0])
-		ex = ft_atoll(cmd->input_v[0]);
-	if (ex < 0 || ex > 2147483647)
-	{
-		ft_putstr_fd(STDERR_FILENO, \
-			"Supershell: exit: Illegal number: ");
-		ft_putstr_fd(STDERR_FILENO, cmd->input_v[0]);
-		ft_putstr_fd(STDERR_FILENO, "\n");
-		return (0);
-	}
-	ft_lstclear(env);
-	free_command_lst(top_cmd);
-	rl_clear_history();
-	ft_putstr_fd(STDERR_FILENO, "exit\n");
-	exit(ex);
-}
-
 int	bi_env(int fd, t_list *env)
 {
 	env = env->next;

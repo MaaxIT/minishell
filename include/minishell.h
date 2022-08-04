@@ -125,7 +125,7 @@ char		*ft_strndup(const char *str, size_t n);
 int			ft_is_a_whitespace_or_empty_string(const char *str);
 int			ft_isalnum(char c);
 int			is_envchar(int ch, int is_first);
-long int	ft_atol(const char *str);
+int			ft_atoll_mod_256(const char *str);
 
 /* Split prototype */
 char		**split_cmd_lst(char *cmd);
