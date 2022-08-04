@@ -25,7 +25,8 @@ static int	run_cmd_pipe(t_list **env, int pipefd[3], \
 		error_and_exit(0);
 	if (dup2(pipefd[2], STDIN_FILENO) == -1)
 		error_and_exit(0);
-	if (cmd->next && dup2(pipefd[1], STDOUT_FILENO) == -1)
+	if (pipefd[1] != STDOUT_FILENO && \
+	dup2(pipefd[1], STDOUT_FILENO) == -1)
 		error_and_exit(0);
 	if (close(pipefd[1]) == -1)
 		error_and_exit(0);
@@ -49,10 +50,15 @@ static int	adjust_fd(t_cmd_lst *cmd, int pipefd[3])
 			return (0);
 		pipefd[1] = cmd->output_fd;
 		if (pipefd[1] == -1)
-		{
-			close(pipefd[2]);
 			return (0);
-		}
+	}
+	else if (cmd->output_fd == -1 && !cmd->next)
+	{
+		if (close(pipefd[1] == -1))
+			return (0);
+		pipefd[1] = STDOUT_FILENO;
+		if (pipefd[1] == -1)
+			return (0);
 	}
 	return (9);
 }

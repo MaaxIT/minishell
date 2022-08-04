@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:49:28 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 18:03:16 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 19:44:29 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ char	**create_envp(t_list *env)
 		tmp = ft_strjoin(env->id, "=");
 		if (!tmp)
 			return (NULL);
-        if (env->value)
-            envp[i] = ft_strjoin(tmp, env->value);
-        else
-            envp[i] = ft_strjoin(tmp, "");
+		if (env->value)
+			envp[i] = ft_strjoin(tmp, env->value);
+		else
+			envp[i] = ft_strjoin(tmp, "");
 		if (!envp[i])
 			return (NULL);
 		free(tmp);
