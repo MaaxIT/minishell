@@ -79,12 +79,6 @@ int	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx)
 	res = replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 	if (res < 0)
 		return (-1);
-	if (path_type == &cmd_t->input_path && cmd_t->input_type == 'D')
-	{
-		if (res == 0)
-			free(*path_type);
-		*path_type = NULL;
-	}
 	*idx = 0;
 	return (0);
 }

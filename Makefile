@@ -36,7 +36,7 @@ INC				= $(shell ls $(INC_DIR))
 
 # Compiler options
 CC				= gcc
-COMP_FLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+COMP_FLAGS		= -Wall -Wextra -Werror -g
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
 READLINE_PATH	= ~/.brew/opt/readline
