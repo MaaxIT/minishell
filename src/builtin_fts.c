@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 14:10:16 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:02:13 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 
 int	bi_cd(int fd, t_cmd_lst *cmd)
 {
-	int			err;
+	int		err;
 	char	*str;
 
 	(void)fd;

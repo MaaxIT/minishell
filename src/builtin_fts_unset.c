@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:24:22 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 14:14:02 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:02:34 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	bi_unset(t_list **env_address, t_cmd_lst *cmd)
 	if (!cmd->input_v || !cmd->input_v[0])
 	{
 		ft_putstr_fd(STDERR_FILENO, "unset: not enough arguments\n");
-		return (9);	
+		return (9);
 	}
 	while (cmd->input_v && cmd->input_v[i])
 	{
