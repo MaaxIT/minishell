@@ -68,6 +68,10 @@ int			signals_init(void);
 /* Pipe prototype */
 int			ft_pipe(t_list **env, t_cmd_lst *cmd);
 
+/* Pipe utils prototypes */
+int			save_std_before_pipe(int save_std[2]);
+int			clear_std_after_pipe(int save_std[2]);
+
 /* Builtins	prototypes */
 int			bi_echo(int fd, t_cmd_lst *cmd);
 int			bi_cd(int fd, t_cmd_lst *cmd);

@@ -12,97 +12,92 @@
 
 #include "minishell.h"
 
-static void	error_and_exit(int x)
-{
-	print_error(0);
-	exit(x);
-}
-
-static int	run_cmd_pipe(t_list **env, int pipefd[3], \
-	t_cmd_lst *cmd, t_cmd_lst *top_cmd)
-{
-	if (close(pipefd[0]) == -1)
-		error_and_exit(0);
-	if (dup2(pipefd[2], STDIN_FILENO) == -1)
-		error_and_exit(0);
-	if (pipefd[1] != STDOUT_FILENO && \
-	dup2(pipefd[1], STDOUT_FILENO) == -1)
-		error_and_exit(0);
-	if (close(pipefd[1]) == -1)
-		error_and_exit(0);
-	run_command(env, cmd, top_cmd);
-	exit(9);
-}
-
-static int	adjust_fd(t_cmd_lst *cmd, int pipefd[3])
+static void	adjust_fd(t_cmd_lst *cmd, int pipefd[2], int *tempfd)
 {
 	if (cmd->input_fd != -1)
 	{
-		if (close(pipefd[2]) == -1)
-			return (0);
-		pipefd[2] = cmd->input_fd;
-		if (pipefd[2] == -1)
-			return (0);
+		close(*tempfd);
+		*tempfd = cmd->output_fd;
 	}
 	if (cmd->output_fd != -1)
 	{
-		if (close(pipefd[1]) == -1)
-			return (0);
+		close(pipefd[1]);
 		pipefd[1] = cmd->output_fd;
-		if (pipefd[1] == -1)
-			return (0);
 	}
-	else if (cmd->output_fd == -1 && !cmd->next)
-	{
-		if (close(pipefd[1] == -1))
-			return (0);
-		pipefd[1] = STDOUT_FILENO;
-		if (pipefd[1] == -1)
-			return (0);
-	}
-	return (9);
 }
 
-static int	ft_pipe_loop(t_list **env, t_cmd_lst *top_cmd, \
-	t_cmd_lst *cmd, int pipefd[3])
+static int	pipe2(int pipefd[2], t_list **env, t_cmd_lst *cmd[2], int tempfd)
 {
-	if (pipe(pipefd) == -1)
-		return (0);
-	if (!adjust_fd(cmd, pipefd))
-		return (0);
 	g_pid = fork();
 	if (g_pid == -1)
 		return (0);
 	if (!g_pid)
-		run_cmd_pipe(env, pipefd, cmd, top_cmd);
-	close(pipefd[2]);
-	pipefd[2] = dup(pipefd[0]);
-	if (pipefd[2] == -1)
+	{
+		close(pipefd[0]);
+		if (dup2(tempfd, STDIN_FILENO) == -1)
+			exit (0);
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			exit (0);
+		run_command(env, cmd[0], cmd[1]);
+		exit(0);
+	}
+	else if (waitpid(g_pid, NULL, 0) == -1)
 		return (0);
-	close(pipefd[0]);
-	close(pipefd[1]);
+	return (9);
+}
+
+static int	ft_pipe_loop(t_list **env, t_cmd_lst *top_and_cmd[2], \
+int pipefd[2], int *tempfd)
+{
+	int	err;
+
+	while (top_and_cmd[0])
+	{
+		err = pipe(pipefd);
+		if (err == -1)
+			return (0);
+		if (!((top_and_cmd[0])->next))
+		{
+			close(pipefd[1]);
+			pipefd[1] = dup(STDOUT_FILENO);
+			if (pipefd[1] == -1 && close(pipefd[0]) != 156)
+				return (0);
+		}
+		adjust_fd(top_and_cmd[0], pipefd, tempfd);
+		if (!pipe2(pipefd, env, top_and_cmd, *tempfd) && \
+		close(pipefd[0]) != 156 && close(pipefd[1]) != 156)
+			return (0);
+		close(*tempfd);
+		*tempfd = pipefd[0];
+		close(pipefd[1]);
+		top_and_cmd[0] = (top_and_cmd[0])->next;
+	}
 	return (9);
 }
 
 int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 {
-	int			pipefd[3];
-	t_cmd_lst	*top_cmd;
+	int			pipefd[2];
+	int			save_std[2];
+	int			err;
+	t_cmd_lst	*top_and_cmd[2];
+	int			tempfd;
 
-	top_cmd = cmd;
-	pipefd[2] = dup(STDIN_FILENO);
-	if (pipefd[2] == -1)
+	top_and_cmd[0] = cmd;
+	top_and_cmd[1] = cmd;
+	tempfd = dup(STDIN_FILENO);
+	if (tempfd == -1)
 		return (0);
-	while (cmd)
+	if (!save_std_before_pipe(save_std))
 	{
-		if (!ft_pipe_loop(env, top_cmd, cmd, pipefd))
-			break ;
-		if (waitpid(g_pid, NULL, 0) == -1)
-			break ;
-		cmd = cmd->next;
+		close(tempfd);
+		return (0);
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	close(pipefd[2]);
+	err = ft_pipe_loop(env, top_and_cmd, pipefd, &tempfd);
+	if (tempfd != STDIN_FILENO && tempfd != STDOUT_FILENO && \
+	tempfd != STDERR_FILENO && tempfd >= 0)
+		close(tempfd);
+	if (!clear_std_after_pipe(save_std) || err == 0)
+		return (0);
 	return (9);
 }
