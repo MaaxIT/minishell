@@ -6,7 +6,7 @@
 #    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/08/04 18:23:53 by maxime           ###   ########.fr        #
+#    Updated: 2022/08/05 01:55:25 by mbennafl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ INC				= $(shell ls $(INC_DIR))
 
 # Compiler options
 CC				= gcc
-COMP_FLAGS		= -Wall -Wextra -Werror -fsanitize=address -g
+COMP_FLAGS		= -Wall -Wextra -Werror
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
 READLINE_PATH	= ~/.brew/opt/readline
