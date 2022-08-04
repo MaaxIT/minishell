@@ -6,7 +6,7 @@
 /*   By: mbennafl </var/mail/mbennafl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 13:34:29 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 13:34:35 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:38:27 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,17 @@ const char *str)
 		cmd = cmd->next;
 	if (cmd && cmd->binary && !ft_strncmp(cmd->binary, "exit", -1))
 		ex = ft_atoll_mod_256(str);
+	ft_putstr_fd(STDERR_FILENO, "exit\n");
 	if (ex == -1 && errno == -735)
 	{
 		errno = 0;
-		return (9);
+		ft_putstr_fd(STDERR_FILENO, "Supershell: exit: ");
+		ft_putstr_fd(STDERR_FILENO, str);
+		ft_putstr_fd(STDERR_FILENO, ": numeric argument required\n");
+		exit_clear(env, top_cmd);
+		exit(255);
 	}
 	exit_clear(env, top_cmd);
-	ft_putstr_fd(STDERR_FILENO, "exit\n");
 	exit(ex);
 }
 
