@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 13:59:01 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:10:16 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,23 @@ int	bi_echo(int fd, t_cmd_lst *cmd)
 
 int	bi_cd(int fd, t_cmd_lst *cmd)
 {
-	int	err;
+	int			err;
+	char	*str;
 
 	(void)fd;
-	if (!cmd->input_v || !cmd->input_v[0])
+	if (cmd->input_c + cmd->options_c != 1)
 		return (0);
-	err = chdir(cmd->input_v[0]);
+	if (cmd->input_v && cmd->input_v[0])
+		str = cmd->input_v[0];
+	else if (cmd->options_v && cmd->options_v[0])
+		str = cmd->options_v[0];
+	else
+		return (0);
+	err = chdir(str);
 	if (err == -1)
 	{
 		ft_putstr_fd(STDERR_FILENO, "SuperShell: cd: ");
-		ft_putstr_fd(STDERR_FILENO, cmd->input_v[0]);
+		ft_putstr_fd(STDERR_FILENO, str);
 		ft_putstr_fd(STDERR_FILENO, ": ");
 		print_error(0);
 		errno = 1;
