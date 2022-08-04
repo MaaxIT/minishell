@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 12:28:16 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:55:55 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ typedef struct s_cmd_lst {
 
 int			print_structure(t_cmd_lst *cmd_t);
 
+/* Mian prototype */
+int			trim_whitespaces(char **str);
+
 /* Signals prototype */
 int			signals_init(void);
 
@@ -79,7 +82,7 @@ int			bi_unset(t_list **env, t_cmd_lst *cmd);
 int			ft_print_invalid_export(int ret, char *arg);
 int			ft_isvalid_export(t_cmd_lst *cmd, int idx);
 
-/* exec_with_path and its utils */
+/* Exec_with_path and its utils */
 int			exec_with_path(t_list **env, const char *cmd, char **argv);
 char		**create_envp(t_list *env);
 char		**find_paths(t_list *env, const char *cmd);

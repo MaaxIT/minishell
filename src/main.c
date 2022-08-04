@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:57:32 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 12:24:16 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:55:01 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	parse_and_run(t_list **env, char **cmd_str)
 		print_error(0);
 }
 
-static int	trim_whitespaces(char **str)
+int	trim_whitespaces(char **str)
 {
 	char	*cpy;
 	int		start;
