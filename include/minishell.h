@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 01:40:21 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 12:19:52 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_cmd_lst {
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
-int    print_structure(t_cmd_lst *cmd_t);
+int			print_structure(t_cmd_lst *cmd_t);
 
 /* Signals prototype */
 int			signals_init(void);

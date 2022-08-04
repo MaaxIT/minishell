@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/04 01:03:49 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 12:17:48 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,9 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing)
 			input_idx = get_input_idx(cmd_t, old);
 			sync_arg2(cmd_t, idx, &is_bin, new);
 			sync_arg3(cmd_t, idx, is_bin, input_idx);
-			if (cmd_t->do_pop)
-			{
-				if (!ft_strlen(new) && sync_arg4(cmd_t, &idx, is_bin, input_idx))
-					return (-1);
-			}
+			if (cmd_t->do_pop && !ft_strlen(new) && \
+			sync_arg4(cmd_t, &idx, is_bin, input_idx))
+				return (-1);
 			break ;
 		}
 		idx++;
