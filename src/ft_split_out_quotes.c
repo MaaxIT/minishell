@@ -72,7 +72,6 @@ static int	find_next_sep_out_quotes_idx(const char *str, int i, char sep)
 			capt_double = !capt_double;
 		else if (str[i] == sep && !capt_single && !capt_double)
 			return (i);
-		printf("_%d_\n", capt_double);
 		i++;
 	}
 	return (i);
