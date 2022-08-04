@@ -30,7 +30,8 @@ int	concat_callback(t_cmd_lst *cmd_t, int *idx, int len, int *i)
 	k = *idx;
 	while (k < len)
 	{
-		rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx, 1);
+		cmd_t->do_pop = 1;
+		rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
 		if (rtrn == -1)
 			return (-1);
 		else if (rtrn == 1)
@@ -74,7 +75,8 @@ int	separated_callback(t_cmd_lst *cmd_t, char **path_type, int i, int *idx)
 {
 	int	res;
 
-	res = replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "", 1);
+	cmd_t->do_pop = 1;
+	res = replace_sub(cmd_t, &cmd_t->arg_v[i + 1], *path_type, "");
 	if (res < 0)
 		return (-1);
 	if (path_type == &cmd_t->input_path && cmd_t->input_type == 'D')

@@ -24,7 +24,8 @@ int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
 		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
 		(*idx)--;
-	res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx, 1);
+	cmd_t->do_pop = 1;
+	res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
 	if (res == -1)
 		return (-1);
 	else if (res == 1)
@@ -32,7 +33,8 @@ int	is_concat(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 	if ((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') || \
 		(path_type == &cmd_t->input_path && cmd_t->input_type == 'D'))
 	{
-		res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx, 1);
+		cmd_t->do_pop = 1;
+		res = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
 		if (res == -1)
 			return (-1);
 		else if (res == 1)
@@ -47,12 +49,14 @@ int	is_separated(t_cmd_lst *cmd_t, char **path_type, int *idx, int *i)
 {
 	int	input_idx;
 
-	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1, 1) \
+	cmd_t->do_pop = 1;
+	if (rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
 	== 1)
 		(*i)--;
+	cmd_t->do_pop = 1;
 	if (((path_type == &cmd_t->output_path && cmd_t->output_type == 'A') \
 	|| (path_type == &cmd_t->input_path && cmd_t->input_type == 'D')) && \
-	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1, 1) \
+	rem_char(cmd_t, &cmd_t->arg_v[*i], ft_strlen(cmd_t->arg_v[*i]) - 1) \
 	== 1)
 		(*i)--;
 	input_idx = 0;

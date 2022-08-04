@@ -24,6 +24,7 @@ void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->arg_c = 0;
 	cmd_t->arg_v = NULL;
 	cmd_t->parsing_v = NULL;
+	cmd_t->do_pop = 0;
 	cmd_t->input_path = NULL;
 	cmd_t->input_fd = -1;
 	cmd_t->input_type = 0;

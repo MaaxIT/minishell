@@ -92,7 +92,8 @@ int	parse_quotes_delete2(t_cmd_lst *cmd_t, int *idx, int *i)
 {
 	int	rtrn;
 
-	rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx, 0);
+	cmd_t->do_pop = 0;
+	rtrn = rem_char(cmd_t, &cmd_t->arg_v[*i], *idx);
 	if (rtrn == -1)
 		return (-1);
 	if (rtrn == 1)
@@ -100,7 +101,8 @@ int	parse_quotes_delete2(t_cmd_lst *cmd_t, int *idx, int *i)
 		(*i)--;
 		return (1);
 	}
-	if (rem_char(NULL, &cmd_t->parsing_v[*i], *idx, 0) == -1)
+	cmd_t->do_pop = 0;
+	if (rem_char(NULL, &cmd_t->parsing_v[*i], *idx) == -1)
 		return (-1);
 	return (0);
 }

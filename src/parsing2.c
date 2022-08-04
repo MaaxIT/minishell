@@ -43,7 +43,7 @@ int	sync_arg_empty(t_cmd_lst *cmd_t, int idx, int input_idx, int is_bin)
 }
 
 /* Synchronize arguments between each array of the structure */
-int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing, int do_pop)
+int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing)
 {
 	int	idx;
 	int	is_bin;
@@ -62,7 +62,7 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing, int do_p
 			input_idx = get_input_idx(cmd_t, old);
 			sync_arg2(cmd_t, idx, &is_bin, new);
 			sync_arg3(cmd_t, idx, is_bin, input_idx);
-			if (do_pop)
+			if (cmd_t->do_pop)
 			{
 				if (!ft_strlen(new) && sync_arg4(cmd_t, &idx, is_bin, input_idx))
 					return (-1);

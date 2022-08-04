@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new, int do_pop)
+static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new)
 {
 	int	ret;
 
@@ -20,7 +20,7 @@ static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new, int do_pop)
 	if (cmd_t)
 	{
 		ret = (ft_strlen(new) == 0);
-		if (sync_arg(cmd_t, *str, new, 1, do_pop) == -1)
+		if (sync_arg(cmd_t, *str, new, 1) == -1)
 			return (-1);
 	}
 	else
@@ -31,7 +31,7 @@ static int	replace_sub_end(t_cmd_lst *cmd_t, char **str, char *new, int do_pop)
 	return (ret);
 }
 
-int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub, int do_pop)
+int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 {
 	char	*found;
 	char	*new;
@@ -54,10 +54,10 @@ int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub, int do_po
 	ft_strlcpy(new, *str, sep_idx + 1);
 	ft_strlcat(new, newsub, -1);
 	ft_strlcat(new, *str + sep_idx + ft_strlen(old), -1);
-	return (replace_sub_end(cmd_t, str, new, do_pop));
+	return (replace_sub_end(cmd_t, str, new));
 }
 
-int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub, int do_pop)
+int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 {
 	char	*found;
 	char	*new;
@@ -80,11 +80,11 @@ int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub, int
 	ft_strlcpy(new, *str, sep_idx + 1);
 	ft_strlcat(new, newsub, -1);
 	ft_strlcat(new, *str + sep_idx + ft_strlen(old), -1);
-	return (replace_sub_end(NULL, str, new, do_pop));
+	return (replace_sub_end(NULL, str, new));
 }
 
 /* Remove a character from a string */
-int	rem_char(t_cmd_lst *cmd_t, char **str, int idx, int do_pop)
+int	rem_char(t_cmd_lst *cmd_t, char **str, int idx)
 {
 	char	*cpy;
 	int		rtrn;
@@ -98,7 +98,7 @@ int	rem_char(t_cmd_lst *cmd_t, char **str, int idx, int do_pop)
 	if (cmd_t)
 	{
 		rtrn = (ft_strlen(cpy) == 0);
-		if (sync_arg(cmd_t, *str, cpy, 0, do_pop) == -1)
+		if (sync_arg(cmd_t, *str, cpy, 0) == -1)
 			return (-1);
 	}
 	else
