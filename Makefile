@@ -39,7 +39,7 @@ CC				= gcc
 COMP_FLAGS		= -Wall -Wextra -Werror -fsanitize=address -g
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
-READLINE_PATH	= $(shell brew --prefix readline)
+READLINE_PATH	= ~/.brew/opt/readline
 
 # Bash commands
 RM				= rm -rf
