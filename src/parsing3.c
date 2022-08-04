@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:47:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/04 01:03:45 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 15:14:00 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	initialize_structure(t_cmd_lst *cmd_t)
 	cmd_t->arg_v = NULL;
 	cmd_t->parsing_v = NULL;
 	cmd_t->do_pop = 0;
+	cmd_t->inserted_idx = -1;
 	cmd_t->input_path = NULL;
 	cmd_t->input_fd = -1;
 	cmd_t->input_type = 0;

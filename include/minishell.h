@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 15:02:05 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 15:19:45 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_cmd_lst {
 	char				**arg_v;
 	char				**parsing_v;
 	int					do_pop;
+	int					inserted_idx;
 	char				*input_path;
 	int					input_fd;
 	char				input_type;
