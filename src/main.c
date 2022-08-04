@@ -68,11 +68,11 @@ static int	new_cmd(t_list **env)
 	g_pid = -2;
 	cmd_str = readline(SHELL_PREFIX);
 	if (!cmd_str)
-		bi_exit(1, env, NULL);
+		bi_exit(STDOUT_FILENO, env, NULL);
 	if (!ft_is_a_whitespace_or_empty_string(cmd_str))
 	{
 		if (trim_whitespaces(&cmd_str) == -1)
-			bi_exit(1, env, NULL);
+			bi_exit(STDOUT_FILENO, env, NULL);
 		parse_and_run(env, &cmd_str);
 	}
 	if (cmd_str)

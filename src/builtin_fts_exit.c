@@ -50,7 +50,11 @@ int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 	while (cmd && cmd->binary && ft_strncmp(cmd->binary, "exit", -1))
 		cmd = cmd->next;
 	if (!cmd)
+	{
+		exit_clear(env, top_cmd);
+		ft_putstr_fd(STDERR_FILENO, "exit\n");
 		exit (0);
+	}
 	if (cmd->input_c + cmd->options_c > 1)
 	{
 		ft_putstr_fd(STDERR_FILENO, "exit: too many arguments\n");
@@ -60,10 +64,7 @@ int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 		return (bi_exit_execute(env, top_cmd, cmd->input_v[0]));
 	else if (cmd->options_v && cmd->options_v[0])
 		return (bi_exit_execute(env, top_cmd, cmd->options_v[0]));
-	else
-	{
-		exit_clear(env, top_cmd);
-		ft_putstr_fd(STDERR_FILENO, "exit\n");
-	}
+	exit_clear(env, top_cmd);
+	ft_putstr_fd(STDERR_FILENO, "exit\n");
 	exit (0);
 }
