@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl </var/mail/mbennafl>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/04 13:33:55 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/08/04 13:34:17 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	print_atoll_invalid(int x, const char *str)
 {
-		ft_putstr_fd(STDERR_FILENO, "exit: ");
-		ft_putstr_fd(STDERR_FILENO, str);
-		ft_putstr_fd(STDERR_FILENO, ": numeric argument required\n");
-		return (x);
+	ft_putstr_fd(STDERR_FILENO, "exit: ");
+	ft_putstr_fd(STDERR_FILENO, str);
+	ft_putstr_fd(STDERR_FILENO, ": numeric argument required\n");
+	return (x);
 }
 
 int	ft_atoll_isvalid(const char *str)

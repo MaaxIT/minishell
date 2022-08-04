@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_fts_exit.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbennafl </var/mail/mbennafl>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/04 13:34:29 by mbennafl          #+#    #+#             */
+/*   Updated: 2022/08/04 13:34:35 by mbennafl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	exit_clear(t_list **env, t_cmd_lst *top_cmd)
@@ -10,7 +22,7 @@ static void	exit_clear(t_list **env, t_cmd_lst *top_cmd)
 static int	bi_exit_execute(t_list **env, t_cmd_lst *top_cmd, \
 const char *str)
 {
-	int	ex;
+	int			ex;
 	t_cmd_lst	*cmd;
 
 	cmd = top_cmd;
