@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:04:24 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 15:02:13 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/05 01:26:26 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,7 @@ int	bi_pwd(int fd, t_cmd_lst *cmd)
 {
 	char	*cwd;
 
-	if (cmd->input_v && cmd->input_v[0])
-	{
-		ft_putstr_fd(STDERR_FILENO, "pwd: too many arguments\n");
-		return (9);
-	}
+	(void)cmd;
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 	{
