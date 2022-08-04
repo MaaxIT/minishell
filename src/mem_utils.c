@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 02:48:21 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/04 02:07:53 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 15:16:38 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	replace_sub(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	idx = get_next_id(cmd_t, cmd_t->arg_c, cmd_t->arg_v, old);
 	if (idx != -1)
 		str = &cmd_t->arg_v[idx];
+	cmd_t->inserted_idx = idx;
 	found = ft_strnstr(*str, old, -1);
 	if (!found)
 		return (-2);
@@ -63,11 +64,11 @@ int	replace_sub_parse(t_cmd_lst *cmd_t, char **str, char *old, char *newsub)
 	char	*new;
 	size_t	sep_idx;
 	size_t	len;
-	int		idx;
 
-	idx = get_next_id(cmd_t, cmd_t->arg_c, cmd_t->parsing_v, old);
-	if (idx != -1)
-		str = &cmd_t->parsing_v[idx];
+	// idx = get_next_id(cmd_t, cmd_t->arg_c, cmd_t->parsing_v, old);
+	if (cmd_t->inserted_idx != -1)
+		str = &cmd_t->parsing_v[cmd_t->inserted_idx];
+	cmd_t->inserted_idx = -1;
 	found = ft_strnstr(*str, old, -1);
 	if (!found)
 		return (-2);
