@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 15:19:45 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/04 20:08:12 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_cmd_lst {
 	struct s_cmd_lst	*next;
 }	t_cmd_lst;
 
-/* Mian prototype */
+/* Main prototype */
 int			trim_whitespaces(char **str);
 
 /* Signals prototype */

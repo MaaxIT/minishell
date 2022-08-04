@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/04 12:17:48 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:08:35 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	sync_arg(t_cmd_lst *cmd_t, char *old, char *new, int after_parsing)
 	{
 		if (!ft_strncmp(cmd_t->arg_v[idx], old, -1))
 		{
-			if (after_parsing == 1)
+			if (after_parsing == 1 && !cmd_t->do_pop)
 			{
 				if (sync_arg_diff(cmd_t, old, &idx))
 					continue ;
