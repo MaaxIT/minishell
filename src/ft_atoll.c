@@ -6,19 +6,11 @@
 /*   By: mbennafl </var/mail/mbennafl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 13:33:55 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 13:34:17 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:35:16 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	print_atoll_invalid(int x, const char *str)
-{
-	ft_putstr_fd(STDERR_FILENO, "exit: ");
-	ft_putstr_fd(STDERR_FILENO, str);
-	ft_putstr_fd(STDERR_FILENO, ": numeric argument required\n");
-	return (x);
-}
 
 int	ft_atoll_isvalid(const char *str)
 {
@@ -63,7 +55,7 @@ int	ft_atoll_mod_256(const char *str)
 	if (!ft_atoll_isvalid(str))
 	{
 		errno = -735;
-		return (print_atoll_invalid(-1, str));
+		return (-1);
 	}
 	ft_atoll_start_idx_and_sign(str, &i, &sign);
 	while (str[i] >= '0' && str[i] < '9')
