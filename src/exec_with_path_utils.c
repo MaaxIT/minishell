@@ -96,7 +96,10 @@ char	**create_envp(t_list *env)
 		tmp = ft_strjoin(env->id, "=");
 		if (!tmp)
 			return (NULL);
-		envp[i] = ft_strjoin(tmp, env->value);
+		if (env->value)
+			envp[i] = ft_strjoin(tmp, env->value);
+		else
+			envp[i] = ft_strjoin(tmp, "");
 		if (!envp[i])
 			return (NULL);
 		free(tmp);
