@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:47:05 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/29 17:47:40 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/05 12:19:22 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,13 @@ static void	sigint_handler(int signo)
 
 static void	sigquit_handler(int signo)
 {
-	if (!g_pid || g_pid == -2 || errno == -8)
+	if (!g_pid || errno == -8)
 		return ;
+	else if (g_pid == -2)
+	{
+		rl_on_new_line();
+		return ;
+	}
 	if (g_pid > 0)
 	{
 		kill(g_pid, SIGTERM);
