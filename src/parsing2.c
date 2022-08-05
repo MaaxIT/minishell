@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:47:17 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/08/04 20:08:35 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/05 13:00:57 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,26 @@ int	parse_options(t_cmd_lst *cmd_t)
 	int	i;
 	int	idx;
 	int	is_opt;
+	int	found_input;
 
 	cmd_t->options_v = malloc(sizeof(char *) * (cmd_t->options_c + 1));
 	if (!cmd_t->options_v)
 		return (-1);
 	i = 1;
+	found_input = 0;
 	idx = 0;
 	while (i < cmd_t->arg_c)
 	{
 		is_opt = cmd_t->arg_v[i][0] == '-';
-		if (i > 1)
-			is_opt = (is_opt && ft_strncmp(cmd_t->binary, "echo", 6) != 0);
+		if (found_input && !ft_strncmp(cmd_t->binary, "echo", 6))
+		{
+			i++;
+			continue ;
+		}
 		if (is_opt)
 			cmd_t->options_v[idx++] = cmd_t->arg_v[i];
+		else
+			found_input = 1;
 		i++;
 	}
 	cmd_t->options_v[idx] = NULL;
@@ -102,17 +109,21 @@ int	parse_input(t_cmd_lst *cmd_t)
 {
 	int	i;
 	int	idx;
+	int	found_input;
 
 	cmd_t->input_v = malloc(sizeof(char *) * (cmd_t->input_c + 1));
 	if (!cmd_t->input_v)
 		return (-1);
 	i = 1;
+	found_input = 0;
 	idx = 0;
 	while (i < cmd_t->arg_c)
 	{
-		if (cmd_t->arg_v[i][0] != '-' || \
-		(ft_strncmp(cmd_t->binary, "echo", 6) == 0 && i > 1))
+		if (cmd_t->arg_v[i][0] != '-' || (found_input && !ft_strncmp(cmd_t->binary, "echo", 6)))
+		{
 			cmd_t->input_v[idx++] = cmd_t->arg_v[i];
+			found_input = 1;
+		}
 		i++;
 	}
 	cmd_t->input_v[idx] = NULL;
@@ -124,19 +135,24 @@ void	parse_counts(t_cmd_lst *cmd_t)
 {
 	int	idx;
 	int	is_opt;
+	int	found_input;
 
 	idx = 1;
+	found_input = 0;
 	cmd_t->input_c = 0;
 	cmd_t->options_c = 0;
 	while (idx < cmd_t->arg_c)
 	{
 		is_opt = cmd_t->arg_v[idx][0] == '-';
-		if (idx > 1)
+		if (found_input)
 			is_opt = (is_opt && ft_strncmp(cmd_t->binary, "echo", 6) != 0);
 		if (is_opt)
 			cmd_t->options_c++;
 		else
+		{
+			found_input = 1;
 			cmd_t->input_c++;
+		}
 		idx++;
 	}
 }
