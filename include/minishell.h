@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/05 12:58:35 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 13:26:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ t_cmd_lst	*initialize_command(char *line, t_list *env);
 int			free_command_lst(t_cmd_lst *cmd);
 void		parse_counts(t_cmd_lst *cmd_t);
 int			parse_input(t_cmd_lst *cmd_t);
-int			parse_options(t_cmd_lst *cmd_t);
+int			parse_options(t_cmd_lst *cmd_t, int i);
 int			parse_quotes(t_cmd_lst *cmd_t, t_list *env);
 int			parse_redirections(t_cmd_lst *cmd_t);
 int			update_inputv_optionsv_after_redir(t_cmd_lst *cmd);
