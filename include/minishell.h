@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/05 12:35:55 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 12:58:35 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int			count_splits(char *cmd, char *parsing);
 char		**free_and_return_split(char *parsing);
 int			contains_mean_char(char *str, char *parse, char c);
 int			closing_idx(const char *str, int i, char quote);
-void		print_err_unclosed_pipe(void);
+void		print_err_unclosed_pipe(int *nbr_words);
 
 /* Parsing prototypes */
 t_cmd_lst	*initialize_command(char *line, t_list *env);
