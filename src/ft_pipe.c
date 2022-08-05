@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:58:36 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/05 11:31:38 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 14:09:50 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	adjust_fd(t_cmd_lst *cmd, int pipefd[2], int *tempfd)
 	if (cmd->input_fd != -1)
 	{
 		close(*tempfd);
-		*tempfd = cmd->output_fd;
+		*tempfd = cmd->input_fd;
 	}
 	if (cmd->output_fd != -1)
 	{
