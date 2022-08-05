@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:21:53 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/16 20:51:45 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 12:58:10 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@ static void	count_words(const char *str, char sep, int *nbr_words)
 	int	i;
 
 	i = -1;
+	if (str[0] == sep)
+	{
+		print_err_unclosed_pipe(nbr_words);
+		return ;
+	}
 	while (str[++i])
 	{
 		while (str[i] && str[i] == sep)
 			i++;
 		if (!str[i])
 		{
-			print_err_unclosed_pipe();
-			*nbr_words = -1;
+			print_err_unclosed_pipe(nbr_words);
 			return ;
 		}
 		if (i && str[i - 1] == sep && str[i] != sep)
