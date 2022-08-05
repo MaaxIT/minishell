@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:14:44 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/05 11:24:56 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 13:13:46 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	run(t_list **env, t_cmd_lst *cmd)
 	{
 		ft_putstr_fd(STDERR_FILENO, \
 		"Supershell: syntax error near unexpected token `newline'\n");
+		errno = 258;
 		return (9);
 	}
 	if (errno != 130)
