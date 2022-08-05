@@ -6,7 +6,7 @@
 #    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 15:05:15 by mbennafl          #+#    #+#              #
-#    Updated: 2022/08/05 01:55:25 by mbennafl         ###   ########.fr        #
+#    Updated: 2022/08/05 12:39:55 by maxime           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ CC				= gcc
 COMP_FLAGS		= -Wall -Wextra -Werror
 INCLUDE_FLAGS	= -I$(INC_DIR)/
 EXT_COMP_FLAGS	= -lreadline
-READLINE_PATH	= ~/.brew/opt/readline
+READLINE_PATH	= $(shell brew --prefix readline)
 
 # Bash commands
 RM				= rm -rf
