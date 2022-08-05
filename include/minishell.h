@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/05 11:05:14 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 12:35:55 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int			ft_is_a_whitespace_or_empty_string(const char *str);
 int			ft_isalnum(char c);
 int			is_envchar(int ch, int is_first);
 int			ft_atoll_mod_256(const char *str);
+int			ft_atoi(const char *str);
 
 /* Split prototype */
 char		**split_cmd_lst(char *cmd);

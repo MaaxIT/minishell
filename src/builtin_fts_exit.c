@@ -6,7 +6,7 @@
 /*   By: mbennafl </var/mail/mbennafl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 13:34:29 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 20:38:27 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 12:33:06 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ const char *str)
 	exit(ex);
 }
 
+static int	exit_too_many_args(void)
+{
+	ft_putstr_fd(STDERR_FILENO, "exit: too many arguments\n");
+	errno = 1;
+	return (9);
+}
+
 int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 {
 	t_cmd_lst	*cmd;
@@ -53,22 +60,20 @@ int	bi_exit(int fd, t_list **env, t_cmd_lst *top_cmd)
 	cmd = top_cmd;
 	while (cmd && cmd->binary && ft_strncmp(cmd->binary, "exit", -1))
 		cmd = cmd->next;
+	errno = ft_atoi((*env)->value);
 	if (!cmd)
 	{
 		exit_clear(env, top_cmd);
 		ft_putstr_fd(STDERR_FILENO, "exit\n");
-		exit (0);
+		exit (errno);
 	}
 	if (cmd->input_c + cmd->options_c > 1)
-	{
-		ft_putstr_fd(STDERR_FILENO, "exit: too many arguments\n");
-		return (9);
-	}
+		return (exit_too_many_args());
 	if (cmd->input_v && cmd->input_v[0])
 		return (bi_exit_execute(env, top_cmd, cmd->input_v[0]));
 	else if (cmd->options_v && cmd->options_v[0])
 		return (bi_exit_execute(env, top_cmd, cmd->options_v[0]));
 	exit_clear(env, top_cmd);
 	ft_putstr_fd(STDERR_FILENO, "exit\n");
-	exit (0);
+	exit (errno);
 }
