@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 14:53:19 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/08/04 20:08:12 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/05 11:05:14 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_list {
 
 /* Example: echo -n Hello world */
 typedef struct s_cmd_lst {
+	pid_t				pid;
 	char				*original;
 	char				*binary;
 	int					options_c;

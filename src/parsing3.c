@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:47:50 by maxime            #+#    #+#             */
-/*   Updated: 2022/08/04 15:14:00 by maxime           ###   ########.fr       */
+/*   Updated: 2022/08/05 11:08:02 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /* Initialize cmd_t */
 void	initialize_structure(t_cmd_lst *cmd_t)
 {
+	cmd_t->pid = -1;
 	cmd_t->original = NULL;
 	cmd_t->binary = NULL;
 	cmd_t->options_c = 0;

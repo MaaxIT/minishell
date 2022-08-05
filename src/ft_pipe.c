@@ -6,7 +6,7 @@
 /*   By: mbennafl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 19:58:36 by mbennafl          #+#    #+#             */
-/*   Updated: 2022/07/29 19:57:51 by mbennafl         ###   ########.fr       */
+/*   Updated: 2022/08/05 11:31:38 by mbennafl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static int	pipe2(int pipefd[2], t_list **env, t_cmd_lst *cmd[2], int tempfd)
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			exit (0);
 		run_command(env, cmd[0], cmd[1]);
-		exit(0);
+		exit(errno);
 	}
-	else if (waitpid(g_pid, NULL, 0) == -1)
-		return (0);
+	else
+		cmd[0]->pid = g_pid;
 	return (9);
 }
 
@@ -75,6 +75,19 @@ int pipefd[2], int *tempfd)
 	return (9);
 }
 
+static void	wait_all_pids(t_cmd_lst *cmd)
+{
+	int	err;
+
+	while (cmd)
+	{
+		if (cmd->pid != -1)
+			waitpid(cmd->pid, &err, 0);
+		cmd = cmd->next;
+	}
+	errno = err / 256;
+}
+
 int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 {
 	int			pipefd[2];
@@ -97,6 +110,7 @@ int	ft_pipe(t_list **env, t_cmd_lst *cmd)
 	if (tempfd != STDIN_FILENO && tempfd != STDOUT_FILENO && \
 	tempfd != STDERR_FILENO && tempfd >= 0)
 		close(tempfd);
+	wait_all_pids(top_and_cmd[1]);
 	if (!clear_std_after_pipe(save_std) || err == 0)
 		return (0);
 	return (9);
